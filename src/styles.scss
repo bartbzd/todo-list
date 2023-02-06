@@ -44,9 +44,31 @@ header {
   }
   .sidebar {
     background-color: #5a4e72;
-    width: 250px;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    p {
+      border: 1px solid red;
+    }
   }
   .content {
     width: 800px;
+    display: flex;
+    flex-direction: column;
+    .task {
+      border: 1px solid red;
+      display: flex;
+      div:last-of-type {
+        margin-left: auto;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+      }
+    }
+    .add-task {
+      margin-top: auto;
+    }
   }
 }
