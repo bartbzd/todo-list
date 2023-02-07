@@ -10,6 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>todo.</title>
     <script defer src="main.js"></script>
 </head>
@@ -18,21 +23,23 @@
     <div class="container">
         <header>
             <h1 class="logo">to<span class="logo-do">do.</span></h1>
+            <div></div>
         </header>
 
         <div class="cards">
             <aside class="sidebar">
                 <div class="filters">
                     <h2 class="section-header">Filters</h2>
-                    <p class="filter">All</p>
-                    <p class="filter">Today</p>
-                    <p class="filter">Week</p>
+                    <p class="filter"><i class="material-symbols-rounded">inbox</i>All</p>
+                    <p class="filter"><i class="material-symbols-rounded">today</i>Today</p>
+                    <p class="filter"><i class="material-symbols-rounded">date_range</i>Week
+                    </p>
                 </div>
                 <div class="projects">
                     <h2 class="section-header">Projects</h2>
-                    <p class="project">Default</p>
+                    <p class="project"><i class="material-symbols-rounded">folder</i>Default</p>
                 </div>
-                <div class="github">S</div>
+                <div class="github"><i class="fa-brands fa-github"></i></div>
             </aside>
 
             <main class="content">
@@ -42,14 +49,16 @@
                         <input type="checkbox">
                         <input type="text">
                         <div class="actions">
-                            <span>Edit</span>
-                            <span>Delete</span>
-                            <span>Priority</span>
+                            <span><i class="material-symbols-rounded">edit</i></span>
+                            <span><i class="material-symbols-rounded">priority</i></span>
+                            <span><i class="material-symbols-rounded">
+                                    delete
+                                </i></span>
                         </div>
 
                     </div>
                 </div>
-                <button class="add-task">Add Task</button>
+                <button class="add-task">+</button>
             </main>
         </div>
 
