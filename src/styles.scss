@@ -1,5 +1,10 @@
 $bg-color: #100f14;
-$dk-text: #f2f2f2;
+$primary: #e87070;
+$dk-text: #d2d8f7;
+$card-1: #1a181d;
+$card-2: #141319;
+$card-3: #23212b;
+
 * {
   margin: 0;
   padding: 0;
@@ -13,62 +18,114 @@ body {
   //   background-color: #1a181d;
   h2,
   p,
-  span {
+  span,
+  i {
     color: $dk-text;
+  }
+  .material-symbols-rounded {
+    font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200, 'opsz' 48;
+    font-size: 18px;
   }
 }
 header {
   height: 130px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 0 5vw;
   h1 {
     color: $dk-text;
-    padding-left: 10vw;
+    // padding-left: 5vw;
     font-size: 48px;
+    width: 250px;
   }
   span {
-    color: #f87777;
+    color: $primary;
+  }
+  div {
+    width: 800px;
   }
 }
 .cards {
   display: flex;
   flex-wrap: nowrap;
+  justify-content: center;
   gap: 30px;
-  padding: 0 10vw;
+  padding: 0 5vw;
+
   .sidebar,
   .content {
-    background-color: #2c2736;
+    background-color: $card-2;
     border-radius: 20px;
     padding: 30px;
     height: 50vh;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  }
+  .section-header {
+    margin-bottom: 10px;
   }
   .sidebar {
-    background-color: #5a4e72;
-    width: 180px;
+    background-color: $card-2;
+    width: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    p {
-      border: 1px solid red;
+    .filter,
+    .project {
+      margin-bottom: 5px;
+      i {
+        margin-right: 5px;
+      }
     }
+    .github {
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      .fa-github {
+        font-size: 25px;
+      }
+    }
+  }
+  .task,
+  p {
+    border: 1px solid red;
+    display: flex;
   }
   .content {
     width: 800px;
     display: flex;
     flex-direction: column;
     .task {
-      border: 1px solid red;
+      border-radius: 13px;
+      height: 35px;
+      padding: 5px 15px;
       display: flex;
+      & input[type='checkbox'] {
+        margin-right: 1vw;
+      }
       div:last-of-type {
         margin-left: auto;
       }
       .actions {
         display: flex;
+        align-items: center;
         gap: 10px;
+        span {
+          display: flex;
+        }
       }
     }
     .add-task {
       margin-top: auto;
+      width: 60px;
+      height: 60px;
+      border-radius: 30px;
+      border: none;
+      margin-left: auto;
+      font-size: 45px;
+      padding-bottom: 15px;
+      color: $bg-color;
+      background-color: $primary;
     }
   }
 }
