@@ -1,6 +1,7 @@
 $bg-color: #100f14;
 $primary: #e87070;
 $dk-text: #d2d8f7;
+$dk-subtext: #d2d8f7c6;
 $card-1: #1a181d;
 $card-2: #141319;
 $card-3: #23212b;
@@ -16,11 +17,14 @@ body {
   background-color: $bg-color;
   //   background-color: #151319;
   //   background-color: #1a181d;
-  h2,
+  h2 {
+    color: $dk-text;
+    font-size: 20px;
+  }
   p,
   span,
   i {
-    color: $dk-text;
+    color: $dk-subtext;
   }
   .material-symbols-rounded {
     font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200, 'opsz' 48;
@@ -72,9 +76,9 @@ header {
     justify-content: space-between;
     .filter,
     .project {
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       i {
-        margin-right: 5px;
+        margin-right: 10px;
       }
     }
     .github {
@@ -88,7 +92,7 @@ header {
   }
   .task,
   p {
-    border: 1px solid red;
+    // border: 1px solid red;
     display: flex;
   }
   .content {
@@ -100,6 +104,16 @@ header {
       height: 35px;
       padding: 5px 15px;
       display: flex;
+      background-color: #24222d;
+      input {
+        height: 25px;
+        border: none;
+        border-radius: 10px;
+        padding-left: 10px;
+        outline-width: 0;
+        background-color: #24222d;
+        color: $dk-text;
+      }
       & input[type='checkbox'] {
         margin-right: 1vw;
       }
@@ -117,13 +131,12 @@ header {
     }
     .add-task {
       margin-top: auto;
-      width: 60px;
-      height: 60px;
+      width: 130px;
+      height: 40px;
       border-radius: 30px;
       border: none;
       margin-left: auto;
-      font-size: 45px;
-      padding-bottom: 15px;
+      font-size: 16px;
       color: $bg-color;
       background-color: $primary;
     }
