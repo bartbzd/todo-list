@@ -105,6 +105,7 @@ header {
       padding: 5px 15px;
       display: flex;
       background-color: #24222d;
+      transition: 0.2s;
       input {
         height: 25px;
         border: none;
@@ -120,10 +121,18 @@ header {
       div:last-of-type {
         margin-left: auto;
       }
+      &:hover {
+        .actions {
+          opacity: 1;
+          transition: 0.2s;
+        }
+      }
       .actions {
         display: flex;
+        opacity: 0;
         align-items: center;
         gap: 10px;
+        transition: 0.1s;
         span {
           display: flex;
         }
@@ -132,7 +141,7 @@ header {
         }
       }
     }
-    .add-task {
+    .add-btn {
       margin-top: auto;
       width: 130px;
       height: 40px;
@@ -157,25 +166,39 @@ header {
   width: 800px;
 }
 .task-form {
-  background-color: rgba(255, 0, 0, 0.25);
+  // background-color: rgba(255, 0, 0, 0.25);
   border-radius: 20px;
   width: 100%;
   display: none;
   flex-direction: column;
+  input,
+  textarea {
+    border: none;
+    border-radius: 10px;
+    padding-left: 10px;
+
+    outline-width: 0;
+    background-color: #24222d;
+    color: $dk-text;
+    resize: none;
+  }
   input {
-    width: 100px;
+    height: 35px;
+  }
+  .notes {
+    margin-top: 10px;
+  }
+  textarea {
+    height: 120px;
+    margin-bottom: 10px;
+    padding-top: 10px;
   }
 }
-// .wrapper {
-//   position: absolute;
-//   width: 100vw;
-//   height: 100vh;
-// }
 
-.cards .content {
-  display: none;
-}
-.task-form,
-.wrapper {
-  display: flex;
-}
+// .cards .content {
+//   display: none;
+// }
+// .task-form,
+// .wrapper {
+//   display: flex;
+// }
