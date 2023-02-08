@@ -54,11 +54,10 @@ header {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
-  gap: 30px;
   padding: 0 5vw;
-
   .sidebar,
-  .content {
+  .content,
+  .wrapper {
     background-color: $card-2;
     border-radius: 20px;
     padding: 30px;
@@ -74,6 +73,7 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-right: 30px;
     .filter,
     .project {
       margin-bottom: 10px;
@@ -151,4 +151,31 @@ header {
       }
     }
   }
+}
+.wrapper {
+  display: none;
+  width: 800px;
+}
+.task-form {
+  background-color: rgba(255, 0, 0, 0.25);
+  border-radius: 20px;
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  input {
+    width: 100px;
+  }
+}
+// .wrapper {
+//   position: absolute;
+//   width: 100vw;
+//   height: 100vh;
+// }
+
+.cards .content {
+  display: none;
+}
+.task-form,
+.wrapper {
+  display: flex;
 }
