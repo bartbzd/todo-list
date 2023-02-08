@@ -59,13 +59,30 @@
                     </div>
                 </div>
 
-                <button class="add-task">Add Task</button>
+                <button class="add-btn">Add Task</button>
 
             </main>
             <div class="wrapper">
-                <div class="task-form">
-                    <input type="text">
-                </div>
+                <form class="task-form">
+
+                    <label for="task">
+                        <h2 class="section-header">Add Task</h2>
+                    </label>
+                    <input type="text" id="task">
+
+                    <label for="notes">
+                        <h2 class="section-header notes">notes</h2>
+                    </label>
+                    <textarea id="notes">type here...</textarea>
+
+                    <label for="fav-yes">Star</label>
+                    <input type="radio" id="fav-yes" name="favorite" value="yes">
+
+                    <label for="fav-no">None</label>
+                    <input type="radio" id="fav-no" name="favorite" value="no">
+
+                    <button>Submit</button>
+                </form>
             </div>
         </div>
 
