@@ -66,7 +66,7 @@ header {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   }
   .section-header {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   .sidebar {
     background-color: $card-2;
@@ -127,6 +127,9 @@ header {
         span {
           display: flex;
         }
+        i {
+          color: #8a7fa2;
+        }
       }
     }
     .add-task {
@@ -139,6 +142,13 @@ header {
       font-size: 16px;
       color: $bg-color;
       background-color: $primary;
+      transition: 0.2s;
+      &:hover {
+        transform: scale(1.02);
+      }
+      &:active {
+        transform: scale(0.98);
+      }
     }
   }
 }
