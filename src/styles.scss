@@ -47,7 +47,7 @@ header {
     color: $primary;
   }
   div {
-    width: 800px;
+    width: 600px;
   }
 }
 .cards {
@@ -56,12 +56,11 @@ header {
   justify-content: center;
   padding: 0 5vw;
   .sidebar,
-  .content,
-  .wrapper {
+  .content {
     background-color: $card-2;
     border-radius: 20px;
     padding: 30px;
-    height: 50vh;
+    height: 60vh;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   }
   .section-header {
@@ -96,11 +95,18 @@ header {
     display: flex;
   }
   .content {
-    width: 800px;
-    display: flex;
-    flex-direction: column;
+    width: 600px;
+    overflow-x: hidden;
+    .t-wrapper,
+    .f-wrapper {
+      height: 100%;
+    }
+    .t-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
     .task {
-      border-radius: 13px;
+      border-radius: 10px;
       height: 35px;
       padding: 5px 15px;
       display: flex;
@@ -161,22 +167,19 @@ header {
     }
   }
 }
-.wrapper {
+.f-wrapper {
   display: none;
-  width: 800px;
 }
 .task-form {
-  // background-color: rgba(255, 0, 0, 0.25);
   border-radius: 20px;
   width: 100%;
-  display: none;
+  display: flex;
   flex-direction: column;
   input,
   textarea {
     border: none;
     border-radius: 10px;
     padding-left: 10px;
-
     outline-width: 0;
     background-color: #24222d;
     color: $dk-text;
@@ -186,19 +189,65 @@ header {
     height: 35px;
   }
   .notes {
-    margin-top: 10px;
+    margin-top: 30px;
   }
   textarea {
     height: 120px;
     margin-bottom: 10px;
     padding-top: 10px;
   }
+  .submit-btn {
+    margin-top: auto;
+    width: 130px;
+    height: 40px;
+    border-radius: 30px;
+    border: none;
+    margin-left: auto;
+    font-size: 16px;
+    color: $bg-color;
+    background-color: $primary;
+    transition: 0.2s;
+    &:hover {
+      transform: scale(1.02);
+    }
+    &:active {
+      transform: scale(0.98);
+    }
+  }
 }
 
+.tasks-hide {
+  animation: taskRight 0.1s;
+}
+@keyframes taskRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(130%);
+  }
+}
+.form-show {
+  animation: formRight 0.1s;
+}
+@keyframes formRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 // .cards .content {
 //   display: none;
 // }
-// .task-form,
 // .wrapper {
 //   display: flex;
 // }
