@@ -71,19 +71,45 @@
                         <input type="text" id="task">
 
                         <label for="notes">
-                            <h2 class="section-header notes">notes</h2>
+                            <h2 class="section-header form-header">Note</h2>
                         </label>
                         <textarea id="notes" placeholder="type here..."></textarea>
 
-                        <label for="fav-yes">Star</label>
-                        <input type="radio" id="fav-yes" name="favorite" value="yes">
+                        <!-- <h2 class="section-header form-header">extras</h2> -->
 
-                        <label for="fav-no">None</label>
-                        <input type="radio" id="fav-no" name="favorite" value="no">
+                        <div class="extras">
+                            <div class="extras-wrapper">
+                                <label for="projects">
+                                    <h2 class="section-header form-header">Project</h2>
+                                </label>
+                                <select name="projects" id="projects">
+                                    <option value="Default">Workout</option>
+                                </select>
+                            </div>
 
-                        <i class="fa-solid fa-star"></i>
 
-                        <button class="submit-btn">Add</button>
+
+                            <div class="extras-wrapper">
+                                <label for="date">
+                                    <h2 class="section-header form-header">Date</h2>
+                                </label>
+                                <input type="date" id="date">
+
+                            </div>
+                            <i class="fa-solid fa-star"></i>
+                            <!-- <label for="fav-yes">Star</label>
+                            <input type="radio" id="fav-yes" name="favorite" value="yes">
+    
+                            <label for="fav-no">None</label>
+                            <input type="radio" id="fav-no" name="favorite" value="no"> -->
+
+                        </div>
+                        <div class="btn-group">
+                            <button class="back-btn fa-sharp fa-solid fa-chevron-left"> </button>
+                            <button class="submit-btn">Add</button>
+                        </div>
+
+
                     </form>
                 </div>
             </main>
