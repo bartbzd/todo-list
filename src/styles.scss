@@ -176,7 +176,8 @@ header {
   display: flex;
   flex-direction: column;
   input,
-  textarea {
+  textarea,
+  select {
     border: none;
     border-radius: 10px;
     padding-left: 10px;
@@ -188,7 +189,7 @@ header {
   input {
     height: 35px;
   }
-  .notes {
+  .form-header {
     margin-top: 30px;
   }
   textarea {
@@ -196,8 +197,51 @@ header {
     margin-bottom: 10px;
     padding-top: 10px;
   }
-  .submit-btn {
+  .extras {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .extras-wrapper {
+    width: 45%;
+  }
+  select {
+    height: 35px;
+    width: 100%;
+  }
+  input[type='date'] {
+    width: 100%;
+    padding: 0 5px 0 10px;
+    &::-webkit-calendar-picker-indicator {
+      filter: invert(100%) sepia(54%) saturate(5650%) hue-rotate(179deg) brightness(101%)
+        contrast(93%);
+    }
+  }
+  .fa-star {
     margin-top: auto;
+    margin-bottom: 10px;
+    transition: 0.2s;
+    &:hover {
+      color: $primary;
+      transform: scale(1.1);
+    }
+  }
+
+  .btn-group {
+    margin-top: auto;
+    display: flex;
+  }
+  .back-btn,
+  .submit-btn {
+    color: $primary;
+    background-color: $card-2;
+    border: none;
+  }
+  .back-btn {
+    font-size: 30px;
+  }
+  .submit-btn {
     width: 130px;
     height: 40px;
     border-radius: 30px;
@@ -222,16 +266,9 @@ header {
 @keyframes taskRight {
   0% {
     transform: translateX(0);
-    opacity: 1;
-  }
-  10% {
-    opacity: 1;
-  }
-  20% {
-    opacity: 0;
   }
   100% {
-    transform: translateX(130%);
+    transform: translateX(120%);
   }
 }
 .form-show {
