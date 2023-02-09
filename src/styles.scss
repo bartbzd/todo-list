@@ -105,6 +105,9 @@ header {
       display: flex;
       flex-direction: column;
     }
+    .f-wrapper {
+      display: none;
+    }
     .task {
       border-radius: 10px;
       height: 35px;
@@ -112,6 +115,12 @@ header {
       display: flex;
       background-color: #24222d;
       transition: 0.2s;
+      .hide-check {
+        display: none;
+      }
+      .checkmark {
+        margin: auto 0;
+      }
       input {
         height: 25px;
         border: none;
@@ -167,9 +176,7 @@ header {
     }
   }
 }
-.f-wrapper {
-  display: none;
-}
+
 .task-form {
   border-radius: 20px;
   width: 100%;
@@ -209,7 +216,14 @@ header {
   select {
     height: 35px;
     width: 100%;
+    padding: 0 10px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
+  // option {
+  //   padding: 0 10px;
+  // }
   input[type='date'] {
     width: 100%;
     padding: 0 5px 0 10px;
@@ -219,8 +233,9 @@ header {
     }
   }
   .fa-star {
+    font-size: 20px;
     margin-top: auto;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     transition: 0.2s;
     &:hover {
       color: $primary;
@@ -232,13 +247,10 @@ header {
     margin-top: auto;
     display: flex;
   }
-  .back-btn,
-  .submit-btn {
-    color: $primary;
+  .back-btn {
     background-color: $card-2;
     border: none;
-  }
-  .back-btn {
+    color: $dk-text;
     font-size: 30px;
   }
   .submit-btn {
@@ -260,8 +272,11 @@ header {
   }
 }
 
-.tasks-hide {
-  animation: taskRight 0.1s;
+.slide-tasks-in {
+  animation: ease-out taskRight reverse 0.1s;
+}
+.slide-tasks-out {
+  animation: ease-out taskRight 0.1s;
 }
 @keyframes taskRight {
   0% {
@@ -271,8 +286,11 @@ header {
     transform: translateX(120%);
   }
 }
-.form-show {
-  animation: formRight 0.1s;
+.slide-form-in {
+  animation: ease-out formRight 0.1s;
+}
+.slide-form-out {
+  animation: ease-out formRight reverse 0.1s;
 }
 @keyframes formRight {
   0% {
@@ -282,9 +300,3 @@ header {
     transform: translateX(0);
   }
 }
-// .cards .content {
-//   display: none;
-// }
-// .wrapper {
-//   display: flex;
-// }
