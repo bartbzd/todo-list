@@ -137,7 +137,8 @@ export default function appController() {
     renderEdit();
   });
 
-  const toggleCheckmark = () => {
+  const toggleCheckmark = (e) => {
+    e.stopImmediatePropagation();
     checkmark.classList.toggle('fa-solid');
     checkmark.classList.toggle('fa-circle');
     checkmark.classList.toggle('fa-circle-check');
