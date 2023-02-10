@@ -51,12 +51,8 @@ export default function appController() {
   backBtn.addEventListener('click', renderTasks);
   addBtn.addEventListener('click', renderForm);
 
-  const checkmark = document.querySelector('.fa-regular', '.fa-solid');
+  const checkmark = document.querySelector('.fa-regular');
   checkmark.addEventListener('click', () => {
-    if (checkmark.classList.contains('fa-solid')) {
-      checkmark.classList.replace('fa-solid', 'fa-regular');
-      return;
-    }
-    checkmark.classList.replace('fa-regular', 'fa-solid');
+    checkmark.classList.toggle('fa-solid');
   });
 }
