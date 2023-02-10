@@ -121,10 +121,13 @@ header {
       .checkmark {
         margin: auto 0;
       }
-      input {
+      p {
         height: 25px;
         border: none;
         border-radius: 10px;
+        line-height: 25px;
+        font-size: 14px;
+        font-weight: 300;
         padding-left: 10px;
         outline-width: 0;
         background-color: #24222d;
