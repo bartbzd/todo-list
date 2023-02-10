@@ -55,10 +55,10 @@
 
                             </div>
 
-                            <p>Tester task</p>
+                            <p>Finish Expanded View</p>
                             <div class="actions">
                                 <span>
-                                    <i class="options material-symbols-rounded">edit
+                                    <i class="options edit material-symbols-rounded">edit
                                     </i>
                                 </span>
                                 <span>
@@ -130,11 +130,15 @@
 
                 </div>
 
-                <div class="e-wrapper">
+                <div class="o-wrapper">
                     <div class="task-form expand-view">
+                        <div class="expand-header">
+                            <p style="margin-bottom:20px"><i class="material-symbols-rounded"
+                                    style="margin-right:10px">folder</i>Default</p>
 
-                        <p style="margin-bottom:20px"><i class="material-symbols-rounded"
-                                style="margin-right:10px">folder</i>Default</p>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+
                         <h2>Finish Expanded View</h2>
                         <q>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores natus, quasi iure ratione
                             odio sint doloribus explicabo odit non expedita laborum officiis maxime quo voluptatum eum,
@@ -142,15 +146,14 @@
                             nisi! Excepturi eos quas vero placeat dolorem inventore ad earum!</q>
 
                         <div class="extras-wrapper">
-                            <div class="extras">
+                            <!-- <div class="extras">
                                 <h2 class="section-header form-header">Project</h2>
-                                <p>Workouts</p>
-                            </div>
+                                <p>Workout</p>
+                            </div> -->
                             <div class="extras">
                                 <h2 class="section-header form-header">Date</h2>
                                 <p>03/18/1991</p>
                             </div>
-                            <i class="fa-solid fa-star"></i>
                         </div>
                         <div class="btn-group">
                             <button class="close-btn fa-sharp fa-solid fa-chevron-left"></button>
@@ -158,6 +161,55 @@
 
 
                     </div>
+
+                </div>
+
+                <div class="e-wrapper">
+                    <form class="task-form">
+
+                        <label for="task">
+                            <h2 class="section-header">Edit Task</h2>
+                        </label>
+                        <input type="text" id="task">
+
+                        <label for="notes">
+                            <h2 class="section-header form-header">Note</h2>
+                        </label>
+                        <textarea id="notes" placeholder="type here..."></textarea>
+                        <div class="extras-wrapper">
+                            <div class="extras">
+                                <label for="projects">
+                                    <h2 class="section-header form-header">Project</h2>
+                                </label>
+                                <select name="projects" id="projects">
+                                    <option value="Default">Workout</option>
+                                </select>
+                            </div>
+
+
+
+                            <div class="extras">
+                                <label for="date">
+                                    <h2 class="section-header form-header">Date</h2>
+                                </label>
+                                <input type="date" id="date">
+
+                            </div>
+                            <i class="fa-solid fa-star"></i>
+                            <!-- <label for="fav-yes">Star</label>
+                            <input type="radio" id="fav-yes" name="favorite" value="yes">
+    
+                            <label for="fav-no">None</label>
+                            <input type="radio" id="fav-no" name="favorite" value="no"> -->
+
+                        </div>
+                        <div class="btn-group">
+                            <button class="back-btn fa-sharp fa-solid fa-chevron-left"> </button>
+                            <button class="submit-btn">Edit</button>
+                        </div>
+
+
+                    </form>
 
                 </div>
             </main>
