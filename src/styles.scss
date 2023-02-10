@@ -260,8 +260,14 @@ header {
       .expand-view {
         display: flex;
         flex-direction: column;
+        h2 {
+          margin-bottom: 20px;
+        }
+        q {
+          // font-size: 14px;
+        }
         .form-header {
-          margin-top: 30px;
+          margin: 30px 0;
         }
         .extras-wrapper {
           display: flex;
