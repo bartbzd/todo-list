@@ -90,7 +90,7 @@ export default function appController() {
       showEdit();
     }, 100);
   };
-  const renderExpandedTask = () => {
+  const renderOpenTask = () => {
     hideTasksLeft();
     setTimeout(() => {
       openTask();
@@ -122,16 +122,14 @@ export default function appController() {
 
   const editBtn = document.querySelector('.edit');
   const checkmark = document.querySelector('.fa-regular');
-  const closeBtn = document.querySelector('.close-btn');
   const backBtn = document.querySelectorAll('.back-btn');
   const addBtn = document.querySelector('.add-btn');
   const task = document.querySelector('.task');
   backBtn.forEach((button) => {
     button.addEventListener('click', renderTasks);
   });
-  closeBtn.addEventListener('click', renderTasks);
   addBtn.addEventListener('click', renderForm);
-  task.addEventListener('click', renderExpandedTask);
+  task.addEventListener('click', renderOpenTask);
   editBtn.addEventListener('click', (e) => {
     e.stopImmediatePropagation();
     renderEdit();
