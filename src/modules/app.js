@@ -161,6 +161,7 @@ export default function appController() {
   }
   const tasks = [];
   const tasksView = document.querySelector('.tasks');
+  const form = document.querySelector('form');
   function resetTasks() {
     tasksView.innerHTML = '';
   }
@@ -171,8 +172,14 @@ export default function appController() {
     });
   }
   function addTask(e) {
+    const title = document.querySelector('#task');
+    if (!title.checkValidity()) {
+      title.innerHTML = title.validationMessage;
+      return;
+    }
     e.preventDefault();
     const newTask = storeInput();
+    form.reset();
     tasks.push(newTask);
     console.log(tasks);
     updateTasks();
