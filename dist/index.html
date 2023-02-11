@@ -49,13 +49,12 @@
                     <div class="tasks">
                         <div class="task">
                             <div class="checkmark">
-
                                 <input type="checkbox" class="hide-check" />
                                 <i class="fa-regular fa-circle"></i>
 
                             </div>
 
-                            <p>Start JavaScript</p>
+                            <p class="task-title">Start JavaScript</p>
                             <div class="actions">
                                 <span>
                                     <i class="options edit material-symbols-rounded">edit
@@ -112,10 +111,10 @@
                         </label>
                         <input type="text" id="task">
 
-                        <label for="notes">
+                        <label for="note">
                             <h2 class="section-header form-header">Note</h2>
                         </label>
-                        <textarea id="notes" placeholder="type here..."></textarea>
+                        <textarea id="note" placeholder="type here..."></textarea>
 
                         <!-- <h2 class="section-header form-header">extras</h2> -->
 
@@ -125,7 +124,7 @@
                                     <h2 class="section-header form-header">Project</h2>
                                 </label>
                                 <select name="projects" id="projects">
-                                    <option value="Default">Workout</option>
+                                    <option value="Workout">Workout</option>
                                 </select>
                             </div>
 
@@ -138,17 +137,11 @@
                                 <input type="date" id="date">
 
                             </div>
-                            <i class="fa-solid fa-star"></i>
-                            <!-- <label for="fav-yes">Star</label>
-                            <input type="radio" id="fav-yes" name="favorite" value="yes">
-    
-                            <label for="fav-no">None</label>
-                            <input type="radio" id="fav-no" name="favorite" value="no"> -->
-
+                            <i class="add-star fa-solid fa-star"></i>
                         </div>
                         <div class="btn-group">
                             <button class="back-btn fa-sharp fa-solid fa-chevron-left"> </button>
-                            <button class="submit-btn">Add</button>
+                            <button class="submit-btn add-task-btn">Add</button>
                         </div>
 
 
@@ -198,10 +191,10 @@
                         </label>
                         <input type="text" id="task">
 
-                        <label for="notes">
+                        <label for="note">
                             <h2 class="section-header form-header">Note</h2>
                         </label>
-                        <textarea id="notes" placeholder="type here..."></textarea>
+                        <textarea id="note" placeholder="type here..."></textarea>
                         <div class="extras-wrapper">
                             <div class="extras">
                                 <label for="projects">
