@@ -275,6 +275,9 @@ header {
         .expand-header {
           display: flex;
           justify-content: space-between;
+          p {
+            margin-bottom: 20px;
+          }
           .fa-star {
             font-size: 22px;
           }
