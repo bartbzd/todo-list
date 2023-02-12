@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import Task from './models/taskModel';
+import Task, { tasks } from './models/taskModel';
 import createTask from './views/taskView';
 
 export default function appController() {
@@ -66,9 +66,21 @@ export default function appController() {
     }, 100);
   };
 
-  const openTask = () => {
+  const formStar = document.querySelector('.add-star');
+  const openTask = (e) => {
+    console.log(tasks);
     openWrapper.style.display = 'flex';
     openWrapper.style.animation = 'ease-out taskRight reverse 0.1s';
+    const title = document.querySelector('#open-title');
+    const note = document.querySelector('#open-note');
+    const project = document.querySelector('#projects');
+    // const date = document.querySelector('#date');
+    const isStarred = formStar.classList.contains('starred');
+
+    const taskId = e.target.dataset.id;
+    console.log(taskId);
+    title.textContent = tasks[taskId].title;
+    note.textContent = tasks[taskId].note;
     setTimeout(() => {
       openWrapper.style.animation = '';
     }, 100);
@@ -81,20 +93,20 @@ export default function appController() {
     }, 100);
   };
 
-  const renderForm = () => {
+  const renderFormView = () => {
     hideTasksRight();
     setTimeout(() => {
       showForm();
     }, 100);
   };
-  const renderEdit = (e) => {
+  const renderEditView = (e) => {
     e.stopImmediatePropagation();
     hideTasksRight();
     setTimeout(() => {
       showEdit();
     }, 100);
   };
-  const renderTasks = (e) => {
+  const renderTasksView = (e) => {
     e.preventDefault();
     if (editWrapper.style.display === 'flex') {
       hideEdit();
@@ -117,38 +129,37 @@ export default function appController() {
       }, 100);
     }
   };
-  const renderOpenTask = () => {
+  const renderTasksOpenView = (e) => {
     hideTasksLeft();
     setTimeout(() => {
-      openTask();
+      openTask(e);
     }, 100);
   };
 
   const editBtn = document.querySelector('.edit');
   const checkmark = document.querySelector('.fa-regular');
   const backBtn = document.querySelectorAll('.back-btn');
-  const addBtn = document.querySelector('.add-btn');
-  const task = document.querySelector('.task');
-  const addTaskBtn = document.querySelector('.add-task-btn');
-  const formStar = document.querySelector('.add-star');
+  // const taskBox = document.querySelectorAll('.task');
+  const addBtn = document.querySelector('.add-task-btn');
+  const addTaskBtn = document.querySelector('.add-btn');
+
   const toggleCheckmark = (e) => {
     e.stopImmediatePropagation();
     checkmark.classList.toggle('fa-solid');
     checkmark.classList.toggle('fa-circle');
     checkmark.classList.toggle('fa-circle-check');
   };
-
   const toggleStar = () => {
     formStar.classList.toggle('starred');
   };
-  formStar.addEventListener('click', toggleStar);
-  checkmark.addEventListener('click', toggleCheckmark);
-  task.addEventListener('click', renderOpenTask);
-  editBtn.addEventListener('click', renderEdit);
-  addBtn.addEventListener('click', renderForm);
-  backBtn.forEach((button) => {
-    button.addEventListener('click', renderTasks);
-  });
+
+  function addTaskHandlers() {
+    const taskBox = document.querySelectorAll('.task');
+    taskBox.forEach((task) => {
+      task.addEventListener('click', renderTasksOpenView);
+    });
+  }
+  addTaskHandlers();
 
   function storeInput() {
     const title = document.querySelector('#task').value;
@@ -159,17 +170,18 @@ export default function appController() {
 
     return new Task(title, note, project, date, isStarred);
   }
-  const tasks = [];
+
   const tasksView = document.querySelector('.tasks');
   const form = document.querySelector('form');
   function resetTasks() {
     tasksView.innerHTML = '';
+    form.reset();
   }
-  function updateTasks() {
-    resetTasks();
-    tasks.forEach((t) => {
-      createTask(t);
+  function renderTasks() {
+    tasks.forEach((task) => {
+      createTask(task);
     });
+    addTaskHandlers();
   }
   function addTask(e) {
     const title = document.querySelector('#task');
@@ -179,11 +191,22 @@ export default function appController() {
     }
     e.preventDefault();
     const newTask = storeInput();
-    form.reset();
-    tasks.push(newTask);
-    console.log(tasks);
-    updateTasks();
-    renderTasks(e);
+
+    const existingTask = tasks.find((t) => t.title === newTask.title);
+    if (!existingTask) {
+      tasks.push(newTask);
+      console.log(tasks);
+      resetTasks();
+      renderTasks();
+      renderTasksView(e);
+    }
   }
-  addTaskBtn.addEventListener('click', addTask);
+  formStar.addEventListener('click', toggleStar);
+  checkmark.addEventListener('click', toggleCheckmark);
+  editBtn.addEventListener('click', renderEditView);
+  addTaskBtn.addEventListener('click', renderFormView);
+  addBtn.addEventListener('click', addTask);
+  backBtn.forEach((button) => {
+    button.addEventListener('click', renderTasksView);
+  });
 }
