@@ -67,18 +67,21 @@ export default function appController() {
   };
 
   const formStar = document.querySelector('.add-star');
+
   const openTask = (e) => {
+    // e.stopImmediatePropagation();
     console.log(tasks);
     openWrapper.style.display = 'flex';
     openWrapper.style.animation = 'ease-out taskRight reverse 0.1s';
+
+    const taskId = e.target.dataset.id;
     const title = document.querySelector('#open-title');
+    console.log(title);
     const note = document.querySelector('#open-note');
     const project = document.querySelector('#projects');
     // const date = document.querySelector('#date');
     const isStarred = formStar.classList.contains('starred');
 
-    const taskId = e.target.dataset.id;
-    console.log(taskId);
     title.textContent = tasks[taskId].title;
     note.textContent = tasks[taskId].note;
     setTimeout(() => {
@@ -106,8 +109,7 @@ export default function appController() {
       showEdit();
     }, 100);
   };
-  const renderTasksView = (e) => {
-    e.preventDefault();
+  const renderTasksView = () => {
     if (editWrapper.style.display === 'flex') {
       hideEdit();
       setTimeout(() => {
@@ -130,7 +132,11 @@ export default function appController() {
     }
   };
   const renderTasksOpenView = (e) => {
+    console.log('im here');
+
     hideTasksLeft();
+    // e.stopImmediatePropagation();
+
     setTimeout(() => {
       openTask(e);
     }, 100);
@@ -178,6 +184,7 @@ export default function appController() {
     form.reset();
   }
   function renderTasks() {
+    resetTasks();
     tasks.forEach((task) => {
       createTask(task);
     });
@@ -191,16 +198,27 @@ export default function appController() {
     }
     e.preventDefault();
     const newTask = storeInput();
-
     const existingTask = tasks.find((t) => t.title === newTask.title);
     if (!existingTask) {
       tasks.push(newTask);
       console.log(tasks);
-      resetTasks();
-      renderTasks();
       renderTasksView(e);
+      renderTasks();
     }
   }
+  document.addEventListener('DOMContentLoaded', (e) => {
+    console.log('test');
+    const introTask = new Task(
+      'Click to expand me!',
+      'Tasks can be expanded to view more detailed information about them. You can add notes, projects and due dates from the task form pane.',
+      'Introduction'
+    );
+    tasks.push(introTask);
+    renderTasks();
+    renderTasksView(e);
+
+    // addTaskHandlers();
+  });
   formStar.addEventListener('click', toggleStar);
   checkmark.addEventListener('click', toggleCheckmark);
   editBtn.addEventListener('click', renderEditView);
