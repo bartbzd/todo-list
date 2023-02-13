@@ -69,18 +69,18 @@ export default function appController() {
   const formStar = document.querySelector('.add-star');
 
   const openTask = (e) => {
-    // e.stopImmediatePropagation();
+    e.stopImmediatePropagation();
     console.log(tasks);
     openWrapper.style.display = 'flex';
     openWrapper.style.animation = 'ease-out taskRight reverse 0.1s';
 
-    const taskId = e.target.dataset.id;
     const title = document.querySelector('#open-title');
     console.log(title);
     const note = document.querySelector('#open-note');
     const project = document.querySelector('#projects');
     // const date = document.querySelector('#date');
     const isStarred = formStar.classList.contains('starred');
+    const taskId = e.target.dataset.id;
 
     title.textContent = tasks[taskId].title;
     note.textContent = tasks[taskId].note;
@@ -149,14 +149,15 @@ export default function appController() {
   const addBtn = document.querySelector('.add-task-btn');
   const addTaskBtn = document.querySelector('.add-btn');
 
-  const toggleCheckmark = (e) => {
-    e.stopImmediatePropagation();
-    checkmark.classList.toggle('fa-solid');
-    checkmark.classList.toggle('fa-circle');
-    checkmark.classList.toggle('fa-circle-check');
-  };
   const toggleStar = () => {
     formStar.classList.toggle('starred');
+  };
+
+  const toggleCheckmark = (e) => {
+    e.stopPropagation();
+    e.target.classList.toggle('fa-solid');
+    e.target.classList.toggle('fa-circle');
+    e.target.classList.toggle('fa-circle-check');
   };
 
   function addTaskHandlers() {
@@ -167,6 +168,12 @@ export default function appController() {
   }
   addTaskHandlers();
 
+  function addCheckMarkHandlers() {
+    const checkmarks = document.querySelectorAll('.fa-regular');
+    checkmarks.forEach((mark) => {
+      mark.addEventListener('click', toggleCheckmark);
+    });
+  }
   function storeInput() {
     const title = document.querySelector('#task').value;
     const note = document.querySelector('#note').value;
@@ -189,6 +196,7 @@ export default function appController() {
       createTask(task);
     });
     addTaskHandlers();
+    addCheckMarkHandlers();
   }
   function addTask(e) {
     const title = document.querySelector('#task');
@@ -206,11 +214,19 @@ export default function appController() {
       renderTasks();
     }
   }
+
+  formStar.addEventListener('click', toggleStar);
+  editBtn.addEventListener('click', renderEditView);
+  addTaskBtn.addEventListener('click', renderFormView);
+  addBtn.addEventListener('click', addTask);
+  backBtn.forEach((button) => {
+    button.addEventListener('click', renderTasksView);
+  });
   document.addEventListener('DOMContentLoaded', (e) => {
     console.log('test');
     const introTask = new Task(
       'Click to expand me!',
-      'Tasks can be expanded to view more detailed information about them. You can add notes, projects and due dates from the task form pane.',
+      'Tasks can be expanded to view more detailed information about them. \nYou can add notes, projects and due dates from the task form pane.',
       'Introduction'
     );
     tasks.push(introTask);
@@ -218,13 +234,5 @@ export default function appController() {
     renderTasksView(e);
 
     // addTaskHandlers();
-  });
-  formStar.addEventListener('click', toggleStar);
-  checkmark.addEventListener('click', toggleCheckmark);
-  editBtn.addEventListener('click', renderEditView);
-  addTaskBtn.addEventListener('click', renderFormView);
-  addBtn.addEventListener('click', addTask);
-  backBtn.forEach((button) => {
-    button.addEventListener('click', renderTasksView);
   });
 }
