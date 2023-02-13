@@ -143,6 +143,7 @@ header {
       display: flex;
       flex-direction: column;
       .task {
+        z-index: 0;
         border-radius: 10px;
         height: 35px;
         padding: 5px 15px;
@@ -165,6 +166,8 @@ header {
           font-weight: 300;
           padding-left: 10px;
           outline-width: 0;
+          user-select: none;
+          pointer-events: none;
           background-color: #24222d;
           color: $dk-text;
         }
@@ -268,6 +271,7 @@ header {
       .expand-view {
         display: flex;
         flex-direction: column;
+        width: 100%;
         h2 {
           margin-bottom: 20px;
         }
