@@ -8,7 +8,6 @@ export default class Task {
     this.date = date;
     this.isStarred = isStarred;
   }
-  //   let tasks = []
 
   //   editTask(title, note, project, date) {
   //     this.title = title;
