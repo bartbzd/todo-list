@@ -2,7 +2,9 @@ import { tasks } from '../models/taskModel';
 
 export default function createTask(task) {
   const taskWrapper = document.createElement('div');
-  const checkmark = document.createElement('div');
+  const checkWrapper = document.createElement('div');
+  const input = document.createElement('input');
+  const checkmark = document.createElement('i');
   const title = document.createElement('p');
 
   const actions = document.createElement('div');
@@ -12,7 +14,10 @@ export default function createTask(task) {
 
   taskWrapper.setAttribute('data-id', tasks.indexOf(task));
   taskWrapper.classList.add('task');
-  checkmark.classList.add('checkmark');
+  checkWrapper.classList.add('checkmark');
+  input.type = 'checkbox';
+  input.classList.add('hide-check');
+  checkmark.classList.add('fa-regular', 'fa-circle');
   title.classList.add('task-title');
   title.textContent = task.title;
   actions.classList.add('actions');
@@ -23,6 +28,7 @@ export default function createTask(task) {
   star.classList.add('fa-solid', 'fa-star');
 
   document.querySelector('.tasks').append(taskWrapper);
-  taskWrapper.append(checkmark, title, actions);
+  taskWrapper.append(checkWrapper, title, actions);
+  checkWrapper.append(input, checkmark);
   actions.append(edit, trash, star);
 }
