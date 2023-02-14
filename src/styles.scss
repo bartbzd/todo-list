@@ -247,6 +247,9 @@ header {
           color: $dk-text;
           font-size: 30px;
         }
+        .hidden {
+          display: none;
+        }
         .submit-btn {
           width: 130px;
           height: 40px;
