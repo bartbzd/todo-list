@@ -6,7 +6,13 @@ export default function appController() {
   const tasksWrapper = document.querySelector('.t-wrapper');
   const formWrapper = document.querySelector('.f-wrapper');
   const openWrapper = document.querySelector('.o-wrapper');
-  const editWrapper = document.querySelector('.e-wrapper');
+  const editBtn = document.querySelector('.edit-task-btn');
+  const addTaskBtn = document.querySelector('.add-btn');
+  const addBtn = document.querySelector('.add-task-btn');
+  const titleInput = document.querySelector('#task');
+  const noteInput = document.querySelector('#note');
+  const formStar = document.querySelector('.add-star');
+  let taskIndex = 0;
 
   const showForm = () => {
     formWrapper.style.animation = 'ease-out formRight 0.1s';
@@ -22,20 +28,20 @@ export default function appController() {
       formWrapper.style.animation = '';
     }, 100);
   };
-  const showEdit = () => {
-    editWrapper.style.animation = 'ease-out formRight 0.1s';
-    editWrapper.style.display = 'flex';
-    setTimeout(() => {
-      editWrapper.style.animation = '';
-    }, 100);
-  };
-  const hideEdit = () => {
-    editWrapper.style.animation = 'ease-out formRight reverse 0.1s';
-    setTimeout(() => {
-      editWrapper.style.display = 'none';
-      editWrapper.style.animation = '';
-    }, 100);
-  };
+  // const showEdit = () => {
+  //   editWrapper.style.animation = 'ease-out formRight 0.1s';
+  //   editWrapper.style.display = 'flex';
+  //   setTimeout(() => {
+  //     editWrapper.style.animation = '';
+  //   }, 100);
+  // };
+  // const hideEdit = () => {
+  //   editWrapper.style.animation = 'ease-out formRight reverse 0.1s';
+  //   setTimeout(() => {
+  //     editWrapper.style.display = 'none';
+  //     editWrapper.style.animation = '';
+  //   }, 100);
+  // };
 
   const showTasksRight = () => {
     tasksWrapper.style.display = 'flex';
@@ -66,8 +72,6 @@ export default function appController() {
     }, 100);
   };
 
-  const formStar = document.querySelector('.add-star');
-
   const openTask = (e) => {
     e.stopImmediatePropagation();
     console.log(tasks);
@@ -95,28 +99,41 @@ export default function appController() {
       openWrapper.style.animation = '';
     }, 100);
   };
-
   const renderFormView = () => {
     hideTasksRight();
     setTimeout(() => {
       showForm();
+      const title = document.querySelector('.form-title-header');
+      title.textContent = 'Add Task';
     }, 100);
   };
+  const updateBtn = () => {
+    const title = document.querySelector('.form-title-header');
+    title.textContent = 'Edit Task';
+    editBtn.classList.toggle('hidden');
+    addBtn.classList.toggle('hidden');
+  };
+
   const renderEditView = (e) => {
+    taskIndex = e.currentTarget.closest('.task').getAttribute('data-id');
+    titleInput.value = tasks[taskIndex].title;
+    noteInput.value = tasks[taskIndex].note;
     e.stopImmediatePropagation();
     hideTasksRight();
     setTimeout(() => {
-      showEdit();
+      showForm();
+      updateBtn();
     }, 100);
   };
-  const renderTasksView = () => {
-    if (editWrapper.style.display === 'flex') {
-      hideEdit();
-      setTimeout(() => {
-        showTasksRight();
-      }, 100);
-      return;
-    }
+  const renderTasksView = (e) => {
+    e.preventDefault();
+    // if (editWrapper.style.display === 'flex') {
+    //   hideEdit();
+    //   setTimeout(() => {
+    //     showTasksRight();
+    //   }, 100);
+    //   return;
+    // }
     if (formWrapper.style.display === 'flex') {
       hideForm();
       setTimeout(() => {
@@ -142,38 +159,16 @@ export default function appController() {
     }, 100);
   };
 
-  const editBtn = document.querySelector('.edit');
-  const checkmark = document.querySelector('.fa-regular');
-  const backBtn = document.querySelectorAll('.back-btn');
-  // const taskBox = document.querySelectorAll('.task');
-  const addBtn = document.querySelector('.add-task-btn');
-  const addTaskBtn = document.querySelector('.add-btn');
-
   const toggleStar = () => {
     formStar.classList.toggle('starred');
   };
-
-  const toggleCheckmark = (e) => {
+  const toggleComplete = (e) => {
     e.stopPropagation();
     e.target.classList.toggle('fa-solid');
     e.target.classList.toggle('fa-circle');
     e.target.classList.toggle('fa-circle-check');
   };
 
-  function addTaskHandlers() {
-    const taskBox = document.querySelectorAll('.task');
-    taskBox.forEach((task) => {
-      task.addEventListener('click', renderTasksOpenView);
-    });
-  }
-  addTaskHandlers();
-
-  function addCheckMarkHandlers() {
-    const checkmarks = document.querySelectorAll('.fa-regular');
-    checkmarks.forEach((mark) => {
-      mark.addEventListener('click', toggleCheckmark);
-    });
-  }
   function storeInput() {
     const title = document.querySelector('#task').value;
     const note = document.querySelector('#note').value;
@@ -183,12 +178,29 @@ export default function appController() {
 
     return new Task(title, note, project, date, isStarred);
   }
-
-  const tasksView = document.querySelector('.tasks');
-  const form = document.querySelector('form');
   function resetTasks() {
-    tasksView.innerHTML = '';
-    form.reset();
+    document.querySelector('.tasks').innerHTML = '';
+  }
+  function resetForm() {
+    document.querySelector('form').reset();
+  }
+  function addTaskHandlers() {
+    const taskWrapper = document.querySelectorAll('.task');
+    const checkmarks = document.querySelectorAll('.fa-regular');
+    const editBtns = document.querySelectorAll('.edit');
+    const backBtn = document.querySelectorAll('.back-btn');
+    backBtn.forEach((button) => {
+      button.addEventListener('click', renderTasksView);
+    });
+    taskWrapper.forEach((task) => {
+      task.addEventListener('click', renderTasksOpenView);
+    });
+    checkmarks.forEach((checkmark) => {
+      checkmark.addEventListener('click', toggleComplete);
+    });
+    editBtns.forEach((button) => {
+      button.addEventListener('click', renderEditView);
+    });
   }
   function renderTasks() {
     resetTasks();
@@ -196,36 +208,47 @@ export default function appController() {
       createTask(task);
     });
     addTaskHandlers();
-    addCheckMarkHandlers();
   }
+
   function addTask(e) {
-    const title = document.querySelector('#task');
-    if (!title.checkValidity()) {
-      title.innerHTML = title.validationMessage;
+    if (!titleInput.checkValidity()) {
+      titleInput.innerHTML = titleInput.validationMessage;
       return;
     }
+
     e.preventDefault();
     const newTask = storeInput();
-    const existingTask = tasks.find((t) => t.title === newTask.title);
+    const existingTask = tasks.find((task) => task.title === newTask.title);
     if (!existingTask) {
       tasks.push(newTask);
-      console.log(tasks);
       renderTasksView(e);
       renderTasks();
+      resetForm();
     }
+  }
+  function editTask(e) {
+    if (!titleInput.checkValidity()) {
+      titleInput.innerHTML = titleInput.validationMessage;
+      return;
+    }
+
+    e.preventDefault();
+    const editedTask = storeInput();
+    tasks.splice(taskIndex, 1, editedTask);
+    renderTasksView(e);
+    renderTasks();
+    updateBtn();
   }
 
   formStar.addEventListener('click', toggleStar);
-  editBtn.addEventListener('click', renderEditView);
   addTaskBtn.addEventListener('click', renderFormView);
   addBtn.addEventListener('click', addTask);
-  backBtn.forEach((button) => {
-    button.addEventListener('click', renderTasksView);
-  });
+  editBtn.addEventListener('click', editTask);
+
   document.addEventListener('DOMContentLoaded', (e) => {
     console.log('test');
     const introTask = new Task(
-      'Click to expand me!',
+      'Click me for more info',
       'Tasks can be expanded to view more detailed information about them. \nYou can add notes, projects and due dates from the task form pane.',
       'Introduction'
     );
