@@ -107,14 +107,14 @@
                     <form class="task-form">
 
                         <label for="task">
-                            <h2 class="section-header">Add Task</h2>
+                            <h2 class="section-header form-title-header">Add Task</h2>
                         </label>
                         <input type="text" id="task" required>
 
                         <label for="note">
                             <h2 class="section-header form-header">Note</h2>
                         </label>
-                        <textarea id="note" placeholder="type here..." required></textarea>
+                        <textarea id="note" placeholder="type here..."></textarea>
 
                         <!-- <h2 class="section-header form-header">extras</h2> -->
 
@@ -142,6 +142,7 @@
                         <div class="btn-group">
                             <button class="back-btn fa-sharp fa-solid fa-chevron-left"> </button>
                             <button class="submit-btn add-task-btn">Add</button>
+                            <button class="submit-btn edit-task-btn hidden">Edit</button>
                         </div>
 
 
@@ -190,12 +191,12 @@
                         <label for="task">
                             <h2 class="section-header">Edit Task</h2>
                         </label>
-                        <input type="text" id="task">
+                        <input type="text" id="task" class="task">
 
                         <label for="note">
                             <h2 class="section-header form-header">Note</h2>
                         </label>
-                        <textarea id="note" placeholder="type here..."></textarea>
+                        <textarea id="note" class="note" placeholder="type here..."></textarea>
                         <div class="extras-wrapper">
                             <div class="extras">
                                 <label for="projects">
@@ -225,7 +226,7 @@
                         </div>
                         <div class="btn-group">
                             <button class="back-btn fa-sharp fa-solid fa-chevron-left"> </button>
-                            <button class="submit-btn">Edit</button>
+                            <button class="submit-btn edit-task-btn">Edit</button>
                         </div>
 
 
