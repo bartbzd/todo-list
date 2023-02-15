@@ -117,6 +117,14 @@ header {
         margin-right: 10px;
       }
     }
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      i {
+        height: 25px;
+        line-height: 25px;
+      }
+    }
     .github {
       height: 24px;
       display: flex;
