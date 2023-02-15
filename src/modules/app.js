@@ -14,6 +14,7 @@ export default function appController() {
   const formStar = document.querySelector('.add-star');
   let taskIndex = 0;
 
+  // animations
   const showForm = () => {
     formWrapper.style.animation = 'ease-out formRight 0.1s';
     formWrapper.style.display = 'flex';
@@ -28,7 +29,6 @@ export default function appController() {
       formWrapper.style.animation = '';
     }, 100);
   };
-  // const showEdit = () => {
   //   editWrapper.style.animation = 'ease-out formRight 0.1s';
   //   editWrapper.style.display = 'flex';
   //   setTimeout(() => {
@@ -42,7 +42,6 @@ export default function appController() {
   //     editWrapper.style.animation = '';
   //   }, 100);
   // };
-
   const showTasksRight = () => {
     tasksWrapper.style.display = 'flex';
     tasksWrapper.style.animation = 'ease-out taskRight reverse 0.1s';
@@ -71,23 +70,11 @@ export default function appController() {
       tasksWrapper.style.animation = '';
     }, 100);
   };
-
-  const openTask = (e) => {
-    e.stopImmediatePropagation();
+  const openTask = () => {
     console.log(tasks);
     openWrapper.style.display = 'flex';
     openWrapper.style.animation = 'ease-out taskRight reverse 0.1s';
 
-    const title = document.querySelector('#open-title');
-    console.log(title);
-    const note = document.querySelector('#open-note');
-    const project = document.querySelector('#projects');
-    // const date = document.querySelector('#date');
-    const isStarred = formStar.classList.contains('starred');
-    const taskId = e.target.dataset.id;
-
-    title.textContent = tasks[taskId].title;
-    note.textContent = tasks[taskId].note;
     setTimeout(() => {
       openWrapper.style.animation = '';
     }, 100);
@@ -99,7 +86,46 @@ export default function appController() {
       openWrapper.style.animation = '';
     }, 100);
   };
+
+  // toggles
+  const toggleBtn = () => {
+    const title = document.querySelector('.form-title-header');
+    title.textContent = 'Edit Task';
+    editBtn.classList.toggle('hidden');
+    addBtn.classList.toggle('hidden');
+  };
+  const toggleComplete = (e) => {
+    e.stopPropagation();
+    e.target.classList.toggle('fa-solid');
+    e.target.classList.toggle('fa-circle');
+    e.target.classList.toggle('fa-circle-check');
+  };
+  const toggleStar = () => {
+    formStar.classList.toggle('starred');
+  };
+
+  // resets
+  function resetTasks() {
+    document.querySelector('.tasks').innerHTML = '';
+  }
+  function resetForm() {
+    document.querySelector('form').reset();
+  }
+
+  const updateOpenTask = (e) => {
+    const title = document.querySelector('#open-title');
+    const note = document.querySelector('#open-note');
+    const project = document.querySelector('#projects');
+    // const date = document.querySelector('#date');
+    const isStarred = formStar.classList.contains('starred');
+    const id = e.target.closest('.task').getAttribute('data-id');
+
+    title.textContent = tasks[id].title;
+    note.textContent = tasks[id].note;
+  };
+
   const renderFormView = () => {
+    resetForm();
     hideTasksRight();
     setTimeout(() => {
       showForm();
@@ -107,37 +133,29 @@ export default function appController() {
       title.textContent = 'Add Task';
     }, 100);
   };
-  const updateBtn = () => {
-    const title = document.querySelector('.form-title-header');
-    title.textContent = 'Edit Task';
-    editBtn.classList.toggle('hidden');
-    addBtn.classList.toggle('hidden');
-  };
-
   const renderEditView = (e) => {
     taskIndex = e.currentTarget.closest('.task').getAttribute('data-id');
     titleInput.value = tasks[taskIndex].title;
     noteInput.value = tasks[taskIndex].note;
     e.stopImmediatePropagation();
     hideTasksRight();
+
     setTimeout(() => {
       showForm();
-      updateBtn();
+      toggleBtn();
     }, 100);
   };
   const renderTasksView = (e) => {
+    resetForm();
     e.preventDefault();
-    // if (editWrapper.style.display === 'flex') {
-    //   hideEdit();
-    //   setTimeout(() => {
-    //     showTasksRight();
-    //   }, 100);
-    //   return;
-    // }
+    if (addBtn.classList.contains('hidden')) {
+      toggleBtn();
+    }
     if (formWrapper.style.display === 'flex') {
       hideForm();
       setTimeout(() => {
         showTasksRight();
+        // toggleBtn();
       }, 100);
       return;
     }
@@ -149,41 +167,14 @@ export default function appController() {
     }
   };
   const renderTasksOpenView = (e) => {
-    console.log('im here');
-
     hideTasksLeft();
-    // e.stopImmediatePropagation();
 
     setTimeout(() => {
-      openTask(e);
+      updateOpenTask(e);
+      openTask();
     }, 100);
   };
 
-  const toggleStar = () => {
-    formStar.classList.toggle('starred');
-  };
-  const toggleComplete = (e) => {
-    e.stopPropagation();
-    e.target.classList.toggle('fa-solid');
-    e.target.classList.toggle('fa-circle');
-    e.target.classList.toggle('fa-circle-check');
-  };
-
-  function storeInput() {
-    const title = document.querySelector('#task').value;
-    const note = document.querySelector('#note').value;
-    const project = document.querySelector('#projects').value;
-    const date = document.querySelector('#date').value;
-    const isStarred = formStar.classList.contains('starred');
-
-    return new Task(title, note, project, date, isStarred);
-  }
-  function resetTasks() {
-    document.querySelector('.tasks').innerHTML = '';
-  }
-  function resetForm() {
-    document.querySelector('form').reset();
-  }
   function addTaskHandlers() {
     const taskWrapper = document.querySelectorAll('.task');
     const checkmarks = document.querySelectorAll('.fa-regular');
@@ -210,6 +201,15 @@ export default function appController() {
     addTaskHandlers();
   }
 
+  function storeInput() {
+    const title = document.querySelector('#task').value;
+    const note = document.querySelector('#note').value;
+    const project = document.querySelector('#projects').value;
+    const date = document.querySelector('#date').value;
+    const isStarred = formStar.classList.contains('starred');
+
+    return new Task(title, note, project, date, isStarred);
+  }
   function addTask(e) {
     if (!titleInput.checkValidity()) {
       titleInput.innerHTML = titleInput.validationMessage;
@@ -237,7 +237,6 @@ export default function appController() {
     tasks.splice(taskIndex, 1, editedTask);
     renderTasksView(e);
     renderTasks();
-    updateBtn();
   }
 
   formStar.addEventListener('click', toggleStar);
