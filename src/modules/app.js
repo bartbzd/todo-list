@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import Task, { tasks } from './models/taskModel';
+import Project, { projects } from './models/projectModel';
 import createTask from './views/taskView';
+import createProject from './views/projectView';
 
 export default function appController() {
   const tasksWrapper = document.querySelector('.t-wrapper');
@@ -9,10 +11,12 @@ export default function appController() {
   const editBtn = document.querySelector('.edit-task-btn');
   const addTaskBtn = document.querySelector('.add-btn');
   const addBtn = document.querySelector('.add-task-btn');
+  const addProjectBtn = document.querySelector('.fa-plus');
   const titleInput = document.querySelector('#task');
   const noteInput = document.querySelector('#note');
   const formStar = document.querySelector('.add-star');
   let taskIndex = 0;
+  let currProject;
 
   // animations
   const showForm = () => {
@@ -105,6 +109,9 @@ export default function appController() {
   };
 
   // resets
+  function resetProjects() {
+    document.querySelector('.project-grp').innerHTML = '';
+  }
   function resetTasks() {
     document.querySelector('.tasks').innerHTML = '';
   }
@@ -133,10 +140,10 @@ export default function appController() {
       title.textContent = 'Add Task';
     }, 100);
   };
-  const renderEditView = (e) => {
+  const renderEditView = (e, project) => {
     taskIndex = e.currentTarget.closest('.task').getAttribute('data-id');
-    titleInput.value = tasks[taskIndex].title;
-    noteInput.value = tasks[taskIndex].note;
+    titleInput.value = project.getTasks()[taskIndex].title;
+    noteInput.value = project.getTasks()[taskIndex].note;
     e.stopImmediatePropagation();
     hideTasksRight();
 
@@ -180,6 +187,7 @@ export default function appController() {
     const checkmarks = document.querySelectorAll('.fa-regular');
     const editBtns = document.querySelectorAll('.edit');
     const backBtn = document.querySelectorAll('.back-btn');
+
     backBtn.forEach((button) => {
       button.addEventListener('click', renderTasksView);
     });
@@ -190,17 +198,48 @@ export default function appController() {
       checkmark.addEventListener('click', toggleComplete);
     });
     editBtns.forEach((button) => {
-      button.addEventListener('click', renderEditView);
+      button.addEventListener('click', (e) => {
+        renderEditView(e, currProject);
+      });
     });
   }
-  function renderTasks() {
+  function renderTasks(project) {
     resetTasks();
-    tasks.forEach((task) => {
-      createTask(task);
+    console.log(project);
+    project.getTasks().forEach((task) => {
+      createTask(task, project.getTasks());
     });
     addTaskHandlers();
   }
+  function renderProjects() {
+    projects.forEach((x) => {
+      createProject(x);
+    });
+  }
+  function storeProject() {
+    const name = document.querySelector('#project-name').value;
+    return new Project(name);
+  }
 
+  function toggleAddProject() {
+    const form = document.querySelector('#project-form');
+    console.log(form);
+    if (form.hidden === false) {
+      form.hidden = true;
+    } else form.hidden = false;
+  }
+  function addProject(e) {
+    // if (!titleInput.checkValidity()) {
+    //   titleInput.innerHTML = titleInput.validationMessage;
+    //   return;
+    // }
+    e.preventDefault();
+    const newProject = storeProject();
+    const existingProject = projects.find((project) => project.name === newProject.name);
+    if (!existingProject) {
+      projects.push(newProject);
+    }
+  }
   function storeInput() {
     const title = document.querySelector('#task').value;
     const note = document.querySelector('#note').value;
@@ -210,7 +249,7 @@ export default function appController() {
 
     return new Task(title, note, project, date, isStarred);
   }
-  function addTask(e) {
+  function addTask(e, project) {
     if (!titleInput.checkValidity()) {
       titleInput.innerHTML = titleInput.validationMessage;
       return;
@@ -218,15 +257,15 @@ export default function appController() {
 
     e.preventDefault();
     const newTask = storeInput();
-    const existingTask = tasks.find((task) => task.title === newTask.title);
+    const existingTask = project.getTasks().find((task) => task.title === newTask.title);
     if (!existingTask) {
-      tasks.push(newTask);
+      project.getTasks().push(newTask);
       renderTasksView(e);
-      renderTasks();
+      renderTasks(project);
       resetForm();
     }
   }
-  function editTask(e) {
+  function editTask(e, project) {
     if (!titleInput.checkValidity()) {
       titleInput.innerHTML = titleInput.validationMessage;
       return;
@@ -234,15 +273,33 @@ export default function appController() {
 
     e.preventDefault();
     const editedTask = storeInput();
-    tasks.splice(taskIndex, 1, editedTask);
+    project.getTasks().splice(taskIndex, 1, editedTask);
     renderTasksView(e);
-    renderTasks();
+    renderTasks(currProject);
   }
 
+  addProjectBtn.addEventListener('click', toggleAddProject);
   formStar.addEventListener('click', toggleStar);
   addTaskBtn.addEventListener('click', renderFormView);
-  addBtn.addEventListener('click', addTask);
+  addBtn.addEventListener('click', (e) => {
+    addTask(e, currProject);
+  });
   editBtn.addEventListener('click', editTask);
+
+  const projectForm = document.querySelector('#project-form');
+  projectForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+  });
+  projectForm.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      resetProjects();
+      addProject(e);
+      console.log(projects);
+      renderProjects();
+      toggleAddProject();
+    }
+  });
 
   document.addEventListener('DOMContentLoaded', (e) => {
     console.log('test');
@@ -251,10 +308,16 @@ export default function appController() {
       'Tasks can be expanded to view more detailed information about them. \nYou can add notes, projects and due dates from the task form pane.',
       'Introduction'
     );
-    tasks.push(introTask);
-    renderTasks();
+    const introTaskTwo = new Task('Test', 'Test text');
+    const introProject = new Project('Tester');
+    currProject = introProject;
+    projects.push(introProject);
+    introProject.getTasks().push(introTask);
+    introProject.getTasks().push(introTaskTwo);
+    console.log(projects);
+    // tasks.push(introTask);
+    renderProjects();
+    renderTasks(currProject);
     renderTasksView(e);
-
-    // addTaskHandlers();
   });
 }
