@@ -113,6 +113,8 @@ header {
     .filter,
     .project {
       margin-bottom: 10px;
+    }
+    .filter {
       i {
         margin-right: 10px;
       }
@@ -123,6 +125,12 @@ header {
       i {
         height: 25px;
         line-height: 25px;
+      }
+    }
+    .project {
+      display: flex;
+      .project-btn-grp {
+        margin-left: auto;
       }
     }
     .github {
