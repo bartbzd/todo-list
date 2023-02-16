@@ -1,6 +1,4 @@
-import { tasks } from '../models/taskModel';
-
-export default function createTask(task) {
+export default function createTask(task, project) {
   const taskWrapper = document.createElement('div');
   const checkWrapper = document.createElement('div');
   const input = document.createElement('input');
@@ -12,7 +10,7 @@ export default function createTask(task) {
   const trash = document.createElement('i');
   const star = document.createElement('i');
 
-  taskWrapper.setAttribute('data-id', tasks.indexOf(task));
+  taskWrapper.setAttribute('data-id', project.indexOf(task));
   taskWrapper.classList.add('task');
   checkWrapper.classList.add('checkmark');
   input.type = 'checkbox';
