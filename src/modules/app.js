@@ -33,19 +33,6 @@ export default function appController() {
       formWrapper.style.animation = '';
     }, 100);
   };
-  //   editWrapper.style.animation = 'ease-out formRight 0.1s';
-  //   editWrapper.style.display = 'flex';
-  //   setTimeout(() => {
-  //     editWrapper.style.animation = '';
-  //   }, 100);
-  // };
-  // const hideEdit = () => {
-  //   editWrapper.style.animation = 'ease-out formRight reverse 0.1s';
-  //   setTimeout(() => {
-  //     editWrapper.style.display = 'none';
-  //     editWrapper.style.animation = '';
-  //   }, 100);
-  // };
   const showTasksRight = () => {
     tasksWrapper.style.display = 'flex';
     tasksWrapper.style.animation = 'ease-out taskRight reverse 0.1s';
@@ -118,7 +105,6 @@ export default function appController() {
   function resetForm() {
     document.querySelector('form').reset();
   }
-
   const updateOpenTask = (e) => {
     const title = document.querySelector('#open-title');
     const note = document.querySelector('#open-note');
@@ -223,10 +209,11 @@ export default function appController() {
 
   function toggleAddProject() {
     const form = document.querySelector('#project-form');
-    console.log(form);
     if (form.hidden === false) {
       form.hidden = true;
     } else form.hidden = false;
+    const input = document.querySelector('#project-name');
+    input.focus();
   }
   function addProject(e) {
     // if (!titleInput.checkValidity()) {
@@ -238,6 +225,7 @@ export default function appController() {
     const existingProject = projects.find((project) => project.name === newProject.name);
     if (!existingProject) {
       projects.push(newProject);
+      resetForm();
     }
   }
   function storeInput() {
