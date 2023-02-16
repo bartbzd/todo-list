@@ -113,12 +113,13 @@ header {
     .filter,
     .project {
       margin-bottom: 10px;
-    }
-    .filter {
       i {
         margin-right: 10px;
       }
     }
+    // .filter {
+
+    // }
     .projects-header {
       display: flex;
       justify-content: space-between;
@@ -131,6 +132,9 @@ header {
       display: flex;
       .project-btn-grp {
         margin-left: auto;
+        i {
+          margin-right: 0px;
+        }
       }
     }
     .github {
