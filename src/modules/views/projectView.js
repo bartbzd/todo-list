@@ -16,7 +16,7 @@ export default function createProject(project) {
   edit.classList.add('options', 'edit', 'material-symbols-rounded');
   edit.textContent = 'edit';
   const trash = icon();
-  trash.classList.add('options', 'material-symbols-rounded');
+  trash.classList.add('options', 'delete', 'material-symbols-rounded');
   trash.textContent = 'delete';
 
   document.querySelector('.project-grp').appendChild(wrapper);
