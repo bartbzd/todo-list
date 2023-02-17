@@ -1,3 +1,5 @@
+import { projects } from '../models/projectModel';
+
 export default function createProject(project) {
   const div = () => document.createElement('div');
   const text = document.createElement('p');
@@ -5,6 +7,7 @@ export default function createProject(project) {
 
   const wrapper = div();
   wrapper.className = 'project';
+  wrapper.setAttribute('data-id', projects.indexOf(project));
   text.className = 'project-name';
   text.textContent = project.name;
   const folder = icon();
