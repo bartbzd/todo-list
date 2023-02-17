@@ -114,26 +114,52 @@ header {
     .project {
       margin-bottom: 10px;
       i {
-        margin-right: 10px;
+        margin-right: 5px;
       }
     }
-    // .filter {
 
-    // }
     .projects-header {
       display: flex;
       justify-content: space-between;
       i {
         height: 25px;
         line-height: 25px;
+        font-size: 20px;
       }
     }
     .project {
       display: flex;
+      background-color: red;
+      height: 30px;
+      padding: 6px;
+      border-radius: 6px;
+      align-items: center;
+      .project-name {
+        font-size: 14px;
+      }
       .project-btn-grp {
         margin-left: auto;
+        display: flex;
+        // align-items: center;
         i {
+          font-size: 16px;
+        }
+        .options {
+          opacity: 0;
+        }
+        .edit {
+          margin-right: 5px;
+        }
+        .delete {
           margin-right: 0px;
+        }
+      }
+      &:hover {
+        .project-btn-grp {
+          .options {
+            opacity: 1;
+            transition: 0.2s;
+          }
         }
       }
     }
