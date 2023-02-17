@@ -5,6 +5,7 @@ $dk-subtext: #d2d8f7c6;
 $card-1: #1a181d;
 $card-2: #141319;
 $card-3: #23212b;
+$card-4: #24222d;
 
 * {
   margin: 0;
@@ -34,7 +35,7 @@ body {
     border-radius: 10px;
     padding-left: 10px;
     outline-width: 0;
-    background-color: #24222d;
+    background-color: $card-4;
     color: $dk-text;
     resize: none;
   }
@@ -96,7 +97,7 @@ header {
   .content {
     background-color: $card-2;
     border-radius: 20px;
-    padding: 30px;
+    padding: 25px;
     height: 60vh;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   }
@@ -117,7 +118,6 @@ header {
         margin-right: 5px;
       }
     }
-
     .projects-header {
       display: flex;
       justify-content: space-between;
@@ -127,20 +127,20 @@ header {
         font-size: 20px;
       }
     }
+    .filter,
+    .project-name {
+      font-size: 14px;
+    }
     .project {
       display: flex;
-      background-color: red;
       height: 30px;
       padding: 6px;
-      border-radius: 6px;
+      border-radius: 8px;
       align-items: center;
-      .project-name {
-        font-size: 14px;
-      }
+
       .project-btn-grp {
         margin-left: auto;
         display: flex;
-        // align-items: center;
         i {
           font-size: 16px;
         }
@@ -162,6 +162,9 @@ header {
           }
         }
       }
+    }
+    #project-name {
+      width: 100%;
     }
     .github {
       height: 24px;
@@ -195,7 +198,7 @@ header {
         padding: 5px 15px;
         margin-bottom: 10px;
         display: flex;
-        background-color: #24222d;
+        background-color: $card-4;
         transition: 0.2s;
         .hide-check {
           display: none;
@@ -214,7 +217,7 @@ header {
           outline-width: 0;
           user-select: none;
           pointer-events: none;
-          background-color: #24222d;
+          background-color: $card-4;
           color: $dk-text;
         }
         & input[type='checkbox'] {
