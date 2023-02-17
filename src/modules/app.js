@@ -5,6 +5,7 @@ import createTask from './views/taskView';
 import createProject from './views/projectView';
 
 export default function appController() {
+  const projectForm = document.querySelector('#project-form');
   const tasksWrapper = document.querySelector('.t-wrapper');
   const formWrapper = document.querySelector('.f-wrapper');
   const openWrapper = document.querySelector('.o-wrapper');
@@ -16,6 +17,7 @@ export default function appController() {
   const noteInput = document.querySelector('#note');
   const formStar = document.querySelector('.add-star');
   let taskIndex = 0;
+  let projectIndex = 0;
   let currProject;
 
   // animations
@@ -94,6 +96,14 @@ export default function appController() {
   const toggleStar = () => {
     formStar.classList.toggle('starred');
   };
+  function toggleAddProject() {
+    const form = document.querySelector('#project-form');
+    if (form.hidden === false) {
+      form.hidden = true;
+    } else form.hidden = false;
+    const input = document.querySelector('#project-name');
+    input.focus();
+  }
 
   // resets
   function resetProjects() {
@@ -104,6 +114,7 @@ export default function appController() {
   }
   function resetForm() {
     document.querySelector('form').reset();
+    document.querySelector('.task-form').reset();
   }
   const updateOpenTask = (e) => {
     const title = document.querySelector('#open-title');
@@ -122,6 +133,7 @@ export default function appController() {
     hideTasksRight();
     setTimeout(() => {
       showForm();
+
       const title = document.querySelector('.form-title-header');
       title.textContent = 'Add Task';
     }, 100);
@@ -197,23 +209,35 @@ export default function appController() {
     });
     addTaskHandlers();
   }
+  function addProjectHandlers() {
+    const projectWrapper = document.querySelectorAll('.project');
+    projectWrapper.forEach((project) => {
+      project.addEventListener('click', (e) => {
+        projectWrapper.forEach((proj) => {
+          proj.style.backgroundColor = '';
+        });
+        projectIndex = e.currentTarget.closest('.project').getAttribute('data-id');
+        currProject = projects[projectIndex];
+        e.currentTarget.style.backgroundColor = '#24222d';
+        console.log(currProject);
+        renderTasks(currProject);
+        renderTasksView(e);
+      });
+    });
+  }
+
   function renderProjects() {
     projects.forEach((x) => {
       createProject(x);
+      const initProject = document.querySelector('.project');
+      initProject.style.backgroundColor = '#24222d';
     });
+    addProjectHandlers();
   }
+
   function storeProject() {
     const name = document.querySelector('#project-name').value;
     return new Project(name);
-  }
-
-  function toggleAddProject() {
-    const form = document.querySelector('#project-form');
-    if (form.hidden === false) {
-      form.hidden = true;
-    } else form.hidden = false;
-    const input = document.querySelector('#project-name');
-    input.focus();
   }
   function addProject(e) {
     // if (!titleInput.checkValidity()) {
@@ -228,6 +252,7 @@ export default function appController() {
       resetForm();
     }
   }
+
   function storeInput() {
     const title = document.querySelector('#task').value;
     const note = document.querySelector('#note').value;
@@ -274,7 +299,6 @@ export default function appController() {
   });
   editBtn.addEventListener('click', editTask);
 
-  const projectForm = document.querySelector('#project-form');
   projectForm.addEventListener('submit', (e) => {
     e.preventDefault();
   });
