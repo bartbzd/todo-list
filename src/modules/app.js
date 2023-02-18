@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 import Task, { tasks } from './models/taskModel';
 import Project, { projects } from './models/projectModel';
@@ -124,8 +125,10 @@ export default function appController() {
     const isStarred = formStar.classList.contains('starred');
     const id = e.target.closest('.task').getAttribute('data-id');
 
-    title.textContent = tasks[id].title;
-    note.textContent = tasks[id].note;
+    console.log(projects);
+    console.log(currProject);
+    title.textContent = currProject.tasks[id].title;
+    note.textContent = currProject.tasks[id].note;
   };
 
   const renderFormView = () => {
@@ -212,25 +215,22 @@ export default function appController() {
   function addProjectHandlers() {
     const projectWrapper = document.querySelectorAll('.project');
     const folders = document.querySelectorAll('.folder');
-    projectWrapper.forEach((project) => {
-      project.addEventListener('click', (e) => {
-        projectWrapper.forEach((proj) => {
-          proj.style.backgroundColor = '';
+    projectWrapper.forEach((wrapper) => {
+      wrapper.addEventListener('click', (e) => {
+        projectWrapper.forEach((project) => {
+          project.style.backgroundColor = '';
         });
         folders.forEach((folder) => {
           folder.className = 'folder material-symbols-outlined';
         });
+
+        e.currentTarget.style.backgroundColor = '#24222d';
         projectIndex = e.currentTarget.closest('.project').getAttribute('data-id');
         currProject = projects[projectIndex];
-        e.currentTarget.style.backgroundColor = '#24222d';
 
         const folder = e.currentTarget.querySelector('.folder');
-
         folder.className = 'folder material-symbols-rounded';
 
-        // const folderIndex;
-        // folderIndex = currProject;
-        console.log(currProject);
         renderTasks(currProject);
         renderTasksView(e);
       });
@@ -310,8 +310,9 @@ export default function appController() {
   addBtn.addEventListener('click', (e) => {
     addTask(e, currProject);
   });
-  editBtn.addEventListener('click', editTask);
-
+  editBtn.addEventListener('click', (e) => {
+    editTask(e, currProject);
+  });
   projectForm.addEventListener('submit', (e) => {
     e.preventDefault();
   });
