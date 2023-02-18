@@ -211,14 +211,25 @@ export default function appController() {
   }
   function addProjectHandlers() {
     const projectWrapper = document.querySelectorAll('.project');
+    const folders = document.querySelectorAll('.folder');
     projectWrapper.forEach((project) => {
       project.addEventListener('click', (e) => {
         projectWrapper.forEach((proj) => {
           proj.style.backgroundColor = '';
         });
+        folders.forEach((folder) => {
+          folder.className = 'folder material-symbols-outlined';
+        });
         projectIndex = e.currentTarget.closest('.project').getAttribute('data-id');
         currProject = projects[projectIndex];
         e.currentTarget.style.backgroundColor = '#24222d';
+
+        const folder = e.currentTarget.querySelector('.folder');
+
+        folder.className = 'folder material-symbols-rounded';
+
+        // const folderIndex;
+        // folderIndex = currProject;
         console.log(currProject);
         renderTasks(currProject);
         renderTasksView(e);
@@ -231,6 +242,8 @@ export default function appController() {
       createProject(x);
       const initProject = document.querySelector('.project');
       initProject.style.backgroundColor = '#24222d';
+      const folder = document.querySelector('.folder');
+      folder.className = 'folder material-symbols-rounded';
     });
     addProjectHandlers();
   }
