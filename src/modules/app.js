@@ -7,6 +7,7 @@ import createProject from './views/projectView';
 
 export default function appController() {
   const projectForm = document.querySelector('#project-form');
+  const taskForm = document.querySelector('.task-form');
   const tasksWrapper = document.querySelector('.t-wrapper');
   const formWrapper = document.querySelector('.f-wrapper');
   const openWrapper = document.querySelector('.o-wrapper');
@@ -313,9 +314,7 @@ export default function appController() {
   editBtn.addEventListener('click', (e) => {
     editTask(e, currProject);
   });
-  projectForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-  });
+
   projectForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -326,7 +325,14 @@ export default function appController() {
       toggleAddProject();
     }
   });
-
+  projectForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+  });
+  taskForm.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  });
   document.addEventListener('DOMContentLoaded', (e) => {
     console.log('test');
     const introTask = new Task(
