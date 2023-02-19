@@ -16,10 +16,10 @@ export default function createProject(project) {
   const group = div();
   group.className = 'project-btn-grp';
   const edit = icon();
-  edit.classList.add('options', 'edit', 'material-symbols-rounded');
+  edit.classList.add('options', 'edit-p', 'material-symbols-rounded');
   edit.textContent = 'edit';
   const trash = icon();
-  trash.classList.add('options', 'delete', 'material-symbols-rounded');
+  trash.classList.add('options', 'delete-p', 'material-symbols-rounded');
   trash.textContent = 'delete';
 
   document.querySelector('.project-grp').appendChild(wrapper);
