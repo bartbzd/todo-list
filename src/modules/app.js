@@ -19,8 +19,9 @@ export default function appController() {
   const noteInput = document.querySelector('#note');
   const formStar = document.querySelector('.add-star');
   let taskIndex = 0;
-  let projectIndex = 0;
+  let projectIndex;
   let currProject;
+  let state;
 
   // animations
   const showForm = () => {
@@ -106,7 +107,25 @@ export default function appController() {
     const input = document.querySelector('#project-name');
     input.focus();
   }
+  function toggleEditProject(e) {
+    const form = document.querySelector('#project-form');
+    form.hidden = !!false; //false ? true : false;
+    const input = document.querySelector('#project-name');
+    input.focus();
+    projectIndex = e.target.closest('.project').getAttribute('data-id');
+    console.log(projects[projectIndex].name);
+    input.value = projects[projectIndex].name;
+    console.log(projectIndex);
+    console.log(input.value);
+    console.log(projects[projectIndex].name);
+    state = e.target.closest('.project');
 
+    e.target.closest('.project').classList.add('edited');
+    e.target.closest('.project').style.display = 'none';
+    console.log(input.value);
+
+    // console.log(projects);
+  }
   // resets
   function resetProjects() {
     document.querySelector('.project-grp').innerHTML = '';
@@ -126,8 +145,6 @@ export default function appController() {
     const isStarred = formStar.classList.contains('starred');
     const id = e.target.closest('.task').getAttribute('data-id');
 
-    console.log(projects);
-    console.log(currProject);
     title.textContent = currProject.tasks[id].title;
     note.textContent = currProject.tasks[id].note;
   };
@@ -164,7 +181,6 @@ export default function appController() {
       hideForm();
       setTimeout(() => {
         showTasksRight();
-        // toggleBtn();
       }, 100);
       return;
     }
@@ -216,6 +232,7 @@ export default function appController() {
   function addProjectHandlers() {
     const projectWrapper = document.querySelectorAll('.project');
     const folders = document.querySelectorAll('.folder');
+    const editBtns = document.querySelectorAll('.edit-p');
     projectWrapper.forEach((wrapper) => {
       wrapper.addEventListener('click', (e) => {
         projectWrapper.forEach((project) => {
@@ -234,6 +251,11 @@ export default function appController() {
 
         renderTasks(currProject);
         renderTasksView(e);
+      });
+    });
+    editBtns.forEach((button) => {
+      button.addEventListener('click', (e) => {
+        toggleEditProject(e);
       });
     });
   }
@@ -266,7 +288,12 @@ export default function appController() {
       resetForm();
     }
   }
-
+  function editProject() {
+    // e.preventDefault();
+    const name = document.querySelector('#project-name');
+    projects[projectIndex].name = name.value;
+    console.log(projects[projectIndex].name);
+  }
   function storeInput() {
     const title = document.querySelector('#task').value;
     const note = document.querySelector('#note').value;
@@ -318,9 +345,16 @@ export default function appController() {
   projectForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      if (state !== undefined) {
+        if (state.classList.contains('edited')) {
+          editProject();
+          state.classList.remove('edited');
+          state = '';
+        }
+      } else {
+        addProject(e);
+      }
       resetProjects();
-      addProject(e);
-      console.log(projects);
       renderProjects();
       toggleAddProject();
     }
