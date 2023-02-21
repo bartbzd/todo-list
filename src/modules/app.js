@@ -244,7 +244,17 @@ export default function appController() {
     });
     addTaskHandlers();
   }
-
+  function updateSelectedProject() {
+    const projectsList = document.querySelectorAll('.project');
+    projectsList.forEach((project) => {
+      const i = project.querySelector('i');
+      const p = project.querySelector('p');
+      if (p.textContent === currProject.name) {
+        p.closest('.project').style.backgroundColor = '#24222d';
+        i.closest('.folder').className = 'folder material-symbols-rounded';
+      }
+    });
+  }
   function addProjectHandlers() {
     const projectWrapper = document.querySelectorAll('.project');
     const folders = document.querySelectorAll('.folder');
@@ -277,7 +287,7 @@ export default function appController() {
     });
   }
   function renderProjects() {
-    // const projectContainers = document.querySelectorAll('.project');
+    resetProjects();
     projects.forEach((x) => {
       createProject(x);
     });
@@ -289,31 +299,30 @@ export default function appController() {
     return new Project(name);
   }
   function addProject() {
-    let incorrect = false;
+    let incorrectInput = false;
     const name = document.querySelector('#project-name');
     if (name.value === '') {
       console.log('test');
       name.setCustomValidity('Project cannot be empty');
       name.reportValidity();
-      incorrect = true;
+      incorrectInput = true;
       return;
     }
     if (projects.find((project) => project.name === name.value)) {
       name.setCustomValidity('Project exists');
       name.reportValidity();
-      incorrect = true;
+      incorrectInput = true;
       return;
     }
 
-    [currProject] = projects;
     const newProject = storeProject();
     const existingProject = projects.find((project) => project.name === newProject.name);
     if (!existingProject) {
       projects.push(newProject);
+      currProject = newProject;
       resetForm();
     }
-    if (incorrect === false) {
-      resetProjects();
+    if (incorrectInput === false) {
       renderProjects();
       toggleAddProject();
     }
@@ -323,6 +332,8 @@ export default function appController() {
     projects[projectIndex].name = name.value;
     // console.log(projects[projectIndex].name);
     resetForm();
+    toggleAddProject();
+    renderProjects();
   }
   function storeInput() {
     const title = document.querySelector('#task').value;
@@ -347,6 +358,7 @@ export default function appController() {
       project.getTasks().push(newTask);
       resetProjects();
       renderProjects(e);
+      updateSelectedProject();
       renderTasksView(e);
       renderTasks(currProject);
       // console.log(project.getTasks());
@@ -391,9 +403,8 @@ export default function appController() {
         addProject();
         console.log('add ran');
       }
-
+      updateSelectedProject();
       renderTasksView(e);
-      console.log(currProject);
       renderTasks(currProject);
     }
   });
@@ -405,6 +416,7 @@ export default function appController() {
       e.preventDefault();
     }
   });
+
   document.addEventListener('DOMContentLoaded', (e) => {
     console.log('test');
     const introTask = new Task(
