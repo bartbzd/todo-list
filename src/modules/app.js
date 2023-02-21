@@ -391,17 +391,19 @@ export default function appController() {
     const editedTask = storeInput();
     //if editing task to another folder, push it there
     const temp = projects.find((x) => x.name === projectsFormInput.value);
-
-    if (projectsFormInput.value !== project.name) {
-      console.log(temp);
-      taskValidation(temp);
-      if (incorrectInput === true) {
-        return;
-      }
+    console.log(temp);
+    taskValidation(temp);
+    if (incorrectInput === true) {
+      return;
+    }
+    console.log(projectsFormInput.value);
+    console.log(project.name);
+    if (projectsFormInput.value === project.name) {
       temp.getTasks().push(editedTask);
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
-
+    console.log(project.getTasks());
+    console.log(temp);
     resetProjects();
     renderProjects(e);
     updateSelectedProject();
@@ -409,6 +411,8 @@ export default function appController() {
     renderTasks(currProject);
   }
 
+  //Add new project
+  //Move
   addProjectBtn.addEventListener('click', toggleAddProject);
   formStar.addEventListener('click', toggleStar);
   addTaskBtn.addEventListener('click', renderFormView);
