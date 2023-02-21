@@ -154,40 +154,25 @@ export default function appController() {
     }, 100);
   };
   const renderFormView = () => {
-    console.log(currProject);
     resetForm();
-
-    // ADD PREPOPULATED PROJECT FOR DROPDOWN (CURRPROJECT)
     document.querySelector('select').value = currProject.name;
-    // LINK ADDED TASK TO DROPDOWN PROJECTS TASKS
+    document.querySelector('.form-title-header').textContent = 'Add Task';
+    document.querySelector('select').addEventListener('change', (e) => {
+      const project = projects.find((item) => item.name === e.target.value);
+      currProject = project;
+    });
 
     hideTasksRight();
     setTimeout(() => {
       showForm();
-      const options = document.querySelector('select');
-      console.log(options);
-      console.log(options);
-
-      options.addEventListener('change', (e) => {
-        console.log('I was clicked');
-        console.log(e.target.value);
-        const test = projects.find((project) => project.name === e.target.value);
-        console.log(test);
-        // if (!test) {
-        currProject = test;
-        console.log(currProject);
-        // }
-      });
-      const title = document.querySelector('.form-title-header');
-      title.textContent = 'Add Task';
+      titleInput.focus();
     }, 100);
   };
   const renderEditView = (e, project) => {
-    console.log(currProject);
     taskIndex = e.currentTarget.closest('.task').getAttribute('data-id');
     titleInput.value = project.getTasks()[taskIndex].title;
     noteInput.value = project.getTasks()[taskIndex].note;
-    projectsFormInput.value = project.getTasks()[taskIndex].project;
+    document.querySelector('select').value = currProject.name;
     e.stopImmediatePropagation();
     hideTasksRight();
 
@@ -240,6 +225,11 @@ export default function appController() {
   }
   function renderTasks(project) {
     resetTasks();
+    console.log(currProject);
+    if (project.getTasks().length === 0) {
+      console.log('there are no tasks');
+      document.querySelector('.tasks').textContent = 'Add a task to get started';
+    }
     project.getTasks().forEach((task) => {
       createTask(task, project.getTasks());
     });
@@ -299,7 +289,7 @@ export default function appController() {
     const name = document.querySelector('#project-name').value;
     return new Project(name);
   }
-  function checkValidation() {
+  function projectValidation() {
     const name = document.querySelector('#project-name');
     if (name.value === '') {
       console.log('test');
@@ -313,8 +303,24 @@ export default function appController() {
       incorrectInput = true;
     }
   }
+  function taskValidation() {
+    const task = document.querySelector('#task');
+    console.log(task);
+    if (task.value === '') {
+      console.log('test');
+      task.setCustomValidity('Task cannot be empty');
+      task.reportValidity();
+      incorrectInput = true;
+    }
+    console.log(currProject.getTasks());
+    if (currProject.getTasks().find((x) => x.title === task.value)) {
+      task.setCustomValidity('Task already exists');
+      task.reportValidity();
+      incorrectInput = true;
+    }
+  }
   function addProject() {
-    checkValidation();
+    projectValidation();
     if (incorrectInput === true) {
       return;
     }
@@ -332,7 +338,7 @@ export default function appController() {
     }
   }
   function editProject() {
-    checkValidation();
+    projectValidation();
     if (incorrectInput === true) {
       return;
     }
@@ -352,11 +358,15 @@ export default function appController() {
     return new Task(title, note, project, date, isStarred);
   }
   function addTask(e, project) {
-    console.log(currProject);
-    if (!titleInput.checkValidity()) {
-      titleInput.innerHTML = titleInput.validationMessage;
+    taskValidation();
+    if (incorrectInput === true) {
       return;
     }
+    // console.log(currProject);
+    // if (!titleInput.checkValidity()) {
+    //   titleInput.innerHTML = titleInput.validationMessage;
+    //   return;
+    // }
 
     e.preventDefault();
     const newTask = storeInput();
@@ -373,10 +383,14 @@ export default function appController() {
     }
   }
   function editTask(e, project) {
-    if (!titleInput.checkValidity()) {
-      titleInput.innerHTML = titleInput.validationMessage;
+    taskValidation();
+    if (incorrectInput === true) {
       return;
     }
+    // if (!titleInput.checkValidity()) {
+    //   titleInput.innerHTML = titleInput.validationMessage;
+    //   return;
+    // }
 
     e.preventDefault();
     const editedTask = storeInput();
@@ -391,6 +405,7 @@ export default function appController() {
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
+    incorrectInput = false;
     resetProjects();
     renderProjects(e);
     updateSelectedProject();
@@ -402,6 +417,7 @@ export default function appController() {
   formStar.addEventListener('click', toggleStar);
   addTaskBtn.addEventListener('click', renderFormView);
   addBtn.addEventListener('click', (e) => {
+    incorrectInput = false;
     addTask(e, currProject);
   });
   editBtn.addEventListener('click', (e) => {
@@ -416,7 +432,7 @@ export default function appController() {
           console.log('edit ran');
 
           editProject();
-          selected.classList.toggle('edited'); /////////////////
+          selected.classList.toggle('edited');
           selected = '';
         }
       } else {
@@ -440,14 +456,13 @@ export default function appController() {
   });
 
   document.addEventListener('DOMContentLoaded', (e) => {
-    console.log('test');
     const introTask = new Task(
       'Click me for more info',
       'Tasks can be expanded to view more detailed information about them. \nYou can add notes, projects and due dates from the task form pane.',
       'Introduction'
     );
     const introTaskTwo = new Task('Test', 'Test text', 'Tester');
-    const introProject = new Project('Tester');
+    const introProject = new Project('Default');
     currProject = introProject;
     projects.push(introProject);
     introProject.getTasks().push(introTask);
