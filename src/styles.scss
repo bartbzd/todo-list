@@ -123,6 +123,10 @@ header {
       i {
         margin-right: 5px;
       }
+      p {
+        user-select: none;
+        pointer-events: none;
+      }
     }
     .projects-header {
       display: flex;
