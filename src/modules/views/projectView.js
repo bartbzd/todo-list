@@ -22,6 +22,12 @@ export default function createProject(project) {
   trash.classList.add('options', 'delete-p', 'material-symbols-rounded');
   trash.textContent = 'delete';
 
+  const option = () => document.createElement('option');
+  const pick = option();
+  pick.value = project.name;
+  pick.textContent = project.name;
+
+  document.querySelector('select').appendChild(pick);
   document.querySelector('.project-grp').appendChild(wrapper);
   wrapper.append(folder, text, group);
   group.append(edit, trash);
