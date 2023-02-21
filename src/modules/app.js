@@ -19,6 +19,8 @@ export default function appController() {
   const noteInput = document.querySelector('#note');
   const projectsFormInput = document.querySelector('#projects');
   const formStar = document.querySelector('.add-star');
+  const projectGrp = document.querySelector('.project-grp');
+  const input = document.querySelector('#project-name');
   let taskIndex = 0;
   let projectIndex;
   let currProject;
@@ -101,25 +103,28 @@ export default function appController() {
   const toggleStar = () => {
     formStar.classList.toggle('starred');
   };
+
   const toggleAddProject = () => {
-    const form = document.querySelector('#project-form');
-    if (form.hidden === false) {
-      form.hidden = true;
-    } else form.hidden = false;
-    const input = document.querySelector('#project-name');
-    input.focus();
+    console.log(projectForm.hidden);
+    projectForm.hidden = !projectForm.hidden;
+    if (projectForm.hidden === false) {
+      projectGrp.insertBefore(projectForm, projectGrp.firstChild);
+      input.focus();
+    }
   };
   function toggleEditProject(e) {
     console.log(currProject);
-    const form = document.querySelector('#project-form');
-    form.hidden = false ? true : false;
-    const input = document.querySelector('#project-name');
-    input.focus();
-    projectIndex = e.target.closest('.project').getAttribute('data-id');
-    input.value = projects[projectIndex].name;
-    selected = e.target.closest('.project');
-    selected.classList.toggle('edited');
-    selected.style.display = 'none';
+    projectForm.hidden = !projectForm.hidden;
+
+    if (projectForm.hidden === false) {
+      projectGrp.insertBefore(projectForm, projectGrp.firstChild);
+      input.focus();
+      projectIndex = e.target.closest('.project').getAttribute('data-id');
+      input.value = projects[projectIndex].name;
+      selected = e.target.closest('.project');
+      selected.classList.toggle('edited');
+      selected.style.display = 'none';
+    }
   }
   // resets
   function resetProjects() {
@@ -225,9 +230,7 @@ export default function appController() {
   }
   function renderTasks(project) {
     resetTasks();
-    console.log(currProject);
     if (project.getTasks().length === 0) {
-      console.log('there are no tasks');
       document.querySelector('.tasks').textContent = 'Add a task to get started';
     }
     project.getTasks().forEach((task) => {
@@ -255,7 +258,7 @@ export default function appController() {
       wrapper.addEventListener('click', (e) => {
         projectWrapper.forEach((project) => {
           project.style.backgroundColor = '';
-          e.target.style.backgroundColor = '#24222d';
+          e.currentTarget.closest('.project').style.backgroundColor = '#24222d';
         });
         folders.forEach((folder) => {
           folder.className = 'folder material-symbols-outlined';
@@ -345,7 +348,7 @@ export default function appController() {
     const name = document.querySelector('#project-name');
     projects[projectIndex].name = name.value;
     resetForm();
-    toggleAddProject();
+    toggleEditProject();
     renderProjects();
   }
   function storeInput() {
@@ -437,7 +440,6 @@ export default function appController() {
         }
       } else {
         addProject();
-
         console.log('add ran');
       }
       incorrectInput = false;
