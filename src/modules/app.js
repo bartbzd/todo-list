@@ -306,7 +306,7 @@ export default function appController() {
       incorrectInput = true;
     }
   }
-  function taskValidation() {
+  function taskValidation(project) {
     const task = document.querySelector('#task');
     console.log(task);
     if (task.value === '') {
@@ -315,8 +315,8 @@ export default function appController() {
       task.reportValidity();
       incorrectInput = true;
     }
-    console.log(currProject.getTasks());
-    if (currProject.getTasks().find((x) => x.title === task.value)) {
+
+    if (project.getTasks().find((x) => x.title === task.value)) {
       task.setCustomValidity('Task already exists');
       task.reportValidity();
       incorrectInput = true;
@@ -331,7 +331,7 @@ export default function appController() {
     const newProject = storeProject();
     const existingProject = projects.find((project) => project.name === newProject.name);
     if (!existingProject) {
-      projects.push(newProject);
+      projects.unshift(newProject);
       currProject = newProject;
       resetForm();
     }
@@ -361,7 +361,7 @@ export default function appController() {
     return new Task(title, note, project, date, isStarred);
   }
   function addTask(e, project) {
-    taskValidation();
+    taskValidation(currProject);
     if (incorrectInput === true) {
       return;
     }
@@ -386,15 +386,6 @@ export default function appController() {
     }
   }
   function editTask(e, project) {
-    taskValidation();
-    if (incorrectInput === true) {
-      return;
-    }
-    // if (!titleInput.checkValidity()) {
-    //   titleInput.innerHTML = titleInput.validationMessage;
-    //   return;
-    // }
-
     e.preventDefault();
     const editedTask = storeInput();
     // const existingTask = project
@@ -402,13 +393,27 @@ export default function appController() {
     //   .find((task) => task.title === editedTask.title);
 
     //if editing task to another folder, push it there
+    const temp = projects.find((x) => x.name === projectsFormInput.value);
+
+    console.log(incorrectInput);
+
     if (projectsFormInput.value !== project.name) {
-      const temp = projects.find((x) => x.name === projectsFormInput.value);
+      console.log(temp);
+      taskValidation(temp);
+      if (incorrectInput === true) {
+        return;
+      }
       temp.getTasks().push(editedTask);
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
-    incorrectInput = false;
+    // taskValidation();
+    // if (incorrectInput === true) {
+    //   return;
+    // }
+
+    // incorrectInput = false;
+
     resetProjects();
     renderProjects(e);
     updateSelectedProject();
@@ -424,13 +429,14 @@ export default function appController() {
     addTask(e, currProject);
   });
   editBtn.addEventListener('click', (e) => {
+    incorrectInput = false;
     editTask(e, currProject);
   });
 
   projectForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (selected !== '' && incorrectInput === false) {
+      if (selected !== '') {
         if (selected.classList.contains('edited')) {
           console.log('edit ran');
 
