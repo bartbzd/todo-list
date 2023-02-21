@@ -183,6 +183,7 @@ export default function appController() {
 
     setTimeout(() => {
       showForm();
+      titleInput.focus();
       toggleBtn();
     }, 100);
   };
@@ -388,14 +389,8 @@ export default function appController() {
   function editTask(e, project) {
     e.preventDefault();
     const editedTask = storeInput();
-    // const existingTask = project
-    //   .getTasks()
-    //   .find((task) => task.title === editedTask.title);
-
     //if editing task to another folder, push it there
     const temp = projects.find((x) => x.name === projectsFormInput.value);
-
-    console.log(incorrectInput);
 
     if (projectsFormInput.value !== project.name) {
       console.log(temp);
@@ -406,13 +401,6 @@ export default function appController() {
       temp.getTasks().push(editedTask);
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
-
-    // taskValidation();
-    // if (incorrectInput === true) {
-    //   return;
-    // }
-
-    // incorrectInput = false;
 
     resetProjects();
     renderProjects(e);
