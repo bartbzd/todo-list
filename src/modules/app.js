@@ -106,6 +106,8 @@ export default function appController() {
 
   const toggleAddProject = () => {
     console.log(projectForm.hidden);
+    addProjectBtn.classList.toggle('plus');
+    addProjectBtn.classList.toggle('rotated');
     projectForm.hidden = !projectForm.hidden;
     if (projectForm.hidden === false) {
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
@@ -390,20 +392,23 @@ export default function appController() {
     e.preventDefault();
     const editedTask = storeInput();
     //if editing task to another folder, push it there
+    // console.log('edit task ran');
+    // console.log(projects);
     const temp = projects.find((x) => x.name === projectsFormInput.value);
-    console.log(temp);
+    // console.log(temp);
     taskValidation(temp);
     if (incorrectInput === true) {
       return;
     }
-    console.log(projectsFormInput.value);
-    console.log(project.name);
-    if (projectsFormInput.value === project.name) {
+    // console.log(projectsFormInput.value);
+    // console.log(project.name);
+    if (projectsFormInput.value !== project.name) {
       temp.getTasks().push(editedTask);
       currProject = temp;
+      // console.log(currProject);
     } else project.getTasks().splice(taskIndex, 1, editedTask);
-    console.log(project.getTasks());
-    console.log(temp);
+    // console.log(project.getTasks());
+    // console.log(temp);
     resetProjects();
     renderProjects(e);
     updateSelectedProject();
@@ -411,8 +416,6 @@ export default function appController() {
     renderTasks(currProject);
   }
 
-  //Add new project
-  //Move
   addProjectBtn.addEventListener('click', toggleAddProject);
   formStar.addEventListener('click', toggleStar);
   addTaskBtn.addEventListener('click', renderFormView);
@@ -468,6 +471,7 @@ export default function appController() {
     introProject.getTasks().push(introTask);
     introProject.getTasks().push(introTaskTwo);
     renderProjects(e);
+    resetTasks();
     renderTasks(currProject);
     renderTasksView(e);
 

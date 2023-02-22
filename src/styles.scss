@@ -116,8 +116,6 @@ header {
     width: 300px;
     display: flex;
     flex-direction: column;
-    // justify-content: space-between;
-    // margin-right: 30px;
     .filters {
       margin-bottom: 40px;
     }
@@ -140,10 +138,20 @@ header {
     .projects-header {
       display: flex;
       justify-content: space-between;
+
       i {
         height: 24px;
         line-height: 24px;
         font-size: 24px;
+        transition: 0.2s;
+      }
+
+      .plus:hover {
+        color: $primary;
+        transform: scale(1.1);
+      }
+      .rotated {
+        transform: rotate(45deg);
       }
     }
     .projects {
@@ -206,7 +214,6 @@ header {
       }
     }
   }
-
   .task,
   p {
     display: flex;
