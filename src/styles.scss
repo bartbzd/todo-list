@@ -16,8 +16,8 @@ $card-4: #24222d;
 }
 body {
   background-color: $bg-color;
-  //   background-color: #151319;
-  //   background-color: #1a181d;
+  // background-color: #151319;
+  // background-color: #1a181d;
   h2 {
     color: $dk-text;
     font-size: 20px;
@@ -76,12 +76,12 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 5vw;
+  padding: 0 8vw;
   h1 {
     color: $dk-text;
     // padding-left: 5vw;
     font-size: 48px;
-    width: 250px;
+    width: 400px;
   }
   span {
     color: $primary;
@@ -98,69 +98,88 @@ header {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
-  padding: 0 5vw;
+  gap: 24px;
+  padding: 0 8vw;
   .sidebar,
   .content {
     background-color: $card-2;
-    border-radius: 20px;
-    padding: 25px;
-    height: 60vh;
+    border-radius: 24px;
+    padding: 24px;
+    height: 55vh;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   }
   .section-header {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
   }
   .sidebar {
     background-color: $card-2;
-    width: 250px;
+    width: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    margin-right: 30px;
+    // justify-content: space-between;
+    // margin-right: 30px;
+    .filters {
+      margin-bottom: 40px;
+    }
     .filter,
     .project {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       i {
-        margin-right: 5px;
+        margin-right: 8px;
       }
+
       p {
         user-select: none;
         pointer-events: none;
-      }
-    }
-    .projects-header {
-      display: flex;
-      justify-content: space-between;
-      i {
-        height: 25px;
-        line-height: 25px;
-        font-size: 20px;
       }
     }
     .filter,
     .project-name {
       font-size: 14px;
     }
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      i {
+        height: 24px;
+        line-height: 24px;
+        font-size: 24px;
+      }
+    }
+    .projects {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .project-grp {
+      overflow: scroll;
+      margin-bottom: 16px;
+    }
     .project {
       display: flex;
-      height: 35px;
-      padding: 6px;
+      height: 32px;
+      padding: 8px;
       border-radius: 8px;
       align-items: center;
-
+      .folder {
+        user-select: none;
+        pointer-events: none;
+      }
       .project-btn-grp {
         margin-left: auto;
         display: flex;
+        user-select: none;
         i {
           font-size: 16px;
         }
         .options {
           opacity: 0;
         }
-        .edit {
-          margin-right: 5px;
+        .edit-p {
+          margin-right: 8px;
         }
-        .delete {
+        .delete-p {
           margin-right: 0px;
         }
       }
@@ -175,23 +194,25 @@ header {
     }
     #project-name {
       width: 100%;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .github {
       height: 24px;
       display: flex;
       justify-content: center;
+      margin-top: auto;
       .fa-github {
         font-size: 25px;
       }
     }
   }
+
   .task,
   p {
     display: flex;
   }
   .content {
-    width: 600px;
+    width: 700px;
     overflow-x: hidden;
     .t-wrapper,
     .f-wrapper,
@@ -206,29 +227,28 @@ header {
         z-index: 0;
         border-radius: 10px;
         height: 35px;
-        padding: 5px 15px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         display: flex;
+        padding-right: 12px;
         background-color: $card-4;
+        // box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 3px, rgba(0, 0, 0, 0.22) 0px 2px 2px;
         transition: 0.2s;
         .hide-check {
           display: none;
         }
         .checkmark {
           margin: auto 0;
+          padding: 0 14px;
         }
         p {
-          height: 25px;
+          height: 35px;
           border: none;
-          border-radius: 10px;
-          line-height: 25px;
+          line-height: 35px;
           font-size: 14px;
           font-weight: 300;
-          padding-left: 10px;
-          outline-width: 0;
           user-select: none;
           pointer-events: none;
-          background-color: $card-4;
+          // background-color: $card-4;
           color: $dk-text;
         }
         & input[type='checkbox'] {
@@ -238,6 +258,7 @@ header {
           margin-left: auto;
         }
         &:hover {
+          background-color: #353240;
           .actions {
             .options {
               opacity: 1;
@@ -333,31 +354,40 @@ header {
         display: flex;
         flex-direction: column;
         width: 100%;
-        h2 {
-          margin-bottom: 20px;
-        }
-        // q {}
         .expand-header {
           display: flex;
           justify-content: space-between;
+          margin-bottom: 16px;
           p {
-            margin-bottom: 20px;
+            font-size: 16px;
           }
           .fa-star {
             font-size: 22px;
           }
         }
-        .form-header {
-          margin: 30px 0;
+        #open-title {
+          // margin-bottom: 16px;
+          padding: 8px 0 0 16px;
+        }
+        .note-wrapper {
+          margin: 16px 16px 0 16px;
+          padding: 24px;
+          background-color: $card-4;
+          border-radius: 16px;
+          box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 3px, rgba(0, 0, 0, 0.22) 0px 2px 2px;
+        }
+        #open-note {
+          font-size: 16px;
+          line-height: 1.5;
+          height: 20vh;
+          overflow: scroll;
         }
         .extras-wrapper {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 10px;
+          margin-top: auto;
+          padding: 16px;
         }
         .extras {
-          width: 45%;
+          width: 100%;
         }
         .btn-group {
           margin-top: auto;
@@ -374,7 +404,7 @@ header {
       margin-top: auto;
       width: 130px;
       height: 40px;
-      border-radius: 30px;
+      border-radius: 24px;
       border: none;
       margin-left: auto;
       font-size: 16px;
