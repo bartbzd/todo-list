@@ -467,11 +467,15 @@ export default function appController() {
 
   document.addEventListener('DOMContentLoaded', (e) => {
     const introTask = new Task(
-      'Click me for more info',
-      ' - Tasks can be expanded to view more detailed information about them here! \n\n - You can add notes, projects and due dates from the task form pane.',
+      'Click me to learn more!',
+      ' - Tasks can be expanded to view more detailed information about them. \n\n - Add notes, due dates and favorite status from the task form pane. \n\n - Thank you for checking out my project!',
       'Introduction'
     );
-    const introTaskTwo = new Task('Test', 'Test text', 'Tester');
+    const introTaskTwo = new Task(
+      'Sidebar Info',
+      ' - Tasks can be filtered by All, Today or Week. \n\n - Add new projects by pressing the (+) button. \n\n - Hover over existing projects to edit or delete them.',
+      'Tester'
+    );
     const introProject = new Project('Default');
     currProject = introProject;
     projects.push(introProject);
