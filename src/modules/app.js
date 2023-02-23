@@ -156,8 +156,8 @@ export default function appController() {
     hideTasksLeft();
 
     setTimeout(() => {
-      updateOpenTask(e);
       openTask();
+      updateOpenTask(e);
     }, 100);
   };
   const renderFormView = () => {
@@ -295,20 +295,6 @@ export default function appController() {
     const name = document.querySelector('#project-name').value;
     return new Project(name);
   }
-  function projectValidation() {
-    const name = document.querySelector('#project-name');
-    if (name.value === '') {
-      console.log('test');
-      name.setCustomValidity('Project cannot be empty');
-      name.reportValidity();
-      incorrectInput = true;
-    }
-    if (projects.find((project) => project.name === name.value)) {
-      name.setCustomValidity('Project exists');
-      name.reportValidity();
-      incorrectInput = true;
-    }
-  }
   function taskValidation(project) {
     const task = document.querySelector('#task');
     console.log(task);
@@ -325,6 +311,21 @@ export default function appController() {
       incorrectInput = true;
     }
   }
+  function projectValidation() {
+    const name = document.querySelector('#project-name');
+    if (name.value === '') {
+      console.log('test');
+      name.setCustomValidity('Project cannot be empty');
+      name.reportValidity();
+      incorrectInput = true;
+    }
+    if (projects.find((project) => project.name === name.value)) {
+      name.setCustomValidity('Project exists');
+      name.reportValidity();
+      incorrectInput = true;
+    }
+  }
+
   function addProject() {
     projectValidation();
     if (incorrectInput === true) {
@@ -396,7 +397,13 @@ export default function appController() {
     // console.log(projects);
     const temp = projects.find((x) => x.name === projectsFormInput.value);
     // console.log(temp);
-    taskValidation(temp);
+    const task = document.querySelector('#task');
+    if (task.value === '') {
+      console.log('test');
+      task.setCustomValidity('Task cannot be empty');
+      task.reportValidity();
+      incorrectInput = true;
+    }
     if (incorrectInput === true) {
       return;
     }
@@ -453,7 +460,7 @@ export default function appController() {
     e.preventDefault();
   });
   taskForm.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
     }
   });
@@ -461,7 +468,7 @@ export default function appController() {
   document.addEventListener('DOMContentLoaded', (e) => {
     const introTask = new Task(
       'Click me for more info',
-      'Tasks can be expanded to view more detailed information about them. \nYou can add notes, projects and due dates from the task form pane.',
+      ' - Tasks can be expanded to view more detailed information about them here! \n\n - You can add notes, projects and due dates from the task form pane.',
       'Introduction'
     );
     const introTaskTwo = new Task('Test', 'Test text', 'Tester');
@@ -475,9 +482,7 @@ export default function appController() {
     renderTasks(currProject);
     renderTasksView(e);
 
-    const initProject = document.querySelector('.project');
-    initProject.style.backgroundColor = '#24222d';
-    const folder = document.querySelector('.folder');
-    folder.className = 'folder material-symbols-rounded';
+    document.querySelector('.project').style.backgroundColor = '#24222d';
+    document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
