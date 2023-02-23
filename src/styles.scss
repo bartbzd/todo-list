@@ -1,7 +1,7 @@
 $bg-color: #100f14;
 $primary: #e87070;
 $dk-text: #d2d8f7;
-$dk-subtext: #d2d8f7c6;
+$dk-subtext: #d2d8f7a6;
 $card-1: #1a181d;
 $card-2: #141319;
 $card-3: #23212b;
@@ -13,15 +13,28 @@ $card-4: #24222d;
   box-sizing: border-box;
   font-family: 'Lexend Deca', sans-serif;
   font-weight: 400;
+  // border: 1px solid red;
 }
 body {
   background-color: $bg-color;
   // background-color: #151319;
   // background-color: #1a181d;
-  h2 {
+  h2,
+  h3 {
     color: $dk-text;
+  }
+  h2 {
     font-size: 20px;
   }
+  h3 {
+    font-size: 16px;
+    color: $dk-subtext;
+    display: flex;
+    align-items: end;
+    // line-height: 25px;
+    height: 25px;
+  }
+
   p,
   span,
   i,
@@ -81,7 +94,7 @@ header {
     color: $dk-text;
     // padding-left: 5vw;
     font-size: 48px;
-    width: 400px;
+    width: 300px;
   }
   span {
     color: $primary;
@@ -186,9 +199,15 @@ header {
         }
         .edit-p {
           margin-right: 8px;
+          &:hover {
+            color: $primary;
+          }
         }
         .delete-p {
           margin-right: 0px;
+          &:hover {
+            color: $primary;
+          }
         }
       }
       &:hover {
@@ -202,6 +221,7 @@ header {
     }
     #project-name {
       width: 100%;
+      height: 32px;
       margin-bottom: 8px;
     }
     .github {
@@ -219,7 +239,7 @@ header {
     display: flex;
   }
   .content {
-    width: 700px;
+    width: 600px;
     overflow-x: hidden;
     .t-wrapper,
     .f-wrapper,
@@ -361,10 +381,11 @@ header {
         display: flex;
         flex-direction: column;
         width: 100%;
+        user-select: none;
         .expand-header {
           display: flex;
           justify-content: space-between;
-          margin-bottom: 16px;
+          margin-bottom: 24px;
           p {
             font-size: 16px;
           }
@@ -373,29 +394,44 @@ header {
           }
         }
         #open-title {
-          // margin-bottom: 16px;
+          // font-size: 24px;
           padding: 8px 0 0 16px;
         }
         .note-wrapper {
           margin: 16px 16px 0 16px;
-          padding: 24px;
-          background-color: $card-4;
+          // padding: 16px;
+          // background-color: $card-4;
           border-radius: 16px;
-          box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 3px, rgba(0, 0, 0, 0.22) 0px 2px 2px;
+          // box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 3px, rgba(0, 0, 0, 0.22) 0px 2px 2px;
+        }
+        hr {
+          height: 2px;
+          background-color: #d2d8f799;
+          border: none;
+          // margin-bottom: 24px;
         }
         #open-note {
+          margin-top: 24px;
+          display: block;
           font-size: 16px;
-          line-height: 1.5;
+          white-space: pre-line;
+          // line-height: 1.5;
           height: 20vh;
           overflow: scroll;
         }
+        .bot-hr {
+          margin-top: 16px;
+          width: 88px;
+        }
         .extras-wrapper {
-          margin-top: auto;
-          padding: 16px;
+          margin-top: 16px;
+          padding: 0 16px 8px 16px;
+          // display: flex;
+          // justify-content: flex-end;
         }
-        .extras {
-          width: 100%;
-        }
+        // .extras {
+        //   width: 100%;
+        // }
         .btn-group {
           margin-top: auto;
           .back-btn {
@@ -403,6 +439,7 @@ header {
             border: none;
             color: $dk-text;
             font-size: 30px;
+            // padding: 0 0 8px 8px;
           }
         }
       }
