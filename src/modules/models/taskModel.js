@@ -1,5 +1,3 @@
-export const tasks = [];
-
 export default class Task {
   constructor(title, note, project, date, isStarred = false) {
     this.title = title;
