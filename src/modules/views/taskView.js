@@ -23,10 +23,11 @@ export default function createTask(task, project) {
   edit.textContent = 'edit';
   trash.classList.add('options', 'material-symbols-rounded');
   trash.textContent = 'delete';
-  star.classList.add('fa-solid', 'fa-star');
+  star.classList.add('fa-regular', 'fa-star');
 
-  document.querySelector('.tasks').append(taskWrapper);
   taskWrapper.append(checkWrapper, title, actions);
   checkWrapper.append(input, checkmark);
   actions.append(edit, trash, star);
+
+  return taskWrapper;
 }
