@@ -250,6 +250,14 @@ header {
     .t-wrapper {
       display: flex;
       flex-direction: column;
+      .no-tasks {
+        color: $dk-subtext;
+        display: flex;
+        justify-content: center;
+        margin-top: 16px;
+        font-size: 20px;
+        user-select: none;
+      }
       .task {
         z-index: 0;
         border-radius: 10px;
