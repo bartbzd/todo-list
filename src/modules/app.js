@@ -102,6 +102,8 @@ export default function appController() {
   };
   const toggleStar = () => {
     formStar.classList.toggle('starred');
+    formStar.classList.toggle('fa-regular');
+    formStar.classList.toggle('fa-solid');
   };
 
   const toggleAddProject = () => {
@@ -128,7 +130,11 @@ export default function appController() {
       selected.style.display = 'none';
     }
   }
+
   // resets
+  function resetStar() {
+    document.querySelector('.add-star').className = 'add-star fa-regular fa-star';
+  }
   function resetProjects() {
     document.querySelector('.project-grp').innerHTML = '';
     document.querySelector('select').innerHTML = '';
@@ -152,6 +158,18 @@ export default function appController() {
     title.textContent = currProject.tasks[id].title;
     note.textContent = currProject.tasks[id].note;
   };
+  function updateSelectedProject() {
+    const projectsList = document.querySelectorAll('.project');
+    projectsList.forEach((project) => {
+      const i = project.querySelector('i');
+      const p = project.querySelector('p');
+      if (p.textContent === currProject.name) {
+        p.closest('.project').style.backgroundColor = '#24222d';
+        i.closest('.folder').className = 'folder material-symbols-rounded';
+      }
+    });
+  }
+
   const renderTasksOpenView = (e) => {
     hideTasksLeft();
 
@@ -162,6 +180,7 @@ export default function appController() {
   };
   const renderFormView = () => {
     resetForm();
+    resetStar();
     document.querySelector('select').value = currProject.name;
     document.querySelector('.form-title-header').textContent = 'Add Task';
     document.querySelector('select').addEventListener('change', (e) => {
@@ -180,6 +199,14 @@ export default function appController() {
     titleInput.value = project.getTasks()[taskIndex].title;
     noteInput.value = project.getTasks()[taskIndex].note;
     document.querySelector('select').value = currProject.name;
+
+    console.log(project.getTasks()[taskIndex].getIsStarred());
+    if (project.getTasks()[taskIndex].getIsStarred()) {
+      formStar.classList.add('starred');
+      formStar.classList.remove('fa-regular');
+      formStar.classList.add('fa-solid');
+      // console.log('test');
+    }
     e.stopImmediatePropagation();
     hideTasksRight();
 
@@ -212,7 +239,7 @@ export default function appController() {
 
   function addTaskHandlers() {
     const taskWrapper = document.querySelectorAll('.task');
-    const checkmarks = document.querySelectorAll('.fa-regular');
+    const checkmarks = document.querySelectorAll('.fa-circle');
     const editBtns = document.querySelectorAll('.edit');
     const backBtn = document.querySelectorAll('.back-btn');
 
@@ -237,24 +264,19 @@ export default function appController() {
       document.querySelector('.tasks').appendChild(document.createElement('p'));
       document.querySelector('.tasks p').textContent = 'No tasks found';
       document.querySelector('.tasks p').className = 'no-tasks';
-      // document.querySelector('.tasks p').style.width = '100%';
     }
+
     project.getTasks().forEach((task) => {
-      createTask(task, project.getTasks());
+      const taskWrapper = createTask(task, project.getTasks());
+      document.querySelector('.tasks').append(taskWrapper);
+
+      if (task.getIsStarred()) {
+        taskWrapper.querySelector('.fa-star').classList.replace('fa-regular', 'fa-solid');
+      }
     });
     addTaskHandlers();
   }
-  function updateSelectedProject() {
-    const projectsList = document.querySelectorAll('.project');
-    projectsList.forEach((project) => {
-      const i = project.querySelector('i');
-      const p = project.querySelector('p');
-      if (p.textContent === currProject.name) {
-        p.closest('.project').style.backgroundColor = '#24222d';
-        i.closest('.folder').className = 'folder material-symbols-rounded';
-      }
-    });
-  }
+
   function addProjectHandlers() {
     const projectWrapper = document.querySelectorAll('.project');
     const folders = document.querySelectorAll('.folder');
@@ -294,27 +316,6 @@ export default function appController() {
     addProjectHandlers();
   }
 
-  function storeProject() {
-    const name = document.querySelector('#project-name').value;
-    return new Project(name);
-  }
-  function isTaskValid() {
-    const task = document.querySelector('#task');
-    console.log(task);
-    if (!task.value) {
-      console.log('test');
-      task.setCustomValidity('Task cannot be empty');
-      task.reportValidity();
-      return false;
-    }
-
-    if (currProject.getTasks().find((x) => x.title === task.value)) {
-      task.setCustomValidity('Task already exists');
-      task.reportValidity();
-      return false;
-    }
-    return true;
-  }
   function isProjectValid() {
     const name = document.querySelector('#project-name');
     if (!name.value) {
@@ -330,7 +331,28 @@ export default function appController() {
     }
     return true;
   }
+  function isTaskValid(project) {
+    const task = document.querySelector('#task');
+    console.log(task);
+    if (!task.value) {
+      console.log('test');
+      task.setCustomValidity('Task cannot be empty');
+      task.reportValidity();
+      return false;
+    }
 
+    if (project.getTasks().find((x) => x.title === task.value)) {
+      task.setCustomValidity('Task already exists');
+      task.reportValidity();
+      return false;
+    }
+    return true;
+  }
+
+  function storeProject() {
+    const name = document.querySelector('#project-name').value;
+    return new Project(name);
+  }
   function addProject() {
     if (!isProjectValid()) return;
 
@@ -361,7 +383,8 @@ export default function appController() {
     toggleEditProject();
     renderProjects();
   }
-  function storeInput() {
+
+  function storeTask() {
     const title = document.querySelector('#task').value;
     const note = document.querySelector('#note').value;
     const project = document.querySelector('#projects').value;
@@ -371,15 +394,14 @@ export default function appController() {
     return new Task(title, note, project, date, isStarred);
   }
   function addTask(e, project) {
-    if (!isTaskValid()) {
-      return;
-    }
+    if (!isTaskValid(currProject)) return;
 
     e.preventDefault();
-    const newTask = storeInput();
+    const newTask = storeTask();
     const existingTask = project.getTasks().find((task) => task.title === newTask.title);
     if (!existingTask) {
       project.getTasks().push(newTask);
+      console.log(newTask);
       resetProjects();
       renderProjects(e);
       updateSelectedProject();
@@ -390,7 +412,8 @@ export default function appController() {
   }
   function editTask(e, project) {
     e.preventDefault();
-    const editedTask = storeInput();
+
+    const editedTask = storeTask();
     //if editing task to another folder, push it there
     // console.log('edit task ran');
     // console.log(projects);
@@ -407,6 +430,7 @@ export default function appController() {
     // console.log(projectsFormInput.value);
     // console.log(project.name);
     if (projectsFormInput.value !== project.name) {
+      if (!isTaskValid(temp)) return;
       temp.getTasks().push(editedTask);
       currProject = temp;
       // console.log(currProject);
@@ -418,6 +442,8 @@ export default function appController() {
     updateSelectedProject();
     renderTasksView(e);
     renderTasks(currProject);
+    // formStar.classList.toggle('starred');
+    // toggleStar();
   }
 
   addProjectBtn.addEventListener('click', toggleAddProject);
@@ -466,12 +492,16 @@ export default function appController() {
     const introTask = new Task(
       'Click me to learn more!',
       ' - Tasks can be expanded to view more detailed information about them. \n\n - Add notes, due dates and favorite status from the task form pane. \n\n - Thank you for checking out my project!',
-      'Introduction'
+      'Default',
+      '',
+      'true'
     );
     const introTaskTwo = new Task(
       'Sidebar Info',
       ' - Tasks can be filtered by All, Today or Week. \n\n - Add new projects by pressing the (+) button. \n\n - Hover over existing projects to edit or delete them.',
-      'Tester'
+      'Default',
+      '',
+      'true'
     );
     const introProject = new Project('Default');
     currProject = introProject;
@@ -482,7 +512,7 @@ export default function appController() {
     resetTasks();
     renderTasks(currProject);
     renderTasksView(e);
-
+    console.log(projects);
     document.querySelector('.project').style.backgroundColor = '#24222d';
     document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
