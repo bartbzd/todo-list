@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
-import Task, { tasks } from './models/taskModel';
+import Task from './models/taskModel';
 import Project, { projects } from './models/projectModel';
 import createTask from './views/taskView';
 import createProject from './views/projectView';
@@ -25,7 +25,7 @@ export default function appController() {
   let projectIndex;
   let currProject;
   let selected = '';
-  let incorrectInput = false;
+  // let incorrectInput = false;
 
   // animations
   const showForm = () => {
@@ -71,7 +71,7 @@ export default function appController() {
     }, 100);
   };
   const openTask = () => {
-    console.log(tasks);
+    // console.log(tasks);
     openWrapper.style.display = 'flex';
     openWrapper.style.animation = 'ease-out taskRight reverse 0.1s';
 
@@ -234,7 +234,10 @@ export default function appController() {
   function renderTasks(project) {
     resetTasks();
     if (project.getTasks().length === 0) {
-      document.querySelector('.tasks').textContent = 'Add a task to get started';
+      document.querySelector('.tasks').appendChild(document.createElement('p'));
+      document.querySelector('.tasks p').textContent = 'No tasks found';
+      document.querySelector('.tasks p').className = 'no-tasks';
+      // document.querySelector('.tasks p').style.width = '100%';
     }
     project.getTasks().forEach((task) => {
       createTask(task, project.getTasks());
@@ -295,42 +298,41 @@ export default function appController() {
     const name = document.querySelector('#project-name').value;
     return new Project(name);
   }
-  function taskValidation(project) {
+  function isTaskValid() {
     const task = document.querySelector('#task');
     console.log(task);
-    if (task.value === '') {
+    if (!task.value) {
       console.log('test');
       task.setCustomValidity('Task cannot be empty');
       task.reportValidity();
-      incorrectInput = true;
+      return false;
     }
 
-    if (project.getTasks().find((x) => x.title === task.value)) {
+    if (currProject.getTasks().find((x) => x.title === task.value)) {
       task.setCustomValidity('Task already exists');
       task.reportValidity();
-      incorrectInput = true;
+      return false;
     }
+    return true;
   }
-  function projectValidation() {
+  function isProjectValid() {
     const name = document.querySelector('#project-name');
-    if (name.value === '') {
+    if (!name.value) {
       console.log('test');
       name.setCustomValidity('Project cannot be empty');
       name.reportValidity();
-      incorrectInput = true;
+      return false;
     }
     if (projects.find((project) => project.name === name.value)) {
       name.setCustomValidity('Project exists');
       name.reportValidity();
-      incorrectInput = true;
+      return false;
     }
+    return true;
   }
 
   function addProject() {
-    projectValidation();
-    if (incorrectInput === true) {
-      return;
-    }
+    if (!isProjectValid()) return;
 
     const newProject = storeProject();
     const existingProject = projects.find((project) => project.name === newProject.name);
@@ -339,17 +341,21 @@ export default function appController() {
       currProject = newProject;
       resetForm();
     }
-    if (incorrectInput === false) {
-      renderProjects();
-      toggleAddProject();
-    }
+    renderProjects();
+    toggleAddProject();
+    // if (incorrectInput === false) {
+
+    // }
   }
   function editProject() {
-    projectValidation();
-    if (incorrectInput === true) {
+    const name = document.querySelector('#project-name');
+    if (!name.value) {
+      console.log('test');
+      name.setCustomValidity('Task cannot be empty');
+      name.reportValidity();
       return;
     }
-    const name = document.querySelector('#project-name');
+
     projects[projectIndex].name = name.value;
     resetForm();
     toggleEditProject();
@@ -365,15 +371,9 @@ export default function appController() {
     return new Task(title, note, project, date, isStarred);
   }
   function addTask(e, project) {
-    taskValidation(currProject);
-    if (incorrectInput === true) {
+    if (!isTaskValid()) {
       return;
     }
-    // console.log(currProject);
-    // if (!titleInput.checkValidity()) {
-    //   titleInput.innerHTML = titleInput.validationMessage;
-    //   return;
-    // }
 
     e.preventDefault();
     const newTask = storeInput();
@@ -385,7 +385,6 @@ export default function appController() {
       updateSelectedProject();
       renderTasksView(e);
       renderTasks(currProject);
-      // console.log(project.getTasks());
       resetForm();
     }
   }
@@ -395,18 +394,16 @@ export default function appController() {
     //if editing task to another folder, push it there
     // console.log('edit task ran');
     // console.log(projects);
-    const temp = projects.find((x) => x.name === projectsFormInput.value);
+    const temp = projects.find(({ name }) => name === projectsFormInput.value);
     // console.log(temp);
     const task = document.querySelector('#task');
-    if (task.value === '') {
+    if (!task.value) {
       console.log('test');
       task.setCustomValidity('Task cannot be empty');
       task.reportValidity();
-      incorrectInput = true;
-    }
-    if (incorrectInput === true) {
       return;
     }
+
     // console.log(projectsFormInput.value);
     // console.log(project.name);
     if (projectsFormInput.value !== project.name) {
@@ -427,18 +424,18 @@ export default function appController() {
   formStar.addEventListener('click', toggleStar);
   addTaskBtn.addEventListener('click', renderFormView);
   addBtn.addEventListener('click', (e) => {
-    incorrectInput = false;
+    // incorrectInput = false;
     addTask(e, currProject);
   });
   editBtn.addEventListener('click', (e) => {
-    incorrectInput = false;
+    // incorrectInput = false;
     editTask(e, currProject);
   });
 
   projectForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (selected !== '') {
+      if (selected !== '' && isProjectValid()) {
         if (selected.classList.contains('edited')) {
           console.log('edit ran');
 
@@ -450,7 +447,7 @@ export default function appController() {
         addProject();
         console.log('add ran');
       }
-      incorrectInput = false;
+      // incorrectInput = false;
       updateSelectedProject();
       renderTasksView(e);
       renderTasks(currProject);
