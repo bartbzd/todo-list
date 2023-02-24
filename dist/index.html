@@ -119,7 +119,7 @@
                         <label for="task">
                             <h2 class="section-header form-title-header">Add Task</h2>
                         </label>
-                        <input type="text" id="task" required>
+                        <input type="text" id="task" required autocomplete="off">
 
                         <label for="note">
                             <h2 class="section-header form-header">Note</h2>
@@ -146,7 +146,7 @@
                                 <input type="date" id="date">
 
                             </div>
-                            <i class="add-star fa-solid fa-star"></i>
+                            <i class="add-star fa-regular fa-star"></i>
                         </div>
                         <div class="btn-group">
                             <button class="back-btn fa-sharp fa-solid fa-chevron-left"> </button>
@@ -189,55 +189,6 @@
 
 
                     </div>
-
-                </div>
-
-                <div class="e-wrapper">
-                    <form class="task-form">
-
-                        <label for="task">
-                            <h2 class="section-header">Edit Task</h2>
-                        </label>
-                        <input type="text" id="task" class="task">
-
-                        <label for="note">
-                            <h2 class="section-header form-header">Note</h2>
-                        </label>
-                        <textarea id="note" class="note" placeholder="type here..."></textarea>
-                        <div class="extras-wrapper">
-                            <div class="extras">
-                                <label for="projects">
-                                    <h2 class="section-header form-header">Project</h2>
-                                </label>
-                                <select name="projects" id="projects">
-                                    <option value="Default">Workout</option>
-                                </select>
-                            </div>
-
-
-
-                            <div class="extras">
-                                <label for="date">
-                                    <h2 class="section-header form-header">Date</h2>
-                                </label>
-                                <input type="date" id="date">
-
-                            </div>
-                            <i class="fa-solid fa-star"></i>
-                            <!-- <label for="fav-yes">Star</label>
-                            <input type="radio" id="fav-yes" name="favorite" value="yes">
-    
-                            <label for="fav-no">None</label>
-                            <input type="radio" id="fav-no" name="favorite" value="no"> -->
-
-                        </div>
-                        <div class="btn-group">
-                            <button class="back-btn fa-sharp fa-solid fa-chevron-left"> </button>
-                            <button class="submit-btn edit-task-btn">Edit</button>
-                        </div>
-
-
-                    </form>
 
                 </div>
             </main>
