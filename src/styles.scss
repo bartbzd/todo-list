@@ -13,7 +13,7 @@ $card-4: #24222d;
   box-sizing: border-box;
   font-family: 'Lexend Deca', sans-serif;
   font-weight: 400;
-  // border: 1px solid red;
+  // border: 1px solid aqua;
 }
 body {
   background-color: $bg-color;
@@ -68,14 +68,7 @@ body {
     -moz-appearance: none;
     appearance: none;
   }
-  input[type='date'] {
-    // width: 100%;
-    padding: 0 5px 0 10px;
-    &::-webkit-calendar-picker-indicator {
-      filter: invert(100%) sepia(54%) saturate(5650%) hue-rotate(179deg) brightness(101%)
-        contrast(93%);
-    }
-  }
+
   .material-symbols-rounded,
   .material-symbols-outlined {
     font-size: 18px;
@@ -243,8 +236,7 @@ header {
     overflow-x: hidden;
     .t-wrapper,
     .f-wrapper,
-    .o-wrapper,
-    .e-wrapper {
+    .o-wrapper {
       height: 100%;
     }
     .t-wrapper {
@@ -259,6 +251,7 @@ header {
         user-select: none;
       }
       .task {
+        user-select: none;
         z-index: 0;
         border-radius: 10px;
         height: 35px;
@@ -273,7 +266,14 @@ header {
         }
         .checkmark {
           margin: auto 0;
+          height: 32px;
+        }
+        .fa-circle,
+        .fa-circle-check {
+          height: 32px;
           padding: 0 14px;
+          display: flex;
+          align-items: center;
         }
         p {
           height: 35px;
@@ -299,6 +299,10 @@ header {
               opacity: 1;
               transition: 0.2s;
             }
+            .fa-regular {
+              opacity: 1;
+              transition: 0.2s;
+            }
           }
         }
         .actions {
@@ -309,6 +313,9 @@ header {
           transition: 0.1s;
           .options {
             opacity: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
           }
           span {
             display: flex;
@@ -316,11 +323,13 @@ header {
           i {
             color: #8a7fa2;
           }
+          .fa-regular {
+            opacity: 0;
+          }
         }
       }
     }
-    .f-wrapper,
-    .e-wrapper {
+    .f-wrapper {
       display: none;
       .task-form {
         border-radius: 20px;
@@ -328,26 +337,48 @@ header {
         display: flex;
         flex-direction: column;
         .form-header {
-          margin-top: 30px;
+          margin-top: 24px;
+        }
+        #note {
+          height: 15vh;
         }
         .extras-wrapper {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          gap: 10px;
+          gap: 16px;
         }
         .extras {
           width: 45%;
         }
+        input[type='date'] {
+          width: 100%;
+          padding: 0 5px 0 10px;
+          &::-webkit-calendar-picker-indicator {
+            filter: invert(100%) sepia(54%) saturate(5650%) hue-rotate(179deg)
+              brightness(101%) contrast(93%);
+          }
+        }
+
         .fa-star {
-          font-size: 20px;
-          margin-top: auto;
-          margin-bottom: 8px;
+          font-size: 24px;
+          margin-top: 70px;
+          margin-bottom: 6px;
+          // margin-left: auto;
+          width: 30px;
+          display: flex;
+          justify-content: center;
           transition: 0.2s;
           &:hover {
-            color: $primary;
+            // color: $primary;
             transform: scale(1.1);
           }
+          &:active {
+            transform: scale(0.9) rotate(72deg);
+          }
+        }
+        .fa-regular {
+          font-size: 20px;
         }
         .starred {
           color: $primary;
