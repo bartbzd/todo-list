@@ -24,9 +24,8 @@ export default function appController() {
   let taskIndex = 0;
   let projectIndex;
   let currProject;
-  let tempProject = new Project('');
+  // let tempProject;
   let selected = '';
-  // let incorrectInput = false;
 
   // animations
   const showForm = () => {
@@ -189,11 +188,10 @@ export default function appController() {
 
     document.querySelector('select').addEventListener('change', (e) => {
       const project = projects.find((item) => item.name === e.target.value);
-      console.log(project);
+
       // currProject = project;
-      console.log(currProject);
-      console.log(tempProject);
-      tempProject = project;
+
+      // tempProject = project;
     });
 
     hideTasksRight();
@@ -214,10 +212,14 @@ export default function appController() {
       formStar.classList.remove('fa-regular');
       formStar.classList.add('fa-solid');
       // console.log('test');
+    } else {
+      formStar.classList.remove('starred');
+      formStar.classList.add('fa-regular');
+      formStar.classList.remove('fa-solid');
     }
-    document.querySelector('select').addEventListener('change', (e) => {
-      tempProject = projects.find((item) => item.name === e.target.value);
-    });
+    // document.querySelector('select').addEventListener('change', () => {
+    //   tempProject = projects.find((item) => item.name === e.target.value);
+    // });
     e.stopImmediatePropagation();
     hideTasksRight();
 
@@ -405,20 +407,26 @@ export default function appController() {
     return new Task(title, note, project, date, isStarred);
   }
   function addTask(e, project) {
-    if (!isTaskValid(currProject)) return;
+    const task = document.querySelector('#task');
+
+    if (!task.value) {
+      task.setCustomValidity('Task cannot be empty');
+      task.reportValidity();
+      return;
+    }
     e.preventDefault();
 
     const newTask = storeTask();
-    const existingTask = project.getTasks().find((task) => task.title === newTask.title);
-    if (!existingTask) {
-      project.getTasks().push(newTask);
-      resetProjects();
-      renderProjects(e);
-      updateSelectedProject();
-      renderTasksView(e);
-      renderTasks(currProject);
-      resetForm();
-    }
+    // const existingTask = project.getTasks().find((task) => task.title === newTask.title);
+    // if (!existingTask) {
+    project.getTasks().push(newTask);
+    resetProjects();
+    renderProjects(e);
+    updateSelectedProject();
+    renderTasksView(e);
+    renderTasks(currProject);
+    resetForm();
+    // }
   }
   function editTask(e, project) {
     e.preventDefault();
@@ -427,7 +435,6 @@ export default function appController() {
 
     // if (!isTaskValid(currProject)) return;
     const task = document.querySelector('#task');
-
     if (!task.value) {
       task.setCustomValidity('Task cannot be empty');
       task.reportValidity();
