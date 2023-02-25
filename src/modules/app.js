@@ -24,6 +24,7 @@ export default function appController() {
   let taskIndex = 0;
   let projectIndex;
   let currProject;
+  let tempProject = new Project('');
   let selected = '';
   // let incorrectInput = false;
 
@@ -107,7 +108,7 @@ export default function appController() {
   };
 
   const toggleAddProject = () => {
-    console.log(projectForm.hidden);
+    // console.log(projectForm.hidden);
     addProjectBtn.classList.toggle('plus');
     addProjectBtn.classList.toggle('rotated');
     projectForm.hidden = !projectForm.hidden;
@@ -150,13 +151,14 @@ export default function appController() {
   const updateOpenTask = (e) => {
     const title = document.querySelector('#open-title');
     const note = document.querySelector('#open-note');
-    const project = document.querySelector('#projects');
+    const project = document.querySelector('#open-project');
     // const date = document.querySelector('#date');
     const isStarred = formStar.classList.contains('starred');
     const id = e.target.closest('.task').getAttribute('data-id');
 
     title.textContent = currProject.tasks[id].title;
     note.textContent = currProject.tasks[id].note;
+    project.textContent = currProject.tasks[id].project;
   };
   function updateSelectedProject() {
     const projectsList = document.querySelectorAll('.project');
@@ -178,14 +180,20 @@ export default function appController() {
       updateOpenTask(e);
     }, 100);
   };
+
   const renderFormView = () => {
     resetForm();
     resetStar();
     document.querySelector('select').value = currProject.name;
     document.querySelector('.form-title-header').textContent = 'Add Task';
+
     document.querySelector('select').addEventListener('change', (e) => {
       const project = projects.find((item) => item.name === e.target.value);
-      currProject = project;
+      console.log(project);
+      // currProject = project;
+      console.log(currProject);
+      console.log(tempProject);
+      tempProject = project;
     });
 
     hideTasksRight();
@@ -207,6 +215,9 @@ export default function appController() {
       formStar.classList.add('fa-solid');
       // console.log('test');
     }
+    document.querySelector('select').addEventListener('change', (e) => {
+      tempProject = projects.find((item) => item.name === e.target.value);
+    });
     e.stopImmediatePropagation();
     hideTasksRight();
 
@@ -341,7 +352,7 @@ export default function appController() {
       return false;
     }
 
-    if (project.getTasks().find((x) => x.title === task.value)) {
+    if (project.getTasks().find(({ title }) => title === task.value)) {
       task.setCustomValidity('Task already exists');
       task.reportValidity();
       return false;
@@ -395,13 +406,12 @@ export default function appController() {
   }
   function addTask(e, project) {
     if (!isTaskValid(currProject)) return;
-
     e.preventDefault();
+
     const newTask = storeTask();
     const existingTask = project.getTasks().find((task) => task.title === newTask.title);
     if (!existingTask) {
       project.getTasks().push(newTask);
-      console.log(newTask);
       resetProjects();
       renderProjects(e);
       updateSelectedProject();
@@ -412,38 +422,28 @@ export default function appController() {
   }
   function editTask(e, project) {
     e.preventDefault();
-
     const editedTask = storeTask();
-    //if editing task to another folder, push it there
-    // console.log('edit task ran');
-    // console.log(projects);
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
-    // console.log(temp);
+
+    // if (!isTaskValid(currProject)) return;
     const task = document.querySelector('#task');
+
     if (!task.value) {
-      console.log('test');
       task.setCustomValidity('Task cannot be empty');
       task.reportValidity();
       return;
     }
 
-    // console.log(projectsFormInput.value);
-    // console.log(project.name);
     if (projectsFormInput.value !== project.name) {
-      if (!isTaskValid(temp)) return;
       temp.getTasks().push(editedTask);
       currProject = temp;
-      // console.log(currProject);
     } else project.getTasks().splice(taskIndex, 1, editedTask);
-    // console.log(project.getTasks());
-    // console.log(temp);
+
     resetProjects();
     renderProjects(e);
     updateSelectedProject();
     renderTasksView(e);
     renderTasks(currProject);
-    // formStar.classList.toggle('starred');
-    // toggleStar();
   }
 
   addProjectBtn.addEventListener('click', toggleAddProject);
@@ -463,17 +463,12 @@ export default function appController() {
       e.preventDefault();
       if (selected !== '' && isProjectValid()) {
         if (selected.classList.contains('edited')) {
-          console.log('edit ran');
-
           editProject();
           selected.classList.toggle('edited');
           selected = '';
         }
-      } else {
-        addProject();
-        console.log('add ran');
-      }
-      // incorrectInput = false;
+      } else addProject();
+
       updateSelectedProject();
       renderTasksView(e);
       renderTasks(currProject);
