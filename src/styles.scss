@@ -13,7 +13,7 @@ $card-4: #24222d;
   box-sizing: border-box;
   font-family: 'Lexend Deca', sans-serif;
   font-weight: 400;
-  // border: 1px solid aqua;
+  // border: 1px solid red;
 }
 body {
   background-color: $bg-color;
@@ -129,7 +129,7 @@ header {
     .project {
       margin-bottom: 8px;
       i {
-        margin-right: 8px;
+        margin-right: 6px;
       }
 
       p {
@@ -425,6 +425,12 @@ header {
           display: flex;
           justify-content: space-between;
           margin-bottom: 24px;
+          .project-grp {
+            display: flex;
+            i {
+              margin-right: 8px;
+            }
+          }
           p {
             font-size: 16px;
           }
