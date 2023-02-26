@@ -87,6 +87,40 @@ export default function appController() {
     }, 100);
   };
 
+  // validity
+  function isProjectValid() {
+    const name = document.querySelector('#project-name');
+    if (!name.value) {
+      console.log('test');
+      name.setCustomValidity('Project cannot be empty');
+      name.reportValidity();
+      return false;
+    }
+    if (projects.find((project) => project.name === name.value)) {
+      name.setCustomValidity('Project exists');
+      name.reportValidity();
+      return false;
+    }
+    return true;
+  }
+  function isTaskValid() {
+    const task = document.querySelector('#task');
+    console.log(task);
+    if (!task.value) {
+      console.log('test');
+      task.setCustomValidity('Task cannot be empty');
+      task.reportValidity();
+      return false;
+    }
+
+    // if (project.getTasks().find(({ title }) => title === task.value)) {
+    //   task.setCustomValidity('Task already exists');
+    //   task.reportValidity();
+    //   return false;
+    // }
+    return true;
+  }
+
   // toggles
   const toggleBtn = () => {
     const title = document.querySelector('.form-title-header');
@@ -100,26 +134,36 @@ export default function appController() {
     e.target.classList.toggle('fa-circle');
     e.target.classList.toggle('fa-circle-check');
   };
-  const toggleStar = () => {
+  const toggleFormStar = () => {
     formStar.classList.toggle('starred');
     formStar.classList.toggle('fa-regular');
     formStar.classList.toggle('fa-solid');
   };
-
-  const toggleAddProject = () => {
-    // console.log(projectForm.hidden);
+  const togglePlusBtn = () => {
     addProjectBtn.classList.toggle('plus');
     addProjectBtn.classList.toggle('rotated');
+  };
+  const toggleAddProject = () => {
+    togglePlusBtn();
     projectForm.hidden = !projectForm.hidden;
-    if (projectForm.hidden === false) {
+    if (!projectForm.hidden) {
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
       input.focus();
+    }
+
+    if (projectForm.hidden) {
+      selected = '';
+      renderProjects();
     }
   };
   function toggleEditProject(e) {
     console.log(currProject);
+    togglePlusBtn();
     projectForm.hidden = !projectForm.hidden;
-
+    const projectBtns = document.querySelectorAll('.options');
+    projectBtns.forEach((btn) => {
+      btn.style.display = 'none';
+    });
     if (projectForm.hidden === false) {
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
       input.focus();
@@ -152,12 +196,17 @@ export default function appController() {
     const note = document.querySelector('#open-note');
     const project = document.querySelector('#open-project');
     // const date = document.querySelector('#date');
-    const isStarred = formStar.classList.contains('starred');
-    const id = e.target.closest('.task').getAttribute('data-id');
 
+    const star = document.querySelector('.open-star');
+    const id = e.target.closest('.task').getAttribute('data-id');
+    const isStarred = currProject.tasks[id].getIsStarred();
+    console.log(isStarred);
     title.textContent = currProject.tasks[id].title;
     note.textContent = currProject.tasks[id].note;
     project.textContent = currProject.tasks[id].project;
+    if (isStarred === false) {
+      star.style.display = 'none';
+    } else star.style.display = 'inline-block';
   };
   function updateSelectedProject() {
     const projectsList = document.querySelectorAll('.project');
@@ -318,6 +367,8 @@ export default function appController() {
     editBtns.forEach((button) => {
       button.addEventListener('click', (e) => {
         toggleEditProject(e);
+        renderTasks(currProject);
+        renderTasksView(e);
       });
     });
   }
@@ -327,39 +378,6 @@ export default function appController() {
       createProject(x);
     });
     addProjectHandlers();
-  }
-
-  function isProjectValid() {
-    const name = document.querySelector('#project-name');
-    if (!name.value) {
-      console.log('test');
-      name.setCustomValidity('Project cannot be empty');
-      name.reportValidity();
-      return false;
-    }
-    if (projects.find((project) => project.name === name.value)) {
-      name.setCustomValidity('Project exists');
-      name.reportValidity();
-      return false;
-    }
-    return true;
-  }
-  function isTaskValid(project) {
-    const task = document.querySelector('#task');
-    console.log(task);
-    if (!task.value) {
-      console.log('test');
-      task.setCustomValidity('Task cannot be empty');
-      task.reportValidity();
-      return false;
-    }
-
-    if (project.getTasks().find(({ title }) => title === task.value)) {
-      task.setCustomValidity('Task already exists');
-      task.reportValidity();
-      return false;
-    }
-    return true;
   }
 
   function storeProject() {
@@ -407,13 +425,7 @@ export default function appController() {
     return new Task(title, note, project, date, isStarred);
   }
   function addTask(e, project) {
-    const task = document.querySelector('#task');
-
-    if (!task.value) {
-      task.setCustomValidity('Task cannot be empty');
-      task.reportValidity();
-      return;
-    }
+    if (!isTaskValid()) return;
     e.preventDefault();
 
     const newTask = storeTask();
@@ -453,8 +465,14 @@ export default function appController() {
     renderTasks(currProject);
   }
 
-  addProjectBtn.addEventListener('click', toggleAddProject);
-  formStar.addEventListener('click', toggleStar);
+  addProjectBtn.addEventListener('click', () => {
+    // if (projectForm.style.display === 'none') {
+    //   if (!isProjectValid()) return;
+    // }
+
+    toggleAddProject();
+  });
+  formStar.addEventListener('click', toggleFormStar);
   addTaskBtn.addEventListener('click', renderFormView);
   addBtn.addEventListener('click', (e) => {
     // incorrectInput = false;
