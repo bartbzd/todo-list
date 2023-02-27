@@ -131,25 +131,31 @@ export default function appController() {
 
   const toggleComplete = (e) => {
     e.stopPropagation();
-    e.target.classList.toggle('fa-solid');
-    e.target.classList.toggle('fa-circle');
-    e.target.classList.toggle('fa-circle-check');
+    if (e.target.classList.contains('fa-circle')) {
+      e.target.classList.toggle('fa-solid');
+      e.target.classList.toggle('fa-circle');
+      e.target.classList.toggle('fa-circle-check');
+    }
 
     const title = e.target.closest('.task').querySelector('.task-title');
     const wrapper = e.target.closest('.task');
     const actions = e.target.closest('.task').querySelector('.actions');
+
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
       title.style.transition = '0.2s ease-in-out';
       wrapper.style.transition = '0.2s ease-in-out';
       actions.style.transition = '0.2s ease-in-out';
+
       title.style.textDecoration = 'line-through';
       title.style.color = '#d2d8f7a6';
       actions.style.opacity = '0';
+
       wrapper.style.backgroundColor = '#151319';
     } else {
       title.style.textDecoration = '';
       title.style.color = '#d2d8f7';
       actions.style.opacity = '1';
+
       wrapper.style.backgroundColor = '#24222d'; //card-4
     }
   };
@@ -342,7 +348,10 @@ export default function appController() {
     });
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        deleteTask(e, currProject);
+        toggleComplete(e);
+        setTimeout(() => {
+          deleteTask(e, currProject);
+        }, 200);
       });
     });
   }
@@ -471,7 +480,6 @@ export default function appController() {
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
 
-    // if (!isTaskValid(currProject)) return;
     const task = document.querySelector('#task');
     if (!task.value) {
       task.setCustomValidity('Task cannot be empty');
@@ -481,6 +489,7 @@ export default function appController() {
 
     if (projectsFormInput.value !== project.name) {
       temp.getTasks().push(editedTask);
+      project.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
@@ -491,10 +500,9 @@ export default function appController() {
     renderTasks(currProject);
   }
   function deleteTask(e, project) {
-    // e.preventDefault();
     e.stopImmediatePropagation();
-    const id = e.target.closest('.task').getAttribute('data-id');
-    project.getTasks().splice(id, 1);
+    taskIndex = e.target.closest('.task').getAttribute('data-id');
+    project.getTasks().splice(taskIndex, 1);
 
     renderTasksView(e);
     renderTasks(currProject);
