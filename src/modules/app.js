@@ -128,11 +128,30 @@ export default function appController() {
     editBtn.classList.toggle('hidden');
     addBtn.classList.toggle('hidden');
   };
+
   const toggleComplete = (e) => {
     e.stopPropagation();
     e.target.classList.toggle('fa-solid');
     e.target.classList.toggle('fa-circle');
     e.target.classList.toggle('fa-circle-check');
+
+    const title = e.target.closest('.task').querySelector('.task-title');
+    const wrapper = e.target.closest('.task');
+    const actions = e.target.closest('.task').querySelector('.actions');
+    if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
+      title.style.transition = '0.2s ease-in-out';
+      wrapper.style.transition = '0.2s ease-in-out';
+      actions.style.transition = '0.2s ease-in-out';
+      title.style.textDecoration = 'line-through';
+      title.style.color = '#d2d8f7a6';
+      actions.style.opacity = '0';
+      wrapper.style.backgroundColor = '#151319';
+    } else {
+      title.style.textDecoration = '';
+      title.style.color = '#d2d8f7';
+      actions.style.opacity = '1';
+      wrapper.style.backgroundColor = '#24222d'; //card-4
+    }
   };
   const toggleFormStar = () => {
     formStar.classList.toggle('starred');
@@ -154,6 +173,7 @@ export default function appController() {
     if (projectForm.hidden) {
       selected = '';
       renderProjects();
+      updateSelectedProject();
     }
   };
   function toggleEditProject(e) {
@@ -303,6 +323,7 @@ export default function appController() {
     const taskWrapper = document.querySelectorAll('.task');
     const checkmarks = document.querySelectorAll('.fa-circle');
     const editBtns = document.querySelectorAll('.edit');
+    const deleteBtns = document.querySelectorAll('.delete');
     const backBtn = document.querySelectorAll('.back-btn');
 
     backBtn.forEach((button) => {
@@ -317,6 +338,11 @@ export default function appController() {
     editBtns.forEach((button) => {
       button.addEventListener('click', (e) => {
         renderEditView(e, currProject);
+      });
+    });
+    deleteBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        deleteTask(e, currProject);
       });
     });
   }
@@ -464,14 +490,16 @@ export default function appController() {
     renderTasksView(e);
     renderTasks(currProject);
   }
+  function deleteTask(e, project) {
+    // e.preventDefault();
+    e.stopImmediatePropagation();
+    const id = e.target.closest('.task').getAttribute('data-id');
+    project.getTasks().splice(id, 1);
 
-  addProjectBtn.addEventListener('click', () => {
-    // if (projectForm.style.display === 'none') {
-    //   if (!isProjectValid()) return;
-    // }
-
-    toggleAddProject();
-  });
+    renderTasksView(e);
+    renderTasks(currProject);
+  }
+  addProjectBtn.addEventListener('click', toggleAddProject);
   formStar.addEventListener('click', toggleFormStar);
   addTaskBtn.addEventListener('click', renderFormView);
   addBtn.addEventListener('click', (e) => {
