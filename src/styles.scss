@@ -96,21 +96,21 @@ header {
     width: 600px;
   }
 }
-i .fa-solid .fa-star,
-.starred {
-  font-size: 24px;
-  color: $primary;
-  background: repeating-linear-gradient(70deg, $primary 0%, #7a70e8 50%, $primary 100%)
-      200%,
-    transparent;
-  animation: textclip 6.5s linear infinite;
-  background-size: 200% 100%;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-  z-index: 1;
-  background-clip: text;
-  -webkit-background-clip: text;
-}
+// i .fa-solid .fa-star,
+// .starred {
+//   font-size: 24px;
+//   color: $primary;
+//   background: repeating-linear-gradient(70deg, $primary 0%, #7a70e8 50%, $primary 100%)
+//       200%,
+//     transparent;
+//   animation: textclip 6.5s linear infinite;
+//   background-size: 200% 100%;
+//   -webkit-text-fill-color: transparent;
+//   -moz-text-fill-color: transparent;
+//   z-index: 1;
+//   background-clip: text;
+//   -webkit-background-clip: text;
+// }
 .hidden {
   display: none;
 }
@@ -147,11 +147,18 @@ i .fa-solid .fa-star,
     }
     .filter {
       height: 32px;
+      background-color: rgb(36, 34, 45);
+      .fa-star {
+        height: 18px;
+        width: 18px;
+      }
     }
     .filter,
     .project {
       padding: 8px;
       margin-bottom: 8px;
+      border-radius: 8px;
+      user-select: none;
       i {
         margin-right: 6px;
       }
@@ -202,16 +209,14 @@ i .fa-solid .fa-star,
       display: flex;
       height: 32px;
       padding: 8px;
-      border-radius: 8px;
       align-items: center;
+      user-select: none;
       .folder {
-        user-select: none;
         pointer-events: none;
       }
       .project-btn-grp {
         margin-left: auto;
         display: flex;
-        user-select: none;
         i {
           font-size: 16px;
         }
@@ -322,7 +327,7 @@ i .fa-solid .fa-star,
           .actions {
             .options,
             .fa-regular {
-              transition: 0.4s;
+              transition: 0.2s ease-in-out;
               opacity: 1;
             }
             // .fa-regular {
@@ -356,22 +361,7 @@ i .fa-solid .fa-star,
           }
           .fa-solid {
             // font-size: 24px;
-            color: $primary;
-            background: repeating-linear-gradient(
-                  70deg,
-                  #f7cd7a 0%,
-                  $primary 50%,
-                  #f7cd7a 100%
-                )
-                200%,
-              transparent;
-            animation: textclip 6.5s linear infinite;
-            background-size: 200% 100%;
-            -webkit-text-fill-color: transparent;
-            -moz-text-fill-color: transparent;
-            z-index: 1;
-            background-clip: text;
-            -webkit-background-clip: text;
+            color: $dk-subtext;
           }
         }
       }
@@ -488,22 +478,7 @@ i .fa-solid .fa-star,
 
           .fa-star {
             font-size: 24px;
-            color: $primary;
-            background: repeating-linear-gradient(
-                  70deg,
-                  $primary 0%,
-                  #7a70e8 50%,
-                  $primary 100%
-                )
-                200%,
-              transparent;
-            animation: textclip 6.5s linear infinite;
-            background-size: 200% 100%;
-            -webkit-text-fill-color: transparent;
-            -moz-text-fill-color: transparent;
-            z-index: 1;
-            background-clip: text;
-            -webkit-background-clip: text;
+            color: $dk-subtext;
           }
         }
         .note-wrapper {
