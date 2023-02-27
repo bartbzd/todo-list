@@ -86,6 +86,13 @@ export default function appController() {
       openWrapper.style.animation = '';
     }, 100);
   };
+  // const taskDeletion = (e) => {
+  //   e.target.style.animation = 'ease-out taskRight reverse 0.1s';
+  //   setTimeout(() => {
+  //     e.target.style.display = 'none';
+  //     openWrapper.style.animation = '';
+  //   }, 100);
+  // }
 
   // validity
   function isProjectValid() {
@@ -348,6 +355,7 @@ export default function appController() {
     });
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
+        e.target.closest('.task').style.animation = 'ease-in formRight reverse 0.3s';
         toggleComplete(e);
         setTimeout(() => {
           deleteTask(e, currProject);
