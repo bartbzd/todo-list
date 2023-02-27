@@ -21,7 +21,7 @@ export default function createTask(task, project) {
   actions.classList.add('actions');
   edit.classList.add('options', 'edit', 'material-symbols-rounded');
   edit.textContent = 'edit';
-  trash.classList.add('options', 'material-symbols-rounded');
+  trash.classList.add('options', 'delete', 'material-symbols-rounded');
   trash.textContent = 'delete';
   star.classList.add('fa-regular', 'fa-star');
 
