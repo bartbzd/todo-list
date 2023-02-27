@@ -24,7 +24,6 @@ export default function appController() {
   let taskIndex = 0;
   let projectIndex;
   let currProject;
-  // let tempProject;
   let selected = '';
 
   // animations
@@ -86,13 +85,6 @@ export default function appController() {
       openWrapper.style.animation = '';
     }, 100);
   };
-  // const taskDeletion = (e) => {
-  //   e.target.style.animation = 'ease-out taskRight reverse 0.1s';
-  //   setTimeout(() => {
-  //     e.target.style.display = 'none';
-  //     openWrapper.style.animation = '';
-  //   }, 100);
-  // }
 
   // validity
   function isProjectValid() {
@@ -129,13 +121,12 @@ export default function appController() {
   }
 
   // toggles
-  const toggleBtn = () => {
+  const toggleBtnText = () => {
     const title = document.querySelector('.form-title-header');
     title.textContent = 'Edit Task';
     editBtn.classList.toggle('hidden');
     addBtn.classList.toggle('hidden');
   };
-
   const toggleComplete = (e) => {
     e.stopPropagation();
     if (e.target.classList.contains('fa-circle')) {
@@ -261,7 +252,6 @@ export default function appController() {
       updateOpenTask(e);
     }, 100);
   };
-
   const renderFormView = () => {
     resetForm();
     resetStar();
@@ -308,14 +298,14 @@ export default function appController() {
     setTimeout(() => {
       showForm();
       titleInput.focus();
-      toggleBtn();
+      toggleBtnText();
     }, 100);
   };
   const renderTasksView = (e) => {
     resetForm();
     e.preventDefault();
     if (addBtn.classList.contains('hidden')) {
-      toggleBtn();
+      toggleBtnText();
     }
     if (formWrapper.style.display === 'flex') {
       hideForm();
