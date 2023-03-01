@@ -7,6 +7,14 @@ export default class Task {
     this.isStarred = isStarred;
   }
 
+  getTitle() {
+    return this.title;
+  }
+
+  getProject() {
+    return this.project;
+  }
+
   getIsStarred() {
     return this.isStarred;
   }
