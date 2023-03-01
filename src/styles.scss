@@ -147,9 +147,10 @@ header {
     }
     .filter {
       height: 32px;
-      background-color: rgb(36, 34, 45);
+      background-color: $card-2;
       .fa-star {
-        height: 18px;
+        // height: 18px;
+        padding: 1px;
         width: 18px;
       }
     }
