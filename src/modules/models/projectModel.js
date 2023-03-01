@@ -1,9 +1,9 @@
 export const projects = [];
 
 export default class Project {
-  constructor(name) {
+  constructor(name, tasks = []) {
     this.name = name;
-    this.tasks = [];
+    this.tasks = tasks;
   }
 
   getName() {
@@ -12,5 +12,12 @@ export default class Project {
 
   getTasks() {
     return this.tasks;
+  }
+
+  removeTask(taskToDelete) {
+    const index = this.tasks.findIndex((task) => task.title === taskToDelete.title);
+    if (index !== -1) {
+      this.tasks.splice(index, 1);
+    }
   }
 }
