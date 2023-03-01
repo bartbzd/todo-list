@@ -178,6 +178,10 @@ export default function appController() {
       input.focus();
     }
 
+    const projectBtns = document.querySelectorAll('.options');
+    projectBtns.forEach((btn) => {
+      btn.style.opacity = '0';
+    });
     if (projectForm.hidden) {
       selected = '';
       renderProjects();
@@ -190,7 +194,8 @@ export default function appController() {
     projectForm.hidden = !projectForm.hidden;
     const projectBtns = document.querySelectorAll('.options');
     projectBtns.forEach((btn) => {
-      btn.style.display = 'none';
+      // btn.style.display = 'none';
+      btn.style.opacity = '0';
     });
     if (projectForm.hidden === false) {
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
@@ -511,7 +516,6 @@ export default function appController() {
 
     resetProjects();
     renderProjects(e);
-    // updateSelectedProject();
     renderTasksView(e);
     renderTasks(currProject);
   }
