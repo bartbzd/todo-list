@@ -116,7 +116,7 @@ header {
     background-color: $card-2;
     border-radius: 24px;
     padding: 24px;
-    height: 50vh;
+    height: 55vh;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   }
   .section-header {
@@ -186,20 +186,27 @@ header {
       flex: 1;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow: auto;
     }
     .project-grp {
-      overflow: scroll;
+      overflow-x: hidden;
       margin-bottom: 16px;
+      width: 100%;
     }
     .project {
       display: flex;
       height: 32px;
+      // width: 100%;
       padding: 8px;
+      overflow: hidden;
       align-items: center;
-      user-select: none;
+      // user-select: none;
       .folder {
         pointer-events: none;
+      }
+      .project-name {
+        width: 10vw;
+        overflow-x: hidden;
       }
       .project-btn-grp {
         margin-left: auto;
@@ -306,6 +313,7 @@ header {
           pointer-events: none;
           // background-color: $card-4;
           color: $dk-text;
+          overflow: hidden;
         }
         & input[type='checkbox'] {
           margin-right: 1vw;
@@ -335,6 +343,7 @@ header {
           align-items: center;
           gap: 10px;
           transition: 0.1s;
+          padding-left: 8px;
           .options {
             opacity: 0;
             height: 100%;
