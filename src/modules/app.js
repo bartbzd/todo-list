@@ -24,6 +24,7 @@ export default function appController() {
   let taskIndex = 0;
   let projectIndex;
   let currProject;
+  let allTasksList;
   let selected = '';
 
   // animations
@@ -129,10 +130,12 @@ export default function appController() {
   };
   const toggleComplete = (e) => {
     e.stopPropagation();
-    if (e.target.classList.contains('fa-circle')) {
-      e.target.classList.toggle('fa-solid');
-      e.target.classList.toggle('fa-circle');
-      e.target.classList.toggle('fa-circle-check');
+    if (
+      e.target.classList.contains('fa-regular') ||
+      e.target.classList.contains('fa-solid')
+    ) {
+      const checkmarkClasses = ['fa-regular', 'fa-solid', 'fa-circle', 'fa-circle-check'];
+      checkmarkClasses.forEach((className) => e.target.classList.toggle(className));
     }
 
     const title = e.target.closest('.task').querySelector('.task-title');
@@ -141,19 +144,18 @@ export default function appController() {
 
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
       title.style.transition = '0.2s ease-in-out';
-      wrapper.style.transition = '0.2s ease-in-out';
-      actions.style.transition = '0.2s ease-in-out';
-
       title.style.textDecoration = 'line-through';
       title.style.color = '#d2d8f7a6';
-      actions.style.opacity = '0';
 
+      wrapper.style.transition = '0.2s ease-in-out';
       wrapper.style.backgroundColor = '#151319';
+
+      actions.style.transition = '0.2s ease-in-out';
+      actions.style.opacity = '0';
     } else {
       title.style.textDecoration = '';
       title.style.color = '#d2d8f7';
       actions.style.opacity = '1';
-
       wrapper.style.backgroundColor = '#24222d'; //card-4
     }
   };
@@ -497,14 +499,56 @@ export default function appController() {
     renderTasksView(e);
     renderTasks(currProject);
   }
+  const allTasks = document.querySelector('.all');
   function deleteTask(e, project) {
     e.stopImmediatePropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
-    project.getTasks().splice(taskIndex, 1);
+    const taskToDelete = project.getTasks()[taskIndex];
 
+    // Find the project that the task originally came from
+    let projectToDeleteFrom;
+    for (let i = 0; i < projects.length; i++) {
+      if (projects[i].getTasks().includes(taskToDelete)) {
+        projectToDeleteFrom = projects[i];
+        break;
+      }
+    }
+
+    // Remove the task from both the current project and the original project
+    project.removeTask(taskToDelete);
+    projectToDeleteFrom.removeTask(taskToDelete);
+
+    // Render the updated tasks view
     renderTasksView(e);
     renderTasks(currProject);
   }
+
+  function clearFilters() {
+    const filtersList = document.querySelectorAll('.filter');
+    filtersList.forEach((filter) => {
+      filter.style.backgroundColor = '#141319';
+    });
+  }
+
+  function toggleAll(e) {
+    clearFilters();
+    e.target.closest('.filter').style.backgroundColor = '#24222d';
+
+    const test = projects.flatMap((project) => project.tasks);
+    console.log(test);
+    allTasksList = new Project('All', test);
+    console.log(currProject);
+    console.log(allTasksList);
+
+    resetProjects();
+    renderProjects(e);
+    updateSelectedProject();
+
+    currProject = allTasksList;
+    renderTasksView(e);
+    renderTasks(currProject);
+  }
+  allTasks.addEventListener('click', toggleAll);
   addProjectBtn.addEventListener('click', toggleAddProject);
   formStar.addEventListener('click', toggleFormStar);
   addTaskBtn.addEventListener('click', renderFormView);
@@ -566,7 +610,7 @@ export default function appController() {
     resetTasks();
     renderTasks(currProject);
     renderTasksView(e);
-    console.log(projects);
+    // console.log(projects);
     document.querySelector('.project').style.backgroundColor = '#24222d';
     document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
