@@ -19,6 +19,7 @@ body {
   background-color: $bg-color;
   // background-color: #151319;
   // background-color: #1a181d;
+  height: 100vh;
   h2,
   h3 {
     color: $dk-text;
@@ -96,21 +97,6 @@ header {
     width: 600px;
   }
 }
-// i .fa-solid .fa-star,
-// .starred {
-//   font-size: 24px;
-//   color: $primary;
-//   background: repeating-linear-gradient(70deg, $primary 0%, #7a70e8 50%, $primary 100%)
-//       200%,
-//     transparent;
-//   animation: textclip 6.5s linear infinite;
-//   background-size: 200% 100%;
-//   -webkit-text-fill-color: transparent;
-//   -moz-text-fill-color: transparent;
-//   z-index: 1;
-//   background-clip: text;
-//   -webkit-background-clip: text;
-// }
 .hidden {
   display: none;
 }
@@ -130,7 +116,7 @@ header {
     background-color: $card-2;
     border-radius: 24px;
     padding: 24px;
-    height: 55vh;
+    height: 50vh;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   }
   .section-header {
@@ -298,6 +284,10 @@ header {
         .checkmark {
           margin: auto 0;
           height: 32px;
+          transition: 0.2s ease-in-out;
+          &:active {
+            transform: scale(0.8);
+          }
         }
         .fa-circle,
         .fa-circle-check {
@@ -455,6 +445,7 @@ header {
     }
     .o-wrapper {
       display: none;
+
       .expand-view {
         display: flex;
         flex-direction: column;
@@ -472,6 +463,7 @@ header {
             }
           }
         }
+
         .open-title-header {
           display: flex;
           justify-content: space-between;
@@ -486,27 +478,29 @@ header {
           margin: 16px 16px 0 16px;
           // padding: 16px;
           // background-color: $card-4;
-          border-radius: 16px;
+          // border-radius: 16px;
           // box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 3px, rgba(0, 0, 0, 0.22) 0px 2px 2px;
+          border-radius: 24px;
         }
         hr {
           height: 4px;
           background-color: #d2d8f799;
           border: none;
           border-radius: 2px;
-          // margin-bottom: 24px;
+          margin-bottom: 16px;
         }
         // .note-line {
 
         // }
         #open-note {
-          margin-top: 16px;
+          // margin-top: 16px;
           display: block;
           font-size: 16px;
           white-space: pre-line;
           // line-height: 1.5;
           height: 20vh;
           overflow: scroll;
+          padding: 0px 16px;
         }
         .bot-hr {
           margin-top: 16px;
