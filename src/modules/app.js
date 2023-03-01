@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 import Task from './models/taskModel';
@@ -21,6 +22,7 @@ export default function appController() {
   const formStar = document.querySelector('.add-star');
   const projectGrp = document.querySelector('.project-grp');
   const input = document.querySelector('#project-name');
+  const selectAll = document.querySelector('.all');
   let taskIndex = 0;
   let projectIndex;
   let currProject;
@@ -216,7 +218,19 @@ export default function appController() {
     document.querySelector('form').reset();
     document.querySelector('.task-form').reset();
   }
-
+  function clearFilters() {
+    const filtersList = document.querySelectorAll('.filter');
+    console.log(filtersList);
+    filtersList.forEach((filter) => {
+      filter.style.backgroundColor = '#141319';
+    });
+  }
+  function clearSelectedProject() {
+    const projectsList = document.querySelectorAll('.project');
+    projectsList.forEach((project) => {
+      project.style.backgroundColor = '#24222d';
+    });
+  }
   const updateOpenTask = (e) => {
     const title = document.querySelector('#open-title');
     const note = document.querySelector('#open-note');
@@ -235,6 +249,7 @@ export default function appController() {
     } else star.style.display = 'inline-block';
   };
   function updateSelectedProject() {
+    clearFilters();
     const projectsList = document.querySelectorAll('.project');
     projectsList.forEach((project) => {
       const i = project.querySelector('i');
@@ -381,6 +396,7 @@ export default function appController() {
 
     projectWrapper.forEach((wrapper) => {
       wrapper.addEventListener('click', (e) => {
+        clearFilters();
         projectWrapper.forEach((project) => {
           project.style.backgroundColor = '';
           e.currentTarget.closest('.project').style.backgroundColor = '#24222d';
@@ -495,17 +511,17 @@ export default function appController() {
 
     resetProjects();
     renderProjects(e);
-    updateSelectedProject();
+    // updateSelectedProject();
     renderTasksView(e);
     renderTasks(currProject);
   }
-  const allTasks = document.querySelector('.all');
+
   function deleteTask(e, project) {
     e.stopImmediatePropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
     const taskToDelete = project.getTasks()[taskIndex];
 
-    // Find the project that the task originally came from
+    // Find project task originally came from
     let projectToDeleteFrom;
     for (let i = 0; i < projects.length; i++) {
       if (projects[i].getTasks().includes(taskToDelete)) {
@@ -513,42 +529,32 @@ export default function appController() {
         break;
       }
     }
-
-    // Remove the task from both the current project and the original project
     project.removeTask(taskToDelete);
     projectToDeleteFrom.removeTask(taskToDelete);
 
-    // Render the updated tasks view
     renderTasksView(e);
     renderTasks(currProject);
   }
 
-  function clearFilters() {
-    const filtersList = document.querySelectorAll('.filter');
-    filtersList.forEach((filter) => {
-      filter.style.backgroundColor = '#141319';
-    });
-  }
-
-  function toggleAll(e) {
+  function showAll(e) {
     clearFilters();
+    clearSelectedProject();
     e.target.closest('.filter').style.backgroundColor = '#24222d';
 
-    const test = projects.flatMap((project) => project.tasks);
-    console.log(test);
-    allTasksList = new Project('All', test);
+    const allTasks = projects.flatMap((project) => project.tasks);
+    allTasksList = new Project('All', allTasks);
     console.log(currProject);
     console.log(allTasksList);
 
     resetProjects();
-    renderProjects(e);
-    updateSelectedProject();
+    renderProjects();
+    // updateSelectedProject();
 
     currProject = allTasksList;
     renderTasksView(e);
     renderTasks(currProject);
   }
-  allTasks.addEventListener('click', toggleAll);
+  selectAll.addEventListener('click', showAll);
   addProjectBtn.addEventListener('click', toggleAddProject);
   formStar.addEventListener('click', toggleFormStar);
   addTaskBtn.addEventListener('click', renderFormView);
