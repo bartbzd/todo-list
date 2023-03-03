@@ -104,12 +104,18 @@ header {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
+  // flex-direction: row-reverse; //user idea
   gap: 24px;
   padding: 0 8vw;
-  .options:hover {
-    color: $primary;
-    transform: scale(1.2);
-    transition: 0.2s ease-in-out;
+  .options {
+    &:hover {
+      color: $primary;
+      transform: scale(1.2);
+      transition: 0.2s ease-in-out;
+    }
+    &:active {
+      transform: scale(0.9);
+    }
   }
   .sidebar,
   .content {
@@ -219,10 +225,6 @@ header {
         }
         .edit-p {
           margin-right: 8px;
-          &:hover {
-            color: $primary;
-            transform: scale(1.2);
-          }
         }
         .delete-p {
           margin-right: 0px;
@@ -509,7 +511,7 @@ header {
           // line-height: 1.5;
           height: 20vh;
           overflow: scroll;
-          padding: 0px 16px;
+          // padding: 0px 16px;
         }
         .bot-hr {
           margin-top: 16px;
