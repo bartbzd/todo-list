@@ -15,7 +15,10 @@ export default function createTask(task, project) {
   checkWrapper.classList.add('checkmark');
   input.type = 'checkbox';
   input.classList.add('hide-check');
-  checkmark.classList.add('fa-regular', 'fa-circle');
+  if (task.isComplete) {
+    checkmark.classList.add('fa-solid', 'fa-circle-check');
+  } else checkmark.classList.add('fa-regular', 'fa-circle');
+
   title.classList.add('task-title');
   title.textContent = task.title;
   actions.classList.add('actions');
