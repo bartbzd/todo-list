@@ -130,15 +130,13 @@ export default function appController() {
     editBtn.classList.toggle('hidden');
     addBtn.classList.toggle('hidden');
   };
-  const toggleComplete = (e) => {
+  const toggleComplete = (e, project) => {
     e.stopPropagation();
-    if (
-      e.target.classList.contains('fa-regular') ||
-      e.target.classList.contains('fa-solid')
-    ) {
-      const checkmarkClasses = ['fa-regular', 'fa-solid', 'fa-circle', 'fa-circle-check'];
-      checkmarkClasses.forEach((className) => e.target.classList.toggle(className));
-    }
+    taskIndex = e.target.closest('.task').getAttribute('data-id');
+    project.getTasks()[taskIndex].isComplete = true;
+
+    const checkmarkClasses = ['fa-regular', 'fa-solid', 'fa-circle', 'fa-circle-check'];
+    checkmarkClasses.forEach((className) => e.target.classList.toggle(className));
 
     const title = e.target.closest('.task').querySelector('.task-title');
     const wrapper = e.target.closest('.task');
@@ -197,11 +195,13 @@ export default function appController() {
       // btn.style.display = 'none';
       btn.style.opacity = '0';
     });
-    if (projectForm.hidden === false) {
+    if (!projectForm.hidden) {
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
       input.focus();
       projectIndex = e.target.closest('.project').getAttribute('data-id');
+      console.log(projectIndex);
       input.value = projects[projectIndex].name;
+      console.log(input);
       selected = e.target.closest('.project');
       selected.classList.toggle('edited');
       selected.style.display = 'none';
@@ -346,7 +346,7 @@ export default function appController() {
 
   function addTaskHandlers() {
     const taskWrapper = document.querySelectorAll('.task');
-    const checkmarks = document.querySelectorAll('.fa-circle');
+    const checkmarks = document.querySelectorAll('.fa-circle, .fa-circle-check');
     const editBtns = document.querySelectorAll('.edit');
     const deleteBtns = document.querySelectorAll('.delete');
     const backBtn = document.querySelectorAll('.back-btn');
@@ -358,7 +358,9 @@ export default function appController() {
       task.addEventListener('click', renderTasksOpenView);
     });
     checkmarks.forEach((checkmark) => {
-      checkmark.addEventListener('click', toggleComplete);
+      checkmark.addEventListener('click', (e) => {
+        toggleComplete(e, currProject);
+      });
     });
     editBtns.forEach((button) => {
       button.addEventListener('click', (e) => {
@@ -368,7 +370,7 @@ export default function appController() {
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.target.closest('.task').style.animation = 'ease-in formRight reverse 0.3s';
-        toggleComplete(e);
+        toggleComplete(e, currProject);
         setTimeout(() => {
           deleteTask(e, currProject);
         }, 200);
@@ -390,48 +392,108 @@ export default function appController() {
       if (task.getIsStarred()) {
         taskWrapper.querySelector('.fa-star').classList.replace('fa-regular', 'fa-solid');
       }
+
+      if (task.isComplete) {
+        const title = taskWrapper.closest('.task').querySelector('.task-title');
+        const wrapper = taskWrapper.closest('.task');
+        const actions = taskWrapper.closest('.task').querySelector('.actions');
+        const checkmark = taskWrapper.closest('.task').querySelector('.fa-circle-check');
+        console.log(checkmark);
+        //add selector for closest checkmark, toggle status
+
+        title.style.transition = '0.2s ease-in-out';
+        title.style.textDecoration = 'line-through';
+        title.style.color = '#d2d8f7a6';
+
+        wrapper.style.transition = '0.2s ease-in-out';
+        wrapper.style.backgroundColor = '#151319';
+
+        actions.style.transition = '0.2s ease-in-out';
+        actions.style.opacity = '0';
+      }
     });
     addTaskHandlers();
   }
 
-  function addProjectHandlers() {
-    const projectWrapper = document.querySelectorAll('.project');
+  // function addProjectHandlers() {
+  //   const projectWrappers = document.querySelectorAll('.project');
+  //   const folders = document.querySelectorAll('.folder');
+  //   const editBtns = document.querySelectorAll('.edit-p');
+
+  //   projectWrappers.forEach((wrapper) => {
+  //     wrapper.addEventListener('click', (e) => {
+  //       clearFilters();
+  //       projectWrappers.forEach((project) => {
+  //         project.style.backgroundColor = '';
+  //         e.currentTarget.closest('.project').style.backgroundColor = '#24222d';
+  //       });
+  //       folders.forEach((folder) => {
+  //         folder.className = 'folder material-symbols-outlined';
+  //       });
+
+  //       projectIndex = e.currentTarget.closest('.project').getAttribute('data-id');
+
+  //       const folder = e.currentTarget.querySelector('.folder');
+  //       folder.className = 'folder material-symbols-rounded';
+
+  //       currProject = projects[projectIndex];
+  //       renderTasks(currProject);
+  //       renderTasksView(e);
+  //     });
+  //   });
+  //   editBtns.forEach((button) => {
+  //     button.addEventListener('click', (e) => {
+  //       toggleEditProject(e);
+  //       renderTasks(currProject);
+  //       renderTasksView(e);
+  //     });
+  //   });
+  // }
+
+  function handleProjectClick(e) {
+    clearFilters();
+    const projectWrappers = document.querySelectorAll('.project');
+    const project = e.currentTarget.closest('.project');
+    projectWrappers.forEach((wrapper) => {
+      wrapper.style.backgroundColor = '';
+    });
+    project.style.backgroundColor = '#24222d';
+
     const folders = document.querySelectorAll('.folder');
+    folders.forEach((folder) => {
+      folder.className = 'folder material-symbols-outlined';
+    });
+    const folder = project.querySelector('.folder');
+    folder.className = 'folder material-symbols-rounded';
+
+    projectIndex = project.getAttribute('data-id');
+    currProject = projects[projectIndex];
+
+    renderTasks(currProject);
+    renderTasksView(e);
+  }
+
+  function handleEditButtonClick(e) {
+    toggleEditProject(e);
+    renderTasks(currProject);
+    renderTasksView(e);
+  }
+  function addProjectHandlers() {
+    const projectWrappers = document.querySelectorAll('.project');
     const editBtns = document.querySelectorAll('.edit-p');
 
-    projectWrapper.forEach((wrapper) => {
-      wrapper.addEventListener('click', (e) => {
-        clearFilters();
-        projectWrapper.forEach((project) => {
-          project.style.backgroundColor = '';
-          e.currentTarget.closest('.project').style.backgroundColor = '#24222d';
-        });
-        folders.forEach((folder) => {
-          folder.className = 'folder material-symbols-outlined';
-        });
-
-        projectIndex = e.currentTarget.closest('.project').getAttribute('data-id');
-
-        const folder = e.currentTarget.querySelector('.folder');
-        folder.className = 'folder material-symbols-rounded';
-
-        currProject = projects[projectIndex];
-        renderTasks(currProject);
-        renderTasksView(e);
-      });
+    projectWrappers.forEach((wrapper) => {
+      wrapper.addEventListener('click', handleProjectClick);
     });
+
     editBtns.forEach((button) => {
-      button.addEventListener('click', (e) => {
-        toggleEditProject(e);
-        renderTasks(currProject);
-        renderTasksView(e);
-      });
+      button.addEventListener('click', handleEditButtonClick);
     });
   }
   function renderProjects() {
     resetProjects();
-    projects.forEach((x) => {
-      createProject(x);
+    projects.forEach((project) => {
+      createProject(project);
     });
     addProjectHandlers();
   }
@@ -489,7 +551,7 @@ export default function appController() {
     // if (!existingTask) {
     project.getTasks().push(newTask);
     resetProjects();
-    renderProjects(e);
+    renderProjects();
     updateSelectedProject();
     renderTasksView(e);
     renderTasks(currProject);
@@ -515,8 +577,9 @@ export default function appController() {
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
     resetProjects();
-    renderProjects(e);
+    renderProjects();
     renderTasksView(e);
+    updateSelectedProject();
     renderTasks(currProject);
   }
 
@@ -538,11 +601,15 @@ export default function appController() {
 
     renderTasksView(e);
     renderTasks(currProject);
+    // toggleComplete(e, currProject);
+    console.log(projects);
   }
 
   function showAll(e) {
+    // resetProjects();
     clearFilters();
     clearSelectedProject();
+
     e.target.closest('.filter').style.backgroundColor = '#24222d';
 
     const allTasks = projects.flatMap((project) => project.tasks);
@@ -550,10 +617,8 @@ export default function appController() {
     console.log(currProject);
     console.log(allTasksList);
 
-    resetProjects();
-    renderProjects();
     // updateSelectedProject();
-
+    renderProjects();
     currProject = allTasksList;
     renderTasksView(e);
     renderTasks(currProject);
@@ -616,7 +681,7 @@ export default function appController() {
     projects.push(introProject);
     introProject.getTasks().push(introTask);
     introProject.getTasks().push(introTaskTwo);
-    renderProjects(e);
+    renderProjects();
     resetTasks();
     renderTasks(currProject);
     renderTasksView(e);
