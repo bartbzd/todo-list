@@ -23,6 +23,10 @@ export default function appController() {
   const projectGrp = document.querySelector('.project-grp');
   const input = document.querySelector('#project-name');
   const selectAll = document.querySelector('.all');
+
+  const componentColor = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue('--component');
   let taskIndex = 0;
   let projectIndex;
   let currProject;
@@ -545,7 +549,6 @@ export default function appController() {
     updateSelectedProject();
     renderTasks(currProject);
   }
-
   function deleteTask(e, project) {
     e.stopImmediatePropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
@@ -650,7 +653,7 @@ export default function appController() {
     renderTasks(currProject);
     renderTasksView(e);
     // console.log(projects);
-    document.querySelector('.project').style.backgroundColor = '#24222d';
+    document.querySelector('.project').style.backgroundColor = componentColor;
     document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
