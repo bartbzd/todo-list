@@ -165,6 +165,7 @@ export default function appController() {
     formStar.classList.toggle('fa-solid');
   };
   const togglePlusBtn = () => {
+    resetForm();
     addProjectBtn.classList.toggle('plus');
     addProjectBtn.classList.toggle('rotated');
   };
@@ -197,10 +198,10 @@ export default function appController() {
     });
     if (!projectForm.hidden) {
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
-      input.focus();
       projectIndex = e.target.closest('.project').getAttribute('data-id');
       console.log(projectIndex);
       input.value = projects[projectIndex].name;
+      input.focus();
       console.log(input);
       selected = e.target.closest('.project');
       selected.classList.toggle('edited');
@@ -223,19 +224,19 @@ export default function appController() {
     document.querySelector('form').reset();
     document.querySelector('.task-form').reset();
   }
-  function clearFilters() {
-    const filtersList = document.querySelectorAll('.filter');
-    console.log(filtersList);
-    filtersList.forEach((filter) => {
+  function resetFilters() {
+    const filters = document.querySelectorAll('.filter');
+    filters.forEach((filter) => {
       filter.style.backgroundColor = '#141319';
     });
   }
-  function clearSelectedProject() {
+  function resetSelectedProject() {
     const projectsList = document.querySelectorAll('.project');
     projectsList.forEach((project) => {
       project.style.backgroundColor = '#24222d';
     });
   }
+
   const updateOpenTask = (e) => {
     const title = document.querySelector('#open-title');
     const note = document.querySelector('#open-note');
@@ -254,7 +255,7 @@ export default function appController() {
     } else star.style.display = 'inline-block';
   };
   function updateSelectedProject() {
-    clearFilters();
+    resetFilters();
     const projectsList = document.querySelectorAll('.project');
     projectsList.forEach((project) => {
       const i = project.querySelector('i');
@@ -415,43 +416,8 @@ export default function appController() {
     addTaskHandlers();
   }
 
-  // function addProjectHandlers() {
-  //   const projectWrappers = document.querySelectorAll('.project');
-  //   const folders = document.querySelectorAll('.folder');
-  //   const editBtns = document.querySelectorAll('.edit-p');
-
-  //   projectWrappers.forEach((wrapper) => {
-  //     wrapper.addEventListener('click', (e) => {
-  //       clearFilters();
-  //       projectWrappers.forEach((project) => {
-  //         project.style.backgroundColor = '';
-  //         e.currentTarget.closest('.project').style.backgroundColor = '#24222d';
-  //       });
-  //       folders.forEach((folder) => {
-  //         folder.className = 'folder material-symbols-outlined';
-  //       });
-
-  //       projectIndex = e.currentTarget.closest('.project').getAttribute('data-id');
-
-  //       const folder = e.currentTarget.querySelector('.folder');
-  //       folder.className = 'folder material-symbols-rounded';
-
-  //       currProject = projects[projectIndex];
-  //       renderTasks(currProject);
-  //       renderTasksView(e);
-  //     });
-  //   });
-  //   editBtns.forEach((button) => {
-  //     button.addEventListener('click', (e) => {
-  //       toggleEditProject(e);
-  //       renderTasks(currProject);
-  //       renderTasksView(e);
-  //     });
-  //   });
-  // }
-
   function handleProjectClick(e) {
-    clearFilters();
+    resetFilters();
     const projectWrappers = document.querySelectorAll('.project');
     const project = e.currentTarget.closest('.project');
     projectWrappers.forEach((wrapper) => {
@@ -472,11 +438,12 @@ export default function appController() {
     renderTasks(currProject);
     renderTasksView(e);
   }
-
-  function handleEditButtonClick(e) {
-    toggleEditProject(e);
+  function handleEditProjectClick(e) {
+    e.stopPropagation();
     renderTasks(currProject);
+
     renderTasksView(e);
+    toggleEditProject(e);
   }
   function addProjectHandlers() {
     const projectWrappers = document.querySelectorAll('.project');
@@ -487,7 +454,7 @@ export default function appController() {
     });
 
     editBtns.forEach((button) => {
-      button.addEventListener('click', handleEditButtonClick);
+      button.addEventListener('click', handleEditProjectClick);
     });
   }
   function renderProjects() {
@@ -504,7 +471,6 @@ export default function appController() {
   }
   function addProject() {
     if (!isProjectValid()) return;
-
     const newProject = storeProject();
     const existingProject = projects.find((project) => project.name === newProject.name);
     if (!existingProject) {
@@ -514,9 +480,6 @@ export default function appController() {
     }
     renderProjects();
     toggleAddProject();
-    // if (incorrectInput === false) {
-
-    // }
   }
   function editProject() {
     const name = document.querySelector('#project-name');
@@ -607,8 +570,8 @@ export default function appController() {
 
   function showAll(e) {
     // resetProjects();
-    clearFilters();
-    clearSelectedProject();
+    resetFilters();
+    resetSelectedProject();
 
     e.target.closest('.filter').style.backgroundColor = '#24222d';
 
@@ -639,13 +602,14 @@ export default function appController() {
   projectForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (selected !== '' && isProjectValid()) {
-        if (selected.classList.contains('edited')) {
-          editProject();
-          selected.classList.toggle('edited');
-          selected = '';
-        }
-      } else addProject();
+
+      if (selected === '' && isProjectValid()) {
+        addProject();
+      } else {
+        editProject();
+        selected.classList.toggle('edited');
+        selected = '';
+      }
 
       updateSelectedProject();
       renderTasksView(e);
