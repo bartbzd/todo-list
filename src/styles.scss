@@ -1,11 +1,56 @@
-$bg-color: #100f14;
-$primary: #e87070;
-$dk-text: #d2d8f7;
-$dk-subtext: #d2d8f7a6;
-$card-1: #1a181d;
-$card-2: #141319;
-$card-3: #23212b;
-$card-4: #24222d;
+// html[data-theme='light'] {
+//   --bg-color: #100f14;
+//   --primary: #e87070;
+//   --dk-text: #d2d8f7;
+//   --dk-subtext: #d2d8f7a6;
+//   --card: #141319;
+//   --component-s: #353240;
+//   --component: #24222d;
+// }
+html[data-theme='light'] {
+  --bg-color: #d8dbeb;
+  --primary: #e87070;
+  --dk-text: #31313b;
+  --dk-subtext: #31313b;
+  --card: #cacad6;
+  --component-s: #d2d8f7a6;
+  --component: #dcdee8;
+  --grad-base: rgb(244, 124, 124);
+  --gradient-1: rgba(244, 124, 124, 1);
+  --gradient-2: rgba(255, 182, 141, 1);
+}
+
+// background: rgb(90, 51, 217);
+// background: linear-gradient(90deg, rgb(88, 44, 232) 0%, rgba(119, 81, 246, 1) 100%);
+html[data-theme='dark'] {
+  --bg-color: #121215;
+  --primary: #8d8fd2;
+  --dk-text: #dfe0fb; //#d9d9e8;
+  --dk-subtext: #84849d;
+  --card: #21212862;
+  --component-s: #353240;
+  --component: #3d3a4998;
+  --grad-base: rgb(90, 51, 217);
+  --gradient-1: rgb(88, 44, 232);
+  --gradient-2: rgba(119, 81, 246, 1);
+}
+$bg-color: var(--bg-color);
+$primary: var(--primary);
+$dk-text: var(--dk-text);
+$dk-subtext: var(--dk-subtext);
+$card: var(--card);
+$component-s: var(--component-s);
+$component: var(--component);
+$grad-base: var(--grad-base);
+$gradient-1: var(--gradient-1);
+$gradient-2: var(--gradient-2);
+// $bg-color: #d2d8f7a6;
+// $primary: #e87070;
+// $dk-text: #d2d8f7;
+// $dk-subtext: #d2d8f7a6;
+// $card: #141319;
+// $component-s: #353240;
+// $component: #24222d;
 
 * {
   margin: 0;
@@ -22,7 +67,7 @@ body {
   height: 100vh;
   h2,
   h3 {
-    color: $dk-text;
+    color: $primary;
   }
   h2 {
     font-size: 20px;
@@ -40,7 +85,7 @@ body {
   span,
   i,
   q {
-    color: $dk-subtext;
+    color: $dk-subtext; //$primary
   }
   input,
   textarea,
@@ -49,7 +94,7 @@ body {
     border-radius: 10px;
     padding-left: 10px;
     outline-width: 0;
-    background-color: $card-4;
+    background-color: $component;
     color: $dk-text;
     resize: none;
   }
@@ -91,7 +136,11 @@ header {
     width: 325px;
   }
   span {
-    color: $primary;
+    background: $grad-base;
+    background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 75%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   div {
     width: 600px;
@@ -104,7 +153,6 @@ header {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
-  // flex-direction: row-reverse; //user idea
   gap: 24px;
   padding: 0 8vw;
   .options {
@@ -119,10 +167,10 @@ header {
   }
   .sidebar,
   .content {
-    background-color: $card-2;
+    background-color: $card;
     border-radius: 24px;
     padding: 24px;
-    height: 55vh;
+    height: 50vh;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   }
   .section-header {
@@ -130,7 +178,7 @@ header {
     user-select: none;
   }
   .sidebar {
-    background-color: $card-2;
+    background-color: $card;
     width: 300px;
     display: flex;
     flex-direction: column;
@@ -139,7 +187,7 @@ header {
     }
     .filter {
       height: 32px;
-      background-color: $card-2;
+      // background-color: $card;
       .fa-star {
         // height: 18px;
         padding: 1px;
@@ -284,7 +332,7 @@ header {
         margin-bottom: 8px;
         display: flex;
         padding-right: 12px;
-        background-color: $card-4;
+        background-color: $component;
         // box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 3px, rgba(0, 0, 0, 0.22) 0px 2px 2px;
         transition: 0.2s ease-in-out;
         .hide-check {
@@ -313,7 +361,7 @@ header {
           font-weight: 300;
           user-select: none;
           pointer-events: none;
-          // background-color: $card-4;
+          // background-color: $component;
           color: $dk-text;
           overflow: hidden;
         }
@@ -324,7 +372,7 @@ header {
           margin-left: auto;
         }
         &:hover {
-          background-color: #353240;
+          background-color: $component-s;
           .actions {
             .options,
             .fa-regular {
@@ -429,7 +477,7 @@ header {
           display: flex;
         }
         .back-btn {
-          background-color: $card-2;
+          background-color: $card;
           border: none;
           color: $dk-text;
           font-size: 30px;
@@ -442,8 +490,10 @@ header {
           border: none;
           margin-left: auto;
           font-size: 16px;
-          color: $bg-color;
-          background-color: $primary;
+          color: $dk-text; //$bg-color;
+          background: $grad-base;
+          background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 100%);
+          box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
           transition: 0.2s ease-in-out;
           &:hover {
             transform: scale(1.02);
@@ -464,13 +514,16 @@ header {
         user-select: none;
         .expand-header {
           margin-bottom: 24px;
+
           .project-grp {
             display: flex;
             i {
               margin-right: 6px;
+              // color: $primary;
             }
             p {
               font-size: 16px;
+              // color: $primary;
             }
           }
         }
@@ -482,34 +535,35 @@ header {
 
           .fa-star {
             font-size: 24px;
-            color: $dk-subtext;
+            color: $dk-text;
           }
         }
         .note-wrapper {
-          margin: 16px 16px 0 16px;
+          margin: 8px 16px 0 16px;
           // padding: 16px;
-          // background-color: $card-4;
+          // background-color: $component;
           // border-radius: 16px;
           // box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 3px, rgba(0, 0, 0, 0.22) 0px 2px 2px;
           border-radius: 24px;
         }
         hr {
           height: 4px;
-          background-color: #d2d8f799;
+          background-color: $primary;
           border: none;
           border-radius: 2px;
           margin-bottom: 16px;
         }
-        // .note-line {
-
-        // }
+        #open-title {
+          color: $dk-text;
+        }
         #open-note {
           // margin-top: 16px;
+          color: $dk-subtext;
           display: block;
           font-size: 16px;
           white-space: pre-line;
           // line-height: 1.5;
-          height: 20vh;
+          height: 30vh;
           overflow: scroll;
           // padding: 0px 16px;
         }
@@ -519,18 +573,22 @@ header {
           margin-left: auto;
         }
         .extras-wrapper {
-          margin-top: 16px;
+          margin-top: auto;
           padding: 0 16px 8px 16px;
           display: flex;
-          justify-content: flex-end;
+          justify-content: space-between;
         }
-        // .extras {
-        //   width: 100%;
-        // }
+        .extras {
+          display: flex;
+          align-items: center;
+          .open-date {
+            color: $primary;
+          }
+        }
         .btn-group {
           margin-top: auto;
           .back-btn {
-            background-color: $card-2;
+            background-color: $card;
             border: none;
             color: $dk-text;
             font-size: 30px;
@@ -547,9 +605,12 @@ header {
       border: none;
       margin-left: auto;
       font-size: 16px;
-      color: $bg-color;
-      background-color: $primary;
+      color: $dk-text; //$bg-color;
+      // background-color: $primary;
+      background: $grad-base;
+      background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 100%);
       transition: 0.2s ease-in-out;
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
       &:hover {
         transform: scale(1.02);
       }
