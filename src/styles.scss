@@ -8,20 +8,17 @@
 //   --component: #24222d;
 // }
 html[data-theme='light'] {
-  --bg-color: #d8dbeb;
+  --bg-color: #f3ede394;
   --primary: #e87070;
-  --dk-text: #31313b;
-  --dk-subtext: #31313b;
-  --card: #cacad6;
-  --component-s: #d2d8f7a6;
-  --component: #dcdee8;
+  --dk-text: #484857;
+  --dk-subtext: #4b4b6b;
+  --card: #f3f0e384;
+  --component-s: #fdf7df;
+  --component: hsl(39, 34%, 87%);
   --grad-base: rgb(244, 124, 124);
-  --gradient-1: rgba(244, 124, 124, 1);
-  --gradient-2: rgba(255, 182, 141, 1);
+  --gradient-1: rgb(246, 118, 118);
+  --gradient-2: rgb(250, 177, 135);
 }
-
-// background: rgb(90, 51, 217);
-// background: linear-gradient(90deg, rgb(88, 44, 232) 0%, rgba(119, 81, 246, 1) 100%);
 html[data-theme='dark'] {
   --bg-color: #121215;
   --primary: #8d8fd2;
@@ -548,7 +545,9 @@ header {
         }
         hr {
           height: 4px;
-          background-color: $primary;
+          background: $grad-base;
+          background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 130%);
+
           border: none;
           border-radius: 2px;
           margin-bottom: 16px;
@@ -582,7 +581,11 @@ header {
           display: flex;
           align-items: center;
           .open-date {
-            color: $primary;
+            background: $grad-base;
+            background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 130%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
           }
         }
         .btn-group {
