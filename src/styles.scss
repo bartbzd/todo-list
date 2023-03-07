@@ -8,24 +8,25 @@
 //   --component: #24222d;
 // }
 html[data-theme='light'] {
-  --bg-color: #f3ede394;
-  --primary: #e87070;
-  --dk-text: #484857;
-  --dk-subtext: #4b4b6b;
-  --card: #f3f0e384;
-  --component-s: #fdf7df;
-  --component: hsl(39, 34%, 87%);
+  --bg-color: #e4f0fa; //#f3ede394;
+  --primary: #ff7c7c;
+  --dk-text: #334669;
+  --dk-subtext: #7a8aa3;
+  --card: #e6eef8; //#f3f0e384;
+  --component-s: #c4cdd1;
+  --component: #d3dee3;
   --grad-base: rgb(244, 124, 124);
   --gradient-1: rgb(246, 118, 118);
   --gradient-2: rgb(250, 177, 135);
 }
+
 html[data-theme='dark'] {
   --bg-color: #121215;
   --primary: #8d8fd2;
   --dk-text: #dfe0fb; //#d9d9e8;
   --dk-subtext: #84849d;
   --card: #21212862;
-  --component-s: #353240;
+  --component-s: #454254;
   --component: #3d3a4998;
   --grad-base: rgb(90, 51, 217);
   --gradient-1: rgb(88, 44, 232);
@@ -167,8 +168,15 @@ header {
     background-color: $card;
     border-radius: 24px;
     padding: 24px;
-    height: 50vh;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    height: 55vh;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    // box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    //   rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    // box-shadow: 0px 60px 60px rgba(0, 0, 0, 0.18);
+    // box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    //   rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    // box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    //   rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   }
   .section-header {
     margin-bottom: 16px;
@@ -545,8 +553,7 @@ header {
         }
         hr {
           height: 4px;
-          background: $grad-base;
-          background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 130%);
+          background: $primary;
 
           border: none;
           border-radius: 2px;
@@ -581,11 +588,7 @@ header {
           display: flex;
           align-items: center;
           .open-date {
-            background: $grad-base;
-            background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 130%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: $primary;
           }
         }
         .btn-group {
@@ -613,7 +616,8 @@ header {
       background: $grad-base;
       background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 100%);
       transition: 0.2s ease-in-out;
-      box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+      box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 15px 0px;
+
       &:hover {
         transform: scale(1.02);
       }
