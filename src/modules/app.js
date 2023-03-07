@@ -27,6 +27,16 @@ export default function appController() {
   const componentColor = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--component');
+  const textColor = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue('--dk-text');
+  const subtextColor = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue('--dk-subtext');
+  const cardColor = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue('--card');
+
   let taskIndex = 0;
   let projectIndex;
   let currProject;
@@ -149,18 +159,18 @@ export default function appController() {
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
       title.style.transition = '0.2s ease-in-out';
       title.style.textDecoration = 'line-through';
-      title.style.color = '#d2d8f7a6';
+      title.style.color = subtextColor; //subtext
 
       wrapper.style.transition = '0.2s ease-in-out';
-      wrapper.style.backgroundColor = '#151319';
+      wrapper.style.backgroundColor = cardColor; //card
 
       actions.style.transition = '0.2s ease-in-out';
       actions.style.opacity = '0';
     } else {
       title.style.textDecoration = '';
-      title.style.color = '#d2d8f7';
+      title.style.color = textColor; //text
       actions.style.opacity = '1';
-      wrapper.style.backgroundColor = '#24222d'; //card-4
+      wrapper.style.backgroundColor = cardColor; //card-4
     }
   };
   const toggleFormStar = () => {
