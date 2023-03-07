@@ -147,7 +147,8 @@ export default function appController() {
   const toggleComplete = (e, project) => {
     e.stopPropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
-    project.getTasks()[taskIndex].isComplete = true;
+    const task = project.getTasks()[taskIndex];
+    task.isComplete = !task.isComplete;
 
     const checkmarkClasses = ['fa-regular', 'fa-solid', 'fa-circle', 'fa-circle-check'];
     checkmarkClasses.forEach((className) => e.target.classList.toggle(className));
@@ -159,18 +160,18 @@ export default function appController() {
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
       title.style.transition = '0.2s ease-in-out';
       title.style.textDecoration = 'line-through';
-      title.style.color = subtextColor; //subtext
+      title.style.color = subtextColor;
 
       wrapper.style.transition = '0.2s ease-in-out';
-      wrapper.style.backgroundColor = cardColor; //card
+      wrapper.style.backgroundColor = 'transparent';
 
       actions.style.transition = '0.2s ease-in-out';
       actions.style.opacity = '0';
     } else {
       title.style.textDecoration = '';
-      title.style.color = textColor; //text
+      title.style.color = textColor;
       actions.style.opacity = '1';
-      wrapper.style.backgroundColor = cardColor; //card-4
+      wrapper.style.backgroundColor = componentColor;
     }
   };
   const toggleFormStar = () => {
