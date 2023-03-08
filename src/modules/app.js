@@ -296,13 +296,13 @@ export default function appController() {
     document.querySelector('select').value = currProject.name;
     document.querySelector('.form-title-header').textContent = 'Add Task';
 
-    document.querySelector('select').addEventListener('change', (e) => {
-      const project = projects.find((item) => item.name === e.target.value);
+    // document.querySelector('select').addEventListener('change', (e) => {
+    //   const project = projects.find((item) => item.name === e.target.value);
 
-      // currProject = project;
+    //   // currProject = project;
 
-      // tempProject = project;
-    });
+    //   // tempProject = project;
+    // });
 
     hideTasksRight();
     setTimeout(() => {
@@ -314,8 +314,17 @@ export default function appController() {
     taskIndex = e.currentTarget.closest('.task').getAttribute('data-id');
     titleInput.value = project.getTasks()[taskIndex].title;
     noteInput.value = project.getTasks()[taskIndex].note;
-    console.log(currProject);
-    document.querySelector('select').value = project.name;
+    console.log(project.name);
+    // console.log(projectIndex);
+    // projectIndex = project.getAttribute('data-id');
+
+    const projectName = e.currentTarget
+      .closest('.task')
+      .getAttribute('data-project-name');
+
+    // Find the index of the project in the `projects` array
+    // projectIndex = projects.findIndex((project) => project.id === projectId);
+    document.querySelector('select').value = projectName;
 
     console.log(project.getTasks()[taskIndex].getIsStarred());
     if (project.getTasks()[taskIndex].getIsStarred()) {
@@ -405,7 +414,10 @@ export default function appController() {
     project.getTasks().forEach((task) => {
       const taskWrapper = createTask(task, project.getTasks());
       document.querySelector('.tasks').append(taskWrapper);
-
+      ////
+      // taskWrapper.setAttribute('data-project-id', projects.indexOf(project));
+      taskWrapper.setAttribute('data-project-name', task.project);
+      ////
       if (task.getIsStarred()) {
         taskWrapper.querySelector('.fa-star').classList.replace('fa-regular', 'fa-solid');
       }
@@ -420,10 +432,10 @@ export default function appController() {
 
         title.style.transition = '0.2s ease-in-out';
         title.style.textDecoration = 'line-through';
-        title.style.color = '#d2d8f7a6';
+        title.style.color = subtextColor;
 
         wrapper.style.transition = '0.2s ease-in-out';
-        wrapper.style.backgroundColor = '#151319';
+        wrapper.style.backgroundColor = cardColor;
 
         actions.style.transition = '0.2s ease-in-out';
         actions.style.opacity = '0';
@@ -524,20 +536,23 @@ export default function appController() {
   function addTask(e, project) {
     if (!isTaskValid()) return;
     e.preventDefault();
-
+    console.log(currProject);
     const newTask = storeTask();
     // const existingTask = project.getTasks().find((task) => task.title === newTask.title);
     // if (!existingTask) {
-    console.log(currProject);
-    project.getTasks().push(newTask);
+    const temp = projects.find(({ name }) => name === projectsFormInput.value);
+    if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
+      temp.getTasks().push(newTask);
+      // project.getTasks().splice(taskIndex, 1);
+      currProject = temp;
+    } else project.getTasks().push(newTask);
+
     resetProjects();
     renderProjects();
     updateSelectedProject();
     renderTasksView(e);
     renderTasks(currProject);
     resetForm();
-    console.log(projects);
-    // }
   }
   function editTask(e, project) {
     e.preventDefault();
@@ -589,8 +604,9 @@ export default function appController() {
     // resetProjects();
     resetFilters();
     resetSelectedProject();
-
-    e.target.closest('.filter').style.backgroundColor = componentColor;
+    const allTab = document.querySelector('.all');
+    // e.target.closest('.filter').style.backgroundColor = componentColor;
+    allTab.style.backgroundColor = componentColor;
 
     const allTasks = projects.flatMap((project) => project.tasks);
     if (allTasksList === undefined) {
