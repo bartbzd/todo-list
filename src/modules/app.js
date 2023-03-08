@@ -252,6 +252,7 @@ export default function appController() {
     });
   }
 
+  // updates
   const updateOpenTask = (e) => {
     const title = document.querySelector('#open-title');
     const note = document.querySelector('#open-note');
@@ -280,6 +281,13 @@ export default function appController() {
         i.closest('.folder').className = 'folder material-symbols-rounded';
       }
     });
+  }
+  function updateSelectedFilter() {
+    if (currProject.name === 'All') {
+      const allTab = document.querySelector('.all');
+      // e.target.closest('.filter').style.backgroundColor = componentColor;
+      allTab.style.backgroundColor = componentColor;
+    }
   }
 
   const renderTasksOpenView = (e) => {
@@ -546,12 +554,15 @@ export default function appController() {
       // project.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else project.getTasks().push(newTask);
+    console.log(currProject.name);
 
+    console.log(currProject);
     resetProjects();
     renderProjects();
-    updateSelectedProject();
     renderTasksView(e);
     renderTasks(currProject);
+    updateSelectedProject();
+    updateSelectedFilter();
     resetForm();
   }
   function editTask(e, project) {
@@ -591,8 +602,11 @@ export default function appController() {
         break;
       }
     }
+    console.log(projectToDeleteFrom);
+    if (projectToDeleteFrom !== 'undefined') {
+      projectToDeleteFrom.removeTask(taskToDelete);
+    }
     project.removeTask(taskToDelete);
-    projectToDeleteFrom.removeTask(taskToDelete);
 
     renderTasksView(e);
     renderTasks(currProject);
@@ -609,10 +623,10 @@ export default function appController() {
     allTab.style.backgroundColor = componentColor;
 
     const allTasks = projects.flatMap((project) => project.tasks);
-    if (allTasksList === undefined) {
-      allTasksList = new Project('All', allTasks);
-    }
-
+    // if (allTasksList === undefined) {
+    //   allTasksList = new Project('All', allTasks);
+    // }
+    allTasksList = new Project('All', allTasks);
     // updateSelectedProject();
     renderProjects();
     currProject = allTasksList;
