@@ -242,13 +242,13 @@ export default function appController() {
   function resetFilters() {
     const filters = document.querySelectorAll('.filter');
     filters.forEach((filter) => {
-      filter.style.backgroundColor = '#141319';
+      filter.style.backgroundColor = 'transparent';
     });
   }
   function resetSelectedProject() {
     const projectsList = document.querySelectorAll('.project');
     projectsList.forEach((project) => {
-      project.style.backgroundColor = '#24222d';
+      project.style.backgroundColor = 'transparent';
     });
   }
 
@@ -276,7 +276,7 @@ export default function appController() {
       const i = project.querySelector('i');
       const p = project.querySelector('p');
       if (p.textContent === currProject.name) {
-        p.closest('.project').style.backgroundColor = '#24222d';
+        p.closest('.project').style.backgroundColor = '#2F2D35';
         i.closest('.folder').className = 'folder material-symbols-rounded';
       }
     });
@@ -314,7 +314,8 @@ export default function appController() {
     taskIndex = e.currentTarget.closest('.task').getAttribute('data-id');
     titleInput.value = project.getTasks()[taskIndex].title;
     noteInput.value = project.getTasks()[taskIndex].note;
-    document.querySelector('select').value = currProject.name;
+    console.log(currProject);
+    document.querySelector('select').value = project.name;
 
     console.log(project.getTasks()[taskIndex].getIsStarred());
     if (project.getTasks()[taskIndex].getIsStarred()) {
@@ -438,7 +439,7 @@ export default function appController() {
     projectWrappers.forEach((wrapper) => {
       wrapper.style.backgroundColor = '';
     });
-    project.style.backgroundColor = '#24222d';
+    project.style.backgroundColor = componentColor;
 
     const folders = document.querySelectorAll('.folder');
     folders.forEach((folder) => {
@@ -527,6 +528,7 @@ export default function appController() {
     const newTask = storeTask();
     // const existingTask = project.getTasks().find((task) => task.title === newTask.title);
     // if (!existingTask) {
+    console.log(currProject);
     project.getTasks().push(newTask);
     resetProjects();
     renderProjects();
@@ -534,6 +536,7 @@ export default function appController() {
     renderTasksView(e);
     renderTasks(currProject);
     resetForm();
+    console.log(projects);
     // }
   }
   function editTask(e, project) {
@@ -587,12 +590,12 @@ export default function appController() {
     resetFilters();
     resetSelectedProject();
 
-    e.target.closest('.filter').style.backgroundColor = '#24222d';
+    e.target.closest('.filter').style.backgroundColor = componentColor;
 
     const allTasks = projects.flatMap((project) => project.tasks);
-    allTasksList = new Project('All', allTasks);
-    console.log(currProject);
-    console.log(allTasksList);
+    if (allTasksList === undefined) {
+      allTasksList = new Project('All', allTasks);
+    }
 
     // updateSelectedProject();
     renderProjects();
@@ -668,3 +671,6 @@ export default function appController() {
     document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
+
+// Selected filter resets when task added
+// Cannot add star when editing All
