@@ -572,16 +572,10 @@ export default function appController() {
     e.preventDefault();
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
-
-    // const task = document.querySelector('#task');
-    // if (!task.value) {
-    //   task.setCustomValidity('Task cannot be empty');
-    //   task.reportValidity();
-    //   return;
-    // }
-
+    console.log(temp.name);
+    console.log(currProject.name);
     if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
-      temp.getTasks().push(editedTask);
+      temp.getTasks().splice(taskIndex, 1, editedTask);
       project.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
@@ -592,6 +586,7 @@ export default function appController() {
     updateSelectedProject();
     renderTasks(currProject);
   }
+
   function deleteTask(e, project) {
     e.stopImmediatePropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
@@ -605,16 +600,13 @@ export default function appController() {
         break;
       }
     }
-    console.log(projectToDeleteFrom);
-    if (projectToDeleteFrom !== 'undefined') {
+    if (projectToDeleteFrom !== undefined) {
       projectToDeleteFrom.removeTask(taskToDelete);
     }
     project.removeTask(taskToDelete);
 
     renderTasksView(e);
     renderTasks(currProject);
-    // toggleComplete(e, currProject);
-    console.log(projects);
   }
 
   function showAll(e) {
@@ -708,3 +700,4 @@ export default function appController() {
 
 // Selected filter resets when task added
 // Cannot add star when editing All
+// Add Filter name on open task and remove folder icon
