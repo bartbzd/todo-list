@@ -11,7 +11,7 @@ export default function createProject(project) {
   text.className = 'project-name';
   text.textContent = project.name;
   const folder = icon();
-  folder.className = 'folder material-symbols-outlined';
+  folder.classList.add('folder', 'material-symbols-outlined');
   folder.textContent = 'folder';
   const group = div();
   group.className = 'project-btn-grp';
