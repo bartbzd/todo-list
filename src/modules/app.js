@@ -203,6 +203,7 @@ export default function appController() {
     });
     if (projectForm.hidden) {
       selected = '';
+      resetProjects();
       renderProjects();
       updateSelectedProject();
     }
@@ -251,6 +252,12 @@ export default function appController() {
     });
   }
   function resetSelectedProject() {
+    const folders = document.querySelectorAll('.folder');
+    folders.forEach((folder) => {
+      // folder.textContent = '';
+      folder.className = 'folder material-symbols-outlined';
+      // folder.textContent = 'folder';
+    });
     const projectsList = document.querySelectorAll('.project');
     projectsList.forEach((project) => {
       project.style.backgroundColor = 'transparent';
@@ -459,6 +466,7 @@ export default function appController() {
 
   function handleProjectClick(e) {
     resetFilters();
+    resetSelectedProject();
     const projectWrappers = document.querySelectorAll('.project');
     const project = e.currentTarget.closest('.project');
     projectWrappers.forEach((wrapper) => {
@@ -466,10 +474,6 @@ export default function appController() {
     });
     project.style.backgroundColor = componentColor;
 
-    const folders = document.querySelectorAll('.folder');
-    folders.forEach((folder) => {
-      folder.className = 'folder material-symbols-outlined';
-    });
     const folder = project.querySelector('.folder');
     folder.className = 'folder material-symbols-rounded';
 
@@ -482,7 +486,6 @@ export default function appController() {
   function handleEditProjectClick(e) {
     e.stopPropagation();
     renderTasks(currProject);
-
     renderTasksView(e);
     toggleEditProject(e);
   }
@@ -499,7 +502,7 @@ export default function appController() {
     });
   }
   function renderProjects() {
-    resetProjects();
+    // resetProjects();
     projects.forEach((project) => {
       createProject(project);
     });
@@ -519,6 +522,7 @@ export default function appController() {
       currProject = newProject;
       resetForm();
     }
+    resetProjects();
     renderProjects();
     toggleAddProject();
   }
@@ -557,7 +561,6 @@ export default function appController() {
       currProject = temp;
     } else project.getTasks().push(newTask);
 
-    resetProjects();
     renderProjects();
     renderTasksView(e);
     renderTasks(currProject);
@@ -568,17 +571,19 @@ export default function appController() {
   function editTask(e, project) {
     if (!isTaskValid()) return;
     e.preventDefault();
+    console.log(currProject.name);
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
-    console.log(temp.name);
+    console.log(temp);
     console.log(currProject.name);
     if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
+      console.log(taskIndex);
       temp.getTasks().splice(taskIndex, 1, editedTask); //push(editedTask)
       project.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
-    resetProjects();
+    // resetProjects();
     renderProjects();
     renderTasksView(e);
     updateSelectedProject();
@@ -610,7 +615,6 @@ export default function appController() {
   function showAll(e) {
     resetFilters();
 
-    resetSelectedProject();
     const allTab = document.querySelector('.all');
     allTab.style.backgroundColor = componentColor;
 
@@ -619,9 +623,12 @@ export default function appController() {
       allTasksList = new Project('All', allTasks);
     } else {
       const newTasks = allTasks.filter((task) => !allTasksList.getTasks().includes(task));
+      console.log(newTasks);
       allTasksList.getTasks().push(...newTasks);
     }
     // updateSelectedProject();
+    resetSelectedProject();
+    resetProjects();
     renderProjects();
     currProject = allTasksList;
     renderTasksView(e);
@@ -691,11 +698,12 @@ export default function appController() {
     renderTasks(currProject);
     renderTasksView(e);
     // console.log(projects);
-    document.querySelector('.project').style.backgroundColor = componentColor;
-    document.querySelector('.folder').className = 'folder material-symbols-rounded';
+    updateSelectedProject();
+    // document.querySelector('.project').style.backgroundColor = componentColor;
+    // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
 
-// Selected filter resets when task added
+//showAll function - After page reload and initiating All project, editing a task in original project adds a project to All (fix)
 // Cannot add star when editing All
 // Add Filter name on open task and remove folder icon
