@@ -18,7 +18,7 @@ export default function createTask(task, project) {
   if (task.isComplete) {
     checkmark.classList.add('fa-solid', 'fa-circle-check');
   } else checkmark.classList.add('fa-regular', 'fa-circle');
-
+  checkmark.classList.add('check');
   title.classList.add('task-title');
   title.textContent = task.title;
   actions.classList.add('actions');
