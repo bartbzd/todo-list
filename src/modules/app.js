@@ -544,12 +544,14 @@ export default function appController() {
   function addTask(e, project) {
     if (!isTaskValid()) return;
     e.preventDefault();
-    console.log(currProject);
+
     const newTask = storeTask();
     // const existingTask = project.getTasks().find((task) => task.title === newTask.title);
     // if (!existingTask) {
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
+    console.log(temp);
     if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
+      console.log('i made it');
       temp.getTasks().push(newTask);
       // project.getTasks().splice(taskIndex, 1);
       currProject = temp;
@@ -566,18 +568,19 @@ export default function appController() {
     resetForm();
   }
   function editTask(e, project) {
+    if (!isTaskValid()) return;
     e.preventDefault();
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
 
-    const task = document.querySelector('#task');
-    if (!task.value) {
-      task.setCustomValidity('Task cannot be empty');
-      task.reportValidity();
-      return;
-    }
+    // const task = document.querySelector('#task');
+    // if (!task.value) {
+    //   task.setCustomValidity('Task cannot be empty');
+    //   task.reportValidity();
+    //   return;
+    // }
 
-    if (projectsFormInput.value !== project.name) {
+    if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
       temp.getTasks().push(editedTask);
       project.getTasks().splice(taskIndex, 1);
       currProject = temp;
@@ -615,18 +618,19 @@ export default function appController() {
   }
 
   function showAll(e) {
-    // resetProjects();
     resetFilters();
+
     resetSelectedProject();
     const allTab = document.querySelector('.all');
-    // e.target.closest('.filter').style.backgroundColor = componentColor;
     allTab.style.backgroundColor = componentColor;
 
     const allTasks = projects.flatMap((project) => project.tasks);
-    // if (allTasksList === undefined) {
-    //   allTasksList = new Project('All', allTasks);
-    // }
-    allTasksList = new Project('All', allTasks);
+    if (allTasksList === undefined) {
+      allTasksList = new Project('All', allTasks);
+    } else {
+      const newTasks = allTasks.filter((task) => !allTasksList.getTasks().includes(task));
+      allTasksList.getTasks().push(...newTasks);
+    }
     // updateSelectedProject();
     renderProjects();
     currProject = allTasksList;
