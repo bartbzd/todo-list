@@ -151,7 +151,12 @@ export default function appController() {
     task.isComplete = !task.isComplete;
 
     const checkmarkClasses = ['fa-regular', 'fa-solid', 'fa-circle', 'fa-circle-check'];
-    checkmarkClasses.forEach((className) => e.target.classList.toggle(className));
+    checkmarkClasses.forEach((className) => {
+      console.log(e.target.classList.contains('.delete'));
+      if (e.target.classList.contains('check')) {
+        e.target.classList.toggle(className);
+      }
+    });
 
     const title = e.target.closest('.task').querySelector('.task-title');
     const wrapper = e.target.closest('.task');
@@ -546,19 +551,12 @@ export default function appController() {
     e.preventDefault();
 
     const newTask = storeTask();
-    // const existingTask = project.getTasks().find((task) => task.title === newTask.title);
-    // if (!existingTask) {
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
-    console.log(temp);
     if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
-      console.log('i made it');
       temp.getTasks().push(newTask);
-      // project.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else project.getTasks().push(newTask);
-    console.log(currProject.name);
 
-    console.log(currProject);
     resetProjects();
     renderProjects();
     renderTasksView(e);
@@ -575,7 +573,7 @@ export default function appController() {
     console.log(temp.name);
     console.log(currProject.name);
     if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
-      temp.getTasks().splice(taskIndex, 1, editedTask);
+      temp.getTasks().splice(taskIndex, 1, editedTask); //push(editedTask)
       project.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
