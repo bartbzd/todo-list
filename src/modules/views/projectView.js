@@ -11,8 +11,8 @@ export default function createProject(project) {
   text.className = 'project-name';
   text.textContent = project.name;
   const folder = icon();
-  folder.classList.add('folder', 'material-symbols-outlined');
-  folder.textContent = 'folder';
+  folder.classList.add('folder', 'fa-regular', 'fa-folder');
+  // folder.textContent = 'folder';
   const group = div();
   group.className = 'project-btn-grp';
   const edit = icon();

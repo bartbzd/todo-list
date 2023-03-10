@@ -255,7 +255,7 @@ export default function appController() {
     const folders = document.querySelectorAll('.folder');
     folders.forEach((folder) => {
       // folder.textContent = '';
-      folder.className = 'folder material-symbols-outlined';
+      folder.className = 'folder fa-regular fa-folder';
       // folder.textContent = 'folder';
     });
     const projectsList = document.querySelectorAll('.project');
@@ -290,7 +290,7 @@ export default function appController() {
       const p = project.querySelector('p');
       if (p.textContent === currProject.name) {
         p.closest('.project').style.backgroundColor = '#2F2D35';
-        i.closest('.folder').className = 'folder material-symbols-rounded';
+        i.closest('.folder').className = 'folder fa-solid fa-folder';
       }
     });
   }
@@ -475,7 +475,7 @@ export default function appController() {
     project.style.backgroundColor = componentColor;
 
     const folder = project.querySelector('.folder');
-    folder.className = 'folder material-symbols-rounded';
+    folder.className = 'folder fa-solid fa-folder';
 
     projectIndex = project.getAttribute('data-id');
     currProject = projects[projectIndex];
@@ -561,6 +561,7 @@ export default function appController() {
       currProject = temp;
     } else project.getTasks().push(newTask);
 
+    resetProjects();
     renderProjects();
     renderTasksView(e);
     renderTasks(currProject);
