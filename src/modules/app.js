@@ -254,9 +254,7 @@ export default function appController() {
   function resetSelectedProject() {
     const folders = document.querySelectorAll('.folder');
     folders.forEach((folder) => {
-      // folder.textContent = '';
       folder.className = 'folder fa-regular fa-folder';
-      // folder.textContent = 'folder';
     });
     const projectsList = document.querySelectorAll('.project');
     projectsList.forEach((project) => {
@@ -313,16 +311,11 @@ export default function appController() {
   const renderFormView = () => {
     resetForm();
     resetStar();
+    if (projectForm.hidden === false) {
+      toggleAddProject();
+    }
     document.querySelector('select').value = currProject.name;
     document.querySelector('.form-title-header').textContent = 'Add Task';
-
-    // document.querySelector('select').addEventListener('change', (e) => {
-    //   const project = projects.find((item) => item.name === e.target.value);
-
-    //   // currProject = project;
-
-    //   // tempProject = project;
-    // });
 
     hideTasksRight();
     setTimeout(() => {
@@ -561,6 +554,9 @@ export default function appController() {
       currProject = temp;
     } else project.getTasks().push(newTask);
 
+    if (projectForm.hidden === false) {
+      toggleAddProject();
+    }
     resetProjects();
     renderProjects();
     renderTasksView(e);
@@ -584,7 +580,7 @@ export default function appController() {
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
-    // resetProjects();
+    resetProjects();
     renderProjects();
     renderTasksView(e);
     updateSelectedProject();
