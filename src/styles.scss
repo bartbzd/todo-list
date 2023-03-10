@@ -15,9 +15,9 @@ html[data-theme='light'] {
   --card: #e6eef8; //#f3f0e384;
   --component-s: #c4cdd1;
   --component: #d3dee3;
-  --grad-base: rgb(244, 124, 124);
-  --gradient-1: rgb(246, 118, 118);
-  --gradient-2: rgb(250, 177, 135);
+  --grad-base: rgb(250, 177, 135);
+  --gradient-1: rgb(250, 177, 135);
+  --gradient-2: rgb(246, 117, 117);
 }
 
 html[data-theme='dark'] {
@@ -28,9 +28,9 @@ html[data-theme='dark'] {
   --card: #18181c;
   --component-s: #454254;
   --component: #2f2d36;
-  --grad-base: rgb(90, 51, 217);
-  --gradient-1: rgb(88, 44, 232);
-  --gradient-2: rgba(119, 81, 246, 1);
+  --grad-base: rgb(119, 81, 246);
+  --gradient-1: rgb(119, 81, 246);
+  --gradient-2: rgb(88, 44, 232);
 }
 $bg-color: var(--bg-color);
 $primary: var(--primary);
@@ -131,11 +131,11 @@ header {
     color: $dk-text;
     // padding-left: 5vw;
     font-size: 48px;
-    width: 325px;
+    width: 285px;
   }
   span {
     background: $grad-base;
-    background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 75%);
+    background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 75%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -150,6 +150,7 @@ header {
 .cards {
   display: flex;
   flex-wrap: nowrap;
+  // flex-direction: row-reverse;
   justify-content: center;
   gap: 24px;
   padding: 0 8vw;
@@ -314,7 +315,7 @@ header {
     display: flex;
   }
   .content {
-    width: 600px;
+    width: 560px;
     overflow-x: hidden;
     .t-wrapper,
     .f-wrapper,
@@ -508,7 +509,7 @@ header {
           font-size: 16px;
           color: $dk-text; //$bg-color;
           background: $grad-base;
-          background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 100%);
+          background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
           box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
           transition: 0.2s ease-in-out;
           &:hover {
@@ -600,6 +601,7 @@ header {
           align-items: center;
           .open-date {
             color: $primary;
+            font-weight: 500;
           }
         }
         .btn-group {
@@ -625,7 +627,7 @@ header {
       color: $dk-text; //$bg-color;
       // background-color: $primary;
       background: $grad-base;
-      background: linear-gradient(60deg, $gradient-1 0%, $gradient-2 100%);
+      background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
       transition: 0.2s ease-in-out;
       box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 15px 0px;
 
