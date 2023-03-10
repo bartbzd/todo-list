@@ -622,18 +622,24 @@ export default function appController() {
 
   function showAll(e) {
     resetFilters();
-
+    console.log(projects);
     const allTab = document.querySelector('.all');
     allTab.style.backgroundColor = componentColor;
 
     const allTasks = projects.flatMap((project) => project.tasks);
-    if (allTasksList === undefined) {
-      allTasksList = new Project('All', allTasks);
-    } else {
-      const newTasks = allTasks.filter((task) => !allTasksList.getTasks().includes(task));
-      console.log(newTasks);
-      allTasksList.getTasks().push(...newTasks);
+
+    // if (allTasksList === undefined) {
+    //   allTasksList = new Project('All', allTasks);
+    // } else {
+    //   const newTasks = allTasks.filter((task) => !allTasksList.getTasks().includes(task));
+    //   console.log(newTasks);
+    //   allTasksList.getTasks().push(...newTasks);
+    // }
+
+    if (allTasksList !== undefined) {
+      allTasksList = undefined;
     }
+    allTasksList = new Project('All', allTasks);
     // updateSelectedProject();
     resetSelectedProject();
     resetProjects();
@@ -714,4 +720,3 @@ export default function appController() {
 
 //showAll function - After page reload and initiating All project, editing a task in original project adds a project to All (fix)
 // Cannot add star when editing All
-// Add Filter name on open task and remove folder icon
