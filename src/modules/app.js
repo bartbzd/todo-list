@@ -456,12 +456,15 @@ export default function appController() {
       }
 
       if (task.isComplete) {
-        const title = taskWrapper.closest('.task').querySelector('.task-title');
         const wrapper = taskWrapper.closest('.task');
-        const actions = taskWrapper.closest('.task').querySelector('.actions');
         const checkmark = taskWrapper.closest('.task').querySelector('.fa-circle-check');
+        const title = taskWrapper.closest('.task').querySelector('.task-title');
+        const actions = taskWrapper.closest('.task').querySelector('.actions');
+        const edit = taskWrapper.closest('.task').querySelector('.edit');
+        const trash = taskWrapper.closest('.task').querySelector('.delete');
+        const star = taskWrapper.closest('.task').querySelector('.fa-star');
+
         console.log(checkmark);
-        //add selector for closest checkmark, toggle status
 
         title.style.transition = '0.2s ease-in-out';
         title.style.textDecoration = 'line-through';
@@ -471,7 +474,10 @@ export default function appController() {
         wrapper.style.backgroundColor = cardColor;
 
         actions.style.transition = '0.2s ease-in-out';
-        actions.style.opacity = '0';
+        // actions.style.opacity = '0';
+        edit.style.display = 'none';
+        trash.style.display = 'flex';
+        star.style.display = 'none';
       }
     });
     addTaskHandlers();
@@ -639,19 +645,18 @@ export default function appController() {
     allTab.style.backgroundColor = componentColor;
 
     const allTasks = projects.flatMap((project) => project.tasks);
-
-    // if (allTasksList === undefined) {
-    //   allTasksList = new Project('All', allTasks);
-    // } else {
-    //   const newTasks = allTasks.filter((task) => !allTasksList.getTasks().includes(task));
-    //   console.log(newTasks);
-    //   allTasksList.getTasks().push(...newTasks);
-    // }
-
+    const unassignedTasks = [];
     if (allTasksList !== undefined) {
+      allTasksList.getTasks().forEach((task) => {
+        if (task.project === '') {
+          unassignedTasks.push(task);
+        }
+      });
+
       allTasksList = undefined;
     }
     allTasksList = new Project('All', allTasks);
+    allTasksList.getTasks().push(...unassignedTasks);
     // updateSelectedProject();
     resetSelectedProject();
     resetProjects();
