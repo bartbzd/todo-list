@@ -426,8 +426,10 @@ export default function appController() {
     });
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         e.target.closest('.task').style.animation = 'ease-in formRight reverse 0.3s';
-        toggleComplete(e, currProject);
+        e.target.closest('.task').style.opacity = '0';
+        // toggleComplete(e, currProject);
         setTimeout(() => {
           deleteTask(e, currProject);
         }, 200);
