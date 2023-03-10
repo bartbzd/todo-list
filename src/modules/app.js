@@ -160,6 +160,9 @@ export default function appController() {
     const title = e.target.closest('.task').querySelector('.task-title');
     const wrapper = e.target.closest('.task');
     const actions = e.target.closest('.task').querySelector('.actions');
+    const edit = e.target.closest('.task').querySelector('.edit');
+    const trash = e.target.closest('.task').querySelector('.delete');
+    const star = e.target.closest('.task').querySelector('.fa-star');
 
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
       title.style.transition = '0.2s ease-in-out';
@@ -170,12 +173,18 @@ export default function appController() {
       wrapper.style.backgroundColor = 'transparent';
 
       actions.style.transition = '0.2s ease-in-out';
-      actions.style.opacity = '0';
+      // actions.style.opacity = '0';
+      edit.style.display = 'none';
+      trash.style.display = 'flex';
+      star.style.display = 'none';
     } else {
       title.style.textDecoration = '';
       title.style.color = textColor;
       actions.style.opacity = '1';
       wrapper.style.backgroundColor = componentColor;
+      trash.style.display = 'none';
+      edit.style.display = 'flex';
+      star.style.display = 'flex';
     }
   };
   const toggleFormStar = () => {
@@ -208,6 +217,7 @@ export default function appController() {
       resetProjects();
       renderProjects();
       updateSelectedProject();
+      updateSelectedFilter();
     }
   };
   function toggleEditProject(e) {
@@ -588,7 +598,7 @@ export default function appController() {
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
-    if (projectForm.hidden === false) {
+    if (!projectForm.hidden) {
       toggleAddProject();
     }
     resetProjects();
@@ -717,6 +727,3 @@ export default function appController() {
     // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
-
-//showAll function - After page reload and initiating All project, editing a task in original project adds a project to All (fix)
-// Cannot add star when editing All
