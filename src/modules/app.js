@@ -166,7 +166,7 @@ export default function appController() {
 
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
       title.style.transition = '0.1s ease-in-out';
-      wrapper.style.transition = '0.1s ease-in-out';
+      wrapper.style.transition = '0.2s ease-in-out';
       edit.style.transition = '0.1s ease-in-out';
       trash.style.transition = '0.1s ease-in-out';
       star.style.transition = '0.1s ease-in-out';
@@ -313,7 +313,7 @@ export default function appController() {
       const i = project.querySelector('i');
       const p = project.querySelector('p');
       if (p.textContent === currProject.name) {
-        p.closest('.project').style.backgroundColor = '#2F2D35';
+        p.closest('.project').style.backgroundColor = componentColor;
         i.closest('.folder').className = 'folder fa-solid fa-folder';
       }
     });
