@@ -332,6 +332,10 @@ header {
         font-size: 20px;
         user-select: none;
       }
+      .tasks {
+        overflow-x: hidden;
+        height: 40vh;
+      }
       .task {
         user-select: none;
         z-index: 0;
@@ -401,7 +405,7 @@ header {
           display: flex;
           align-items: center;
           gap: 10px;
-          transition: 0.1s;
+          transition: 0.2s;
           padding-left: 8px;
           .options {
             height: 100%;
@@ -409,6 +413,7 @@ header {
             align-items: center;
           }
           .edit {
+            transition: 0.1s ease-in-out;
             opacity: 0;
           }
           span {
