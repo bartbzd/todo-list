@@ -165,26 +165,37 @@ export default function appController() {
     const star = e.target.closest('.task').querySelector('.fa-star');
 
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
-      title.style.transition = '0.2s ease-in-out';
+      title.style.transition = '0.1s ease-in-out';
+      wrapper.style.transition = '0.1s ease-in-out';
+      edit.style.transition = '0.1s ease-in-out';
+      trash.style.transition = '0.1s ease-in-out';
+      star.style.transition = '0.1s ease-in-out';
+
+      wrapper.style.backgroundColor = 'transparent';
       title.style.textDecoration = 'line-through';
       title.style.color = subtextColor;
+      edit.style.opacity = '0';
+      trash.style.opacity = '1';
+      star.style.opacity = '0';
 
-      wrapper.style.transition = '0.2s ease-in-out';
-      wrapper.style.backgroundColor = 'transparent';
-
-      actions.style.transition = '0.2s ease-in-out';
-      // actions.style.opacity = '0';
-      edit.style.display = 'none';
-      trash.style.display = 'flex';
-      star.style.display = 'none';
+      setTimeout(() => {
+        edit.style.display = 'none';
+        trash.style.display = 'flex';
+        star.style.display = 'none';
+      }, 100);
     } else {
+      wrapper.style.backgroundColor = componentColor;
       title.style.textDecoration = '';
       title.style.color = textColor;
-      actions.style.opacity = '1';
-      wrapper.style.backgroundColor = componentColor;
-      trash.style.display = 'none';
-      edit.style.display = 'flex';
-      star.style.display = 'flex';
+      edit.style.opacity = '1';
+      trash.style.opacity = '0';
+      star.style.opacity = '1';
+
+      setTimeout(() => {
+        edit.style.display = 'flex';
+        trash.style.display = 'none';
+        star.style.display = 'flex';
+      }, 100);
     }
   };
   const toggleFormStar = () => {
@@ -459,21 +470,18 @@ export default function appController() {
         const wrapper = taskWrapper.closest('.task');
         const checkmark = taskWrapper.closest('.task').querySelector('.fa-circle-check');
         const title = taskWrapper.closest('.task').querySelector('.task-title');
-        const actions = taskWrapper.closest('.task').querySelector('.actions');
+        // const actions = taskWrapper.closest('.task').querySelector('.actions');
         const edit = taskWrapper.closest('.task').querySelector('.edit');
         const trash = taskWrapper.closest('.task').querySelector('.delete');
         const star = taskWrapper.closest('.task').querySelector('.fa-star');
 
         console.log(checkmark);
 
-        title.style.transition = '0.2s ease-in-out';
         title.style.textDecoration = 'line-through';
         title.style.color = subtextColor;
 
-        wrapper.style.transition = '0.2s ease-in-out';
         wrapper.style.backgroundColor = cardColor;
 
-        actions.style.transition = '0.2s ease-in-out';
         // actions.style.opacity = '0';
         edit.style.display = 'none';
         trash.style.display = 'flex';
