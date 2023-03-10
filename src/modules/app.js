@@ -152,7 +152,6 @@ export default function appController() {
 
     const checkmarkClasses = ['fa-regular', 'fa-solid', 'fa-circle', 'fa-circle-check'];
     checkmarkClasses.forEach((className) => {
-      console.log(e.target.classList.contains('.delete'));
       if (e.target.classList.contains('check')) {
         e.target.classList.toggle(className);
       }
@@ -190,6 +189,9 @@ export default function appController() {
     addProjectBtn.classList.toggle('rotated');
   };
   const toggleAddProject = () => {
+    // if (taskForm.hidden === true) {
+    //   return;
+    // }
     togglePlusBtn();
     projectForm.hidden = !projectForm.hidden;
     if (!projectForm.hidden) {
@@ -197,7 +199,7 @@ export default function appController() {
       input.focus();
     }
 
-    const projectBtns = document.querySelectorAll('.options');
+    const projectBtns = document.querySelectorAll('.project-btn-grp .options');
     projectBtns.forEach((btn) => {
       btn.style.opacity = '0';
     });
@@ -242,8 +244,11 @@ export default function appController() {
     document.querySelector('.tasks').innerHTML = '';
   }
   function resetForm() {
-    document.querySelector('form').reset();
-    document.querySelector('.task-form').reset();
+    console.log(!editBtn.classList.contains('hidden'));
+    if (editBtn.classList.contains('hidden')) {
+      document.querySelector('.task-form').reset();
+      document.querySelector('form').reset();
+    }
   }
   function resetFilters() {
     const filters = document.querySelectorAll('.filter');
@@ -324,6 +329,9 @@ export default function appController() {
     }, 100);
   };
   const renderEditView = (e, project) => {
+    if (projectForm.hidden === false) {
+      toggleAddProject();
+    }
     taskIndex = e.currentTarget.closest('.task').getAttribute('data-id');
     titleInput.value = project.getTasks()[taskIndex].title;
     noteInput.value = project.getTasks()[taskIndex].note;
@@ -580,6 +588,9 @@ export default function appController() {
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
+    if (projectForm.hidden === false) {
+      toggleAddProject();
+    }
     resetProjects();
     renderProjects();
     renderTasksView(e);
