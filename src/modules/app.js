@@ -289,7 +289,7 @@ export default function appController() {
   }
 
   // updates
-  const updateOpenTask = (e) => {
+  function updateOpenTask(e) {
     const title = document.querySelector('#open-title');
     const note = document.querySelector('#open-note');
     const project = document.querySelector('#open-project');
@@ -305,7 +305,7 @@ export default function appController() {
     if (isStarred === false) {
       star.style.display = 'none';
     } else star.style.display = 'inline-block';
-  };
+  }
   function updateSelectedProject() {
     resetFilters();
     const projectsList = document.querySelectorAll('.project');
@@ -350,6 +350,7 @@ export default function appController() {
     }, 100);
   };
   const renderEditView = (e, project) => {
+    e.stopImmediatePropagation();
     if (projectForm.hidden === false) {
       toggleAddProject();
     }
@@ -357,34 +358,23 @@ export default function appController() {
     titleInput.value = project.getTasks()[taskIndex].title;
     noteInput.value = project.getTasks()[taskIndex].note;
     console.log(project.name);
-    // console.log(projectIndex);
-    // projectIndex = project.getAttribute('data-id');
 
     const projectName = e.currentTarget
       .closest('.task')
       .getAttribute('data-project-name');
-
-    // Find the index of the project in the `projects` array
-    // projectIndex = projects.findIndex((project) => project.id === projectId);
     document.querySelector('select').value = projectName;
 
-    console.log(project.getTasks()[taskIndex].getIsStarred());
     if (project.getTasks()[taskIndex].getIsStarred()) {
       formStar.classList.add('starred');
       formStar.classList.remove('fa-regular');
       formStar.classList.add('fa-solid');
-      // console.log('test');
     } else {
       formStar.classList.remove('starred');
       formStar.classList.add('fa-regular');
       formStar.classList.remove('fa-solid');
     }
-    // document.querySelector('select').addEventListener('change', () => {
-    //   tempProject = projects.find((item) => item.name === e.target.value);
-    // });
-    e.stopImmediatePropagation();
-    hideTasksRight();
 
+    hideTasksRight();
     setTimeout(() => {
       showForm();
       titleInput.focus();
@@ -567,6 +557,7 @@ export default function appController() {
     toggleEditProject();
     renderProjects();
   }
+  //delete project
 
   function storeTask() {
     const title = document.querySelector('#task').value;
@@ -623,7 +614,6 @@ export default function appController() {
     updateSelectedProject();
     renderTasks(currProject);
   }
-
   function deleteTask(e, project) {
     e.stopImmediatePropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
@@ -637,10 +627,14 @@ export default function appController() {
         break;
       }
     }
+    console.log(projectToDeleteFrom);
     if (projectToDeleteFrom !== undefined) {
       projectToDeleteFrom.removeTask(taskToDelete);
     }
-    project.removeTask(taskToDelete);
+
+    if (projectToDeleteFrom !== currProject) {
+      project.removeTask(taskToDelete);
+    }
 
     renderTasksView(e);
     renderTasks(currProject);
@@ -742,3 +736,6 @@ export default function appController() {
     // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
+
+//deleteTask is deleting 2 tasks at once (named the same?)
+//
