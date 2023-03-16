@@ -506,16 +506,27 @@ export default function appController() {
     renderTasksView(e);
     toggleEditProject(e);
   }
+  function handleDeleteProjectClick(e) {
+    e.stopPropagation();
+    //deleteProject();
+    //rerender projects;
+    //display new project if deleted project was current
+  }
   function addProjectHandlers() {
     const projectWrappers = document.querySelectorAll('.project');
     const editBtns = document.querySelectorAll('.edit-p');
+    const deleteBtns = document.querySelectorAll('.delete-p');
 
     projectWrappers.forEach((wrapper) => {
       wrapper.addEventListener('click', handleProjectClick);
     });
 
-    editBtns.forEach((button) => {
-      button.addEventListener('click', handleEditProjectClick);
+    editBtns.forEach((btn) => {
+      btn.addEventListener('click', handleEditProjectClick);
+    });
+
+    deleteBtns.forEach((btn) => {
+      btn.addEventListener('click', handleDeleteProjectClick);
     });
   }
   function renderProjects() {
@@ -558,6 +569,9 @@ export default function appController() {
     renderProjects();
   }
   //delete project
+  // function deleteProject() {
+  //   const name
+  // }
 
   function storeTask() {
     const title = document.querySelector('#task').value;
@@ -736,6 +750,3 @@ export default function appController() {
     // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
-
-//deleteTask is deleting 2 tasks at once (named the same?)
-//
