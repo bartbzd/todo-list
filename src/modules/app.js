@@ -514,11 +514,9 @@ export default function appController() {
       deleteProject(e);
       resetProjects();
       renderProjects();
-      if (currProject.name === 'All') {
-        showAll(e);
-      } else renderTasks(currProject);
+      showAll(e);
       renderTasksView(e);
-    }, 200);
+    }, 100);
   }
   function addProjectHandlers() {
     const projectWrappers = document.querySelectorAll('.project');
