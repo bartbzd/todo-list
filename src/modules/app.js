@@ -508,16 +508,17 @@ export default function appController() {
   }
   function handleDeleteProjectClick(e) {
     e.stopPropagation();
-    deleteProject(e);
-    resetProjects();
-    renderProjects();
-
-    if (currProject.name === 'All') {
-      showAll(e);
-    }
-
-    renderTasksView(e);
-    renderTasks(currProject);
+    e.target.closest('.project').style.animation = 'ease-in formRight reverse 0.3s';
+    e.target.closest('.project').style.opacity = '0.7';
+    setTimeout(() => {
+      deleteProject(e);
+      resetProjects();
+      renderProjects();
+      if (currProject.name === 'All') {
+        showAll(e);
+      } else renderTasks(currProject);
+      renderTasksView(e);
+    }, 200);
   }
   function addProjectHandlers() {
     const projectWrappers = document.querySelectorAll('.project');
@@ -575,11 +576,8 @@ export default function appController() {
     toggleEditProject();
     renderProjects();
   }
-  //delete project
   function deleteProject(e) {
     projectIndex = e.target.closest('.project').getAttribute('data-id');
-    console.log(projectIndex);
-    console.log(projects);
     projects.splice(projectIndex, 1);
   }
 
