@@ -114,15 +114,20 @@ export default function appController() {
     }
     return true;
   }
-  function doesProjectExist() {
-    const name = document.querySelector('#project-name');
-    if (projects.find((project) => project.name === name.value)) {
-      name.setCustomValidity('Project exists');
-      name.reportValidity();
-      return false;
-    }
-    return true;
-  }
+  // function doesProjectExist() {
+  //   const name = document.querySelector('#project-name');
+  //   const projectsTest = document.querySelectorAll('.project-grp');
+  //   console.log(projectsTest);
+  //   projectsTest.forEach((pro) => {
+  //     console.log(pro.textContent);
+  //     if (pro.textContent === name.value) {
+  //       name.setCustomValidity('Project exists');
+  //       name.reportValidity();
+  //       return false;
+  //     }
+  //   });
+  //   return true;
+  // }
   function isTaskValid() {
     const task = document.querySelector('#task');
     console.log(task);
@@ -318,13 +323,17 @@ export default function appController() {
   }
   function updateSelectedProject() {
     resetFilters();
+    console.log(currProject);
     const projectsList = document.querySelectorAll('.project');
+    let foundProject = false;
     projectsList.forEach((project) => {
+      if (foundProject) return;
       const i = project.querySelector('i');
       const p = project.querySelector('p');
       if (p.textContent === currProject.name) {
         p.closest('.project').style.backgroundColor = componentColor;
         i.closest('.folder').className = 'folder fa-solid fa-folder';
+        foundProject = true;
       }
     });
   }
@@ -562,15 +571,16 @@ export default function appController() {
   function addProject() {
     if (!isProjectValid()) return;
     const newProject = storeProject();
-    const existingProject = projects.find((project) => project.name === newProject.name);
-    if (!existingProject) {
-      projects.unshift(newProject);
-      currProject = newProject;
-      resetForm();
-    }
+    // const existingProject = projects.find((project) => project.name === newProject.name);
+    // if (!existingProject) {
+    projects.unshift(newProject);
+    currProject = newProject;
+    resetForm();
+    // }
     resetProjects();
     renderProjects();
     toggleAddProject();
+    updateSelectedProject();
   }
   function editProject() {
     // if (!isProjectValid()) return;
@@ -720,13 +730,13 @@ export default function appController() {
 
       console.log(selected);
       console.log(isProjectValid());
-      console.log(doesProjectExist());
+      // console.log(doesProjectExist());
 
-      if (selected === '' && isProjectValid() && doesProjectExist()) {
-        addProject();
-        console.log('Add ran');
-      } else if (doesProjectExist()) {
-        if (isProjectValid()) {
+      if (isProjectValid()) {
+        if (selected === '') {
+          addProject();
+          console.log('Add ran');
+        } else {
           editProject();
           selected.classList.toggle('edited');
           selected = '';
@@ -737,7 +747,7 @@ export default function appController() {
       updateSelectedProject();
       renderTasksView(e);
       renderTasks(currProject);
-
+      resetForm();
       // resetProjects();
       // renderProjects();
     }
