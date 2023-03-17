@@ -112,6 +112,10 @@ export default function appController() {
       name.reportValidity();
       return false;
     }
+    return true;
+  }
+  function doesProjectExist() {
+    const name = document.querySelector('#project-name');
     if (projects.find((project) => project.name === name.value)) {
       name.setCustomValidity('Project exists');
       name.reportValidity();
@@ -209,9 +213,7 @@ export default function appController() {
     addProjectBtn.classList.toggle('rotated');
   };
   const toggleAddProject = () => {
-    // if (taskForm.hidden === true) {
-    //   return;
-    // }
+    selected = '';
     togglePlusBtn();
     projectForm.hidden = !projectForm.hidden;
     if (!projectForm.hidden) {
@@ -232,6 +234,7 @@ export default function appController() {
     }
   };
   function toggleEditProject(e) {
+    // e.stopPropagation();
     console.log(currProject);
     togglePlusBtn();
     projectForm.hidden = !projectForm.hidden;
@@ -244,13 +247,18 @@ export default function appController() {
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
       projectIndex = e.target.closest('.project').getAttribute('data-id');
       console.log(projectIndex);
+
+      // currProject = projects[projectIndex];
+      console.log(projects[projectIndex].name);
       input.value = projects[projectIndex].name;
+      console.log(projects[projectIndex].name);
       input.focus();
-      console.log(input);
+      console.log(input.value);
       selected = e.target.closest('.project');
       selected.classList.toggle('edited');
       selected.style.display = 'none';
     }
+    console.log(currProject);
   }
 
   // resets
@@ -502,8 +510,11 @@ export default function appController() {
   }
   function handleEditProjectClick(e) {
     e.stopPropagation();
+    console.log(currProject);
+    console.log(projects);
     renderTasks(currProject);
     renderTasksView(e);
+
     toggleEditProject(e);
   }
   function handleDeleteProjectClick(e) {
@@ -561,6 +572,7 @@ export default function appController() {
     toggleAddProject();
   }
   function editProject() {
+    // if (!isProjectValid()) return;
     const name = document.querySelector('#project-name');
     if (!name.value) {
       console.log('test');
@@ -572,6 +584,7 @@ export default function appController() {
     projects[projectIndex].name = name.value;
     resetForm();
     toggleEditProject();
+    resetProjects();
     renderProjects();
   }
   function deleteProject(e) {
@@ -704,17 +717,24 @@ export default function appController() {
     if (e.key === 'Enter') {
       e.preventDefault();
 
-      if (selected === '' && isProjectValid()) {
+      console.log(doesProjectExist());
+      console.log(selected);
+      if (selected === '' && isProjectValid() && doesProjectExist()) {
         addProject();
-      } else {
-        editProject();
-        selected.classList.toggle('edited');
-        selected = '';
+      } else if (doesProjectExist()) {
+        if (isProjectValid()) {
+          editProject();
+          selected.classList.toggle('edited');
+          selected = '';
+        }
       }
 
       updateSelectedProject();
       renderTasksView(e);
       renderTasks(currProject);
+
+      // resetProjects();
+      // renderProjects();
     }
   });
   projectForm.addEventListener('submit', (e) => {
