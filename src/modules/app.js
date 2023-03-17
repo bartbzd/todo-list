@@ -208,7 +208,7 @@ export default function appController() {
     formStar.classList.toggle('fa-solid');
   };
   const togglePlusBtn = () => {
-    resetForm();
+    // resetForm();
     addProjectBtn.classList.toggle('plus');
     addProjectBtn.classList.toggle('rotated');
   };
@@ -236,8 +236,10 @@ export default function appController() {
   function toggleEditProject(e) {
     // e.stopPropagation();
     console.log(currProject);
-    togglePlusBtn();
+    console.log(currProject);
+    console.log(input);
     projectForm.hidden = !projectForm.hidden;
+    console.log(input);
     const projectBtns = document.querySelectorAll('.options');
     projectBtns.forEach((btn) => {
       // btn.style.display = 'none';
@@ -246,18 +248,19 @@ export default function appController() {
     if (!projectForm.hidden) {
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
       projectIndex = e.target.closest('.project').getAttribute('data-id');
-      console.log(projectIndex);
-
-      // currProject = projects[projectIndex];
-      console.log(projects[projectIndex].name);
+      // input.style.display = 'block';
       input.value = projects[projectIndex].name;
-      console.log(projects[projectIndex].name);
       input.focus();
-      console.log(input.value);
+
       selected = e.target.closest('.project');
       selected.classList.toggle('edited');
       selected.style.display = 'none';
+
+      currProject = projects[projectIndex];
+      // renderTasksView(e);
+      // renderTasks(currProject);
     }
+    togglePlusBtn();
     console.log(currProject);
   }
 
@@ -273,7 +276,6 @@ export default function appController() {
     document.querySelector('.tasks').innerHTML = '';
   }
   function resetForm() {
-    console.log(!editBtn.classList.contains('hidden'));
     if (editBtn.classList.contains('hidden')) {
       document.querySelector('.task-form').reset();
       document.querySelector('form').reset();
@@ -390,7 +392,7 @@ export default function appController() {
     }, 100);
   };
   const renderTasksView = (e) => {
-    resetForm();
+    // resetForm();
     e.preventDefault();
     if (addBtn.classList.contains('hidden')) {
       toggleBtnText();
@@ -509,13 +511,12 @@ export default function appController() {
     renderTasksView(e);
   }
   function handleEditProjectClick(e) {
-    e.stopPropagation();
+    // e.stopPropagation();
     console.log(currProject);
     console.log(projects);
+    toggleEditProject(e);
     renderTasks(currProject);
     renderTasksView(e);
-
-    toggleEditProject(e);
   }
   function handleDeleteProjectClick(e) {
     e.stopPropagation();
@@ -717,15 +718,19 @@ export default function appController() {
     if (e.key === 'Enter') {
       e.preventDefault();
 
-      console.log(doesProjectExist());
       console.log(selected);
+      console.log(isProjectValid());
+      console.log(doesProjectExist());
+
       if (selected === '' && isProjectValid() && doesProjectExist()) {
         addProject();
+        console.log('Add ran');
       } else if (doesProjectExist()) {
         if (isProjectValid()) {
           editProject();
           selected.classList.toggle('edited');
           selected = '';
+          console.log('Edit ran');
         }
       }
 
