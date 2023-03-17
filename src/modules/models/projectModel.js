@@ -14,8 +14,8 @@ export default class Project {
     return this.tasks;
   }
 
-  removeTask(taskToDelete) {
-    const index = this.tasks.findIndex((task) => task.title === taskToDelete.title);
+  removeTask(selectedTask) {
+    const index = this.tasks.findIndex((task) => task.title === selectedTask.title);
     if (index !== -1) {
       this.tasks.splice(index, 1);
     }
