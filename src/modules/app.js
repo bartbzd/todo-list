@@ -105,44 +105,22 @@ export default function appController() {
 
   // validity
   function isProjectValid() {
-    const name = document.querySelector('#project-name');
-    if (!name.value) {
+    const project = document.querySelector('#project-name');
+    if (!project.value) {
       console.log('test');
-      name.setCustomValidity('Project cannot be empty');
-      name.reportValidity();
+      project.setCustomValidity('Project cannot be empty');
+      project.reportValidity();
       return false;
     }
     return true;
   }
-  // function doesProjectExist() {
-  //   const name = document.querySelector('#project-name');
-  //   const projectsTest = document.querySelectorAll('.project-grp');
-  //   console.log(projectsTest);
-  //   projectsTest.forEach((pro) => {
-  //     console.log(pro.textContent);
-  //     if (pro.textContent === name.value) {
-  //       name.setCustomValidity('Project exists');
-  //       name.reportValidity();
-  //       return false;
-  //     }
-  //   });
-  //   return true;
-  // }
   function isTaskValid() {
     const task = document.querySelector('#task');
-    console.log(task);
     if (!task.value) {
-      console.log('test');
       task.setCustomValidity('Task cannot be empty');
       task.reportValidity();
       return false;
     }
-
-    // if (project.getTasks().find(({ title }) => title === task.value)) {
-    //   task.setCustomValidity('Task already exists');
-    //   task.reportValidity();
-    //   return false;
-    // }
     return true;
   }
 
@@ -308,15 +286,19 @@ export default function appController() {
     const title = document.querySelector('#open-title');
     const note = document.querySelector('#open-note');
     const project = document.querySelector('#open-project');
+    const folder = document.querySelector('.open-folder');
     // const date = document.querySelector('#date');
 
     const star = document.querySelector('.open-star');
     const id = e.target.closest('.task').getAttribute('data-id');
     const isStarred = currProject.tasks[id].getIsStarred();
-    console.log(isStarred);
+
     title.textContent = currProject.tasks[id].title;
     note.textContent = currProject.tasks[id].note;
-    project.textContent = currProject.tasks[id].project;
+    if (currProject.name === 'All') {
+      project.textContent = 'All';
+      // folder.style.display = 'none';
+    } else project.textContent = currProject.tasks[id].project;
     if (isStarred === false) {
       star.style.display = 'none';
     } else star.style.display = 'inline-block';
