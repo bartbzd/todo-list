@@ -421,9 +421,6 @@ header {
           span {
             display: flex;
           }
-          // i {
-          //   color: #8a7fa2;
-          // }
           .fa-regular {
             opacity: 0;
           }
@@ -469,13 +466,11 @@ header {
           font-size: 24px;
           margin-top: 70px;
           margin-bottom: 6px;
-          // margin-left: auto;
           width: 30px;
           display: flex;
           justify-content: center;
           transition: 0.2s ease-in-out;
           &:hover {
-            // color: $primary;
             transform: scale(1.1);
           }
           &:active {
@@ -486,7 +481,6 @@ header {
           font-size: 20px;
         }
         .starred {
-          // color: $dk-subtext;
           transition: 0.2s ease-in-out;
         }
 
