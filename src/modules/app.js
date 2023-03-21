@@ -297,8 +297,11 @@ export default function appController() {
     note.textContent = currProject.tasks[id].note;
     if (currProject.name === 'All') {
       project.textContent = 'All';
-      // folder.style.display = 'none';
-    } else project.textContent = currProject.tasks[id].project;
+      folder.textContent = 'inbox';
+    } else {
+      project.textContent = currProject.tasks[id].project;
+      folder.textContent = 'folder';
+    }
     if (isStarred === false) {
       star.style.display = 'none';
     } else star.style.display = 'inline-block';
