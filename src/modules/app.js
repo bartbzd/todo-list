@@ -650,6 +650,7 @@ export default function appController() {
     renderProjects();
     renderTasksView(e);
     updateSelectedProject();
+    updateSelectedFilter();
     renderTasks(currProject);
   }
   function deleteTask(e, project) {
@@ -680,7 +681,9 @@ export default function appController() {
 
   function getAllTasks() {
     const allTasks = projects.flatMap((project) => project.tasks);
-    allTasksList = new Project('All', allTasks);
+    const unassignedTasks = allTasksList.getTasks().filter((task) => task.project === '');
+    const combinedTasks = allTasks.concat(unassignedTasks);
+    allTasksList = new Project('All', combinedTasks);
   }
   function showAll(e) {
     console.log(allTasksList);
@@ -688,11 +691,11 @@ export default function appController() {
     const allTab = document.querySelector('.all');
     allTab.style.backgroundColor = componentColor;
 
-    const allTasks = projects.flatMap((project) => project.tasks);
-    const unassignedTasks = allTasksList.getTasks().filter((task) => task.project === '');
-    const combinedTasks = allTasks.concat(unassignedTasks);
-    allTasksList = new Project('All', combinedTasks);
-
+    // const allTasks = projects.flatMap((project) => project.tasks);
+    // const unassignedTasks = allTasksList.getTasks().filter((task) => task.project === '');
+    // const combinedTasks = allTasks.concat(unassignedTasks);
+    // allTasksList = new Project('All', combinedTasks);
+    getAllTasks();
     resetSelectedProject();
     resetProjects();
     renderProjects();
@@ -702,7 +705,7 @@ export default function appController() {
   }
   function showStarred(e) {
     resetFilters();
-    // getAllTasks();
+    getAllTasks();
     const starredTab = document.querySelector('.starred');
     starredTab.style.backgroundColor = componentColor;
 
