@@ -296,17 +296,20 @@ export default function appController() {
 
     title.textContent = currProject.tasks[id].title;
     note.textContent = currProject.tasks[id].note;
-    if (currProject.name === 'All') {
+
+    if (selectAll.style.backgroundColor === 'rgb(211, 222, 227)') {
       project.textContent = 'All';
       folder.className = 'material-symbols-rounded open-folder';
       folder.textContent = 'inbox';
-
       console.log(folder.className);
-    } else if (currProject.name === 'Starred') {
+    } else if (selectStarred.style.backgroundColor === 'rgb(211, 222, 227)') {
       project.textContent = 'Starred';
       folder.className = 'fa-solid fa-star open-folder';
       folder.textContent = '';
-    } else {
+    }
+    //Add updates to Today
+    //Add updates to Week
+    else {
       project.textContent = currProject.tasks[id].project;
       folder.textContent = 'folder';
     }
@@ -332,9 +335,7 @@ export default function appController() {
   }
   function updateSelectedFilter() {
     if (currProject.name === 'All') {
-      const allTab = document.querySelector('.all');
-      // e.target.closest('.filter').style.backgroundColor = componentColor;
-      allTab.style.backgroundColor = componentColor;
+      selectAll.style.backgroundColor = componentColor;
     }
   }
 
@@ -686,18 +687,12 @@ export default function appController() {
     allTasksList = new Project('All', combinedTasks);
   }
   function showAll(e) {
-    console.log(allTasksList);
     resetFilters();
-    const allTab = document.querySelector('.all');
-    allTab.style.backgroundColor = componentColor;
-
-    // const allTasks = projects.flatMap((project) => project.tasks);
-    // const unassignedTasks = allTasksList.getTasks().filter((task) => task.project === '');
-    // const combinedTasks = allTasks.concat(unassignedTasks);
-    // allTasksList = new Project('All', combinedTasks);
     getAllTasks();
+    selectAll.style.backgroundColor = componentColor;
     resetSelectedProject();
     resetProjects();
+
     renderProjects();
     currProject = allTasksList;
     renderTasksView(e);
