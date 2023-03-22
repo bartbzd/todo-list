@@ -304,7 +304,7 @@ export default function appController() {
       console.log(folder.className);
     } else if (currProject.name === 'Starred') {
       project.textContent = 'Starred';
-      folder.className = 'fa-regular fa-star open-folder';
+      folder.className = 'fa-solid fa-star open-folder';
       folder.textContent = '';
     } else {
       project.textContent = currProject.tasks[id].project;
@@ -702,6 +702,7 @@ export default function appController() {
   }
   function showStarred(e) {
     resetFilters();
+    // getAllTasks();
     const starredTab = document.querySelector('.starred');
     starredTab.style.backgroundColor = componentColor;
 
@@ -714,6 +715,7 @@ export default function appController() {
 
     renderTasksView(e);
     renderTasks(currProject);
+    currProject = allTasksList;
   }
 
   selectAll.addEventListener('click', showAll);
