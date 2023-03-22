@@ -37,6 +37,9 @@ export default function appController() {
   const cardColor = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--card');
+  const primaryColor = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue('--primary');
 
   let taskIndex = 0;
   let projectIndex;
@@ -293,7 +296,7 @@ export default function appController() {
     const star = document.querySelector('.open-star');
     const id = e.target.closest('.task').getAttribute('data-id');
     const isStarred = currProject.tasks[id].getIsStarred();
-
+    console.log(currProject);
     title.textContent = currProject.tasks[id].title;
     note.textContent = currProject.tasks[id].note;
 
@@ -310,6 +313,7 @@ export default function appController() {
     //Add updates to Today
     //Add updates to Week
     else {
+      folder.className = 'material-symbols-rounded open-folder';
       project.textContent = currProject.tasks[id].project;
       folder.textContent = 'folder';
     }
@@ -468,6 +472,7 @@ export default function appController() {
       if (task.isStarred) {
         //// task.getIsStarred()
         taskWrapper.querySelector('.fa-star').classList.replace('fa-regular', 'fa-solid');
+        // taskWrapper.querySelector('.fa-star').style.color = primaryColor;
       }
 
       if (task.isComplete) {
@@ -613,10 +618,13 @@ export default function appController() {
 
     const newTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
-    if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
-      temp.getTasks().push(newTask);
-      currProject = temp;
-    } else project.getTasks().push(newTask);
+    console.log(temp);
+    if (projectsFormInput.value !== project.name) {
+      allTasksList.getTasks().push(newTask);
+      currProject = allTasksList;
+    } else {
+      project.getTasks().push(newTask);
+    }
 
     if (projectForm.hidden === false) {
       toggleAddProject();
@@ -676,6 +684,7 @@ export default function appController() {
       project.removeTask(taskToDelete);
     }
 
+    // getAllTasks();
     renderTasksView(e);
     renderTasks(currProject);
   }
@@ -698,22 +707,25 @@ export default function appController() {
     renderTasksView(e);
     renderTasks(currProject);
   }
-  function showStarred(e) {
-    resetFilters();
-    getAllTasks();
-    const starredTab = document.querySelector('.starred');
-    starredTab.style.backgroundColor = componentColor;
 
+  function getStarredTasks() {
     const starredTasks = allTasksList.getTasks().filter((task) => task.isStarred);
     currProject = new Project('Starred', starredTasks);
-
+    console.log(currProject);
+  }
+  function showStarred(e) {
+    //showStarred is actually showing allTasks
+    resetFilters();
+    getAllTasks();
+    selectStarred.style.backgroundColor = componentColor;
+    getStarredTasks();
     resetSelectedProject();
     resetProjects();
-    renderProjects();
 
+    renderProjects();
     renderTasksView(e);
     renderTasks(currProject);
-    currProject = allTasksList;
+    // currProject = allTasksList;
   }
 
   selectAll.addEventListener('click', showAll);
