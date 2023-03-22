@@ -687,68 +687,30 @@ export default function appController() {
 
     const allTasks = projects.flatMap((project) => project.tasks);
     const unassignedTasks = allTasksList.getTasks().filter((task) => task.project === '');
-    console.log(unassignedTasks);
     const combinedTasks = allTasks.concat(unassignedTasks);
-    // const unassignedTasks = [];
-    // if (allTasksList !== undefined) {
-    //   allTasksList.getTasks().forEach((task) => {
-    //     if (task.project === '') {
-    //       unassignedTasks.push(task);
-    //     }
-    //   });
-    //   allTasksList = undefined;
-    // }
-    // getAllTasks();
     allTasksList = new Project('All', combinedTasks);
 
-    // allTasksList.getTasks().push(...unassignedTasks);
-    // updateSelectedProject();
     resetSelectedProject();
     resetProjects();
     renderProjects();
     currProject = allTasksList;
     renderTasksView(e);
     renderTasks(currProject);
-
-    // console.table(projects);
   }
   function showStarred(e) {
     resetFilters();
-    // getAllTasks();
-    console.log(allTasksList);
-    console.log(currProject);
-    const temp = allTasksList;
     const starredTab = document.querySelector('.starred');
     starredTab.style.backgroundColor = componentColor;
-    // allTasksList = currProject;
-    const starredTasks = allTasksList.getTasks().filter((task) => task.isStarred);
-    console.log(allTasksList);
-    console.log(currProject);
-    console.log(temp);
-    currProject = new Project('Starred', starredTasks);
-    console.log(temp);
-    console.log(currProject);
-    console.log(allTasksList);
-    console.log(starredTasks);
-    // const unassignedTasks = [];
 
-    // if (allTasksList !== undefined) {
-    //   allTasksList.getTasks().forEach((task) => {
-    //     if (task.project === '' && !allTasksList.getTasks().includes(task.name)) {
-    //       unassignedTasks.push(task);
-    //     }
-    //   });
-    //   allTasksList = undefined;
-    // }
+    const starredTasks = allTasksList.getTasks().filter((task) => task.isStarred);
+    currProject = new Project('Starred', starredTasks);
+
     resetSelectedProject();
     resetProjects();
     renderProjects();
-    // currProject = allTasksList;
+
     renderTasksView(e);
     renderTasks(currProject);
-    currProject = temp;
-    console.log(temp);
-    console.log(currProject);
   }
 
   selectAll.addEventListener('click', showAll);
