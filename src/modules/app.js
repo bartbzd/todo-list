@@ -23,6 +23,7 @@ export default function appController() {
   const projectGrp = document.querySelector('.project-grp');
   const input = document.querySelector('#project-name');
   const selectAll = document.querySelector('.all');
+  const selectStarred = document.querySelector('.starred');
 
   const componentColor = window
     .getComputedStyle(document.documentElement)
@@ -40,7 +41,7 @@ export default function appController() {
   let taskIndex = 0;
   let projectIndex;
   let currProject;
-  let allTasksList;
+  let allTasksList = new Project('All');
   let selected = '';
 
   // animations
@@ -298,6 +299,10 @@ export default function appController() {
     if (currProject.name === 'All') {
       project.textContent = 'All';
       folder.textContent = 'inbox';
+    } else if (currProject.name === 'Starred') {
+      project.textContent = 'Starred';
+      folder.textContent = 'inbox';
+      folder.className.add('fa-regular fa-star');
     } else {
       project.textContent = currProject.tasks[id].project;
       folder.textContent = 'folder';
@@ -456,7 +461,8 @@ export default function appController() {
       // taskWrapper.setAttribute('data-project-id', projects.indexOf(project));
       taskWrapper.setAttribute('data-project-name', task.project);
       ////
-      if (task.getIsStarred()) {
+      if (task.isStarred) {
+        //// task.getIsStarred()
         taskWrapper.querySelector('.fa-star').classList.replace('fa-regular', 'fa-solid');
       }
 
@@ -669,25 +675,33 @@ export default function appController() {
     renderTasks(currProject);
   }
 
+  function getAllTasks() {
+    const allTasks = projects.flatMap((project) => project.tasks);
+    allTasksList = new Project('All', allTasks);
+  }
   function showAll(e) {
+    console.log(allTasksList);
     resetFilters();
-    console.log(projects);
     const allTab = document.querySelector('.all');
     allTab.style.backgroundColor = componentColor;
 
     const allTasks = projects.flatMap((project) => project.tasks);
-    const unassignedTasks = [];
-    if (allTasksList !== undefined) {
-      allTasksList.getTasks().forEach((task) => {
-        if (task.project === '') {
-          unassignedTasks.push(task);
-        }
-      });
+    const unassignedTasks = allTasksList.getTasks().filter((task) => task.project === '');
+    console.log(unassignedTasks);
+    const combinedTasks = allTasks.concat(unassignedTasks);
+    // const unassignedTasks = [];
+    // if (allTasksList !== undefined) {
+    //   allTasksList.getTasks().forEach((task) => {
+    //     if (task.project === '') {
+    //       unassignedTasks.push(task);
+    //     }
+    //   });
+    //   allTasksList = undefined;
+    // }
+    // getAllTasks();
+    allTasksList = new Project('All', combinedTasks);
 
-      allTasksList = undefined;
-    }
-    allTasksList = new Project('All', allTasks);
-    allTasksList.getTasks().push(...unassignedTasks);
+    // allTasksList.getTasks().push(...unassignedTasks);
     // updateSelectedProject();
     resetSelectedProject();
     resetProjects();
@@ -695,8 +709,50 @@ export default function appController() {
     currProject = allTasksList;
     renderTasksView(e);
     renderTasks(currProject);
+
+    // console.table(projects);
   }
+  function showStarred(e) {
+    resetFilters();
+    // getAllTasks();
+    console.log(allTasksList);
+    console.log(currProject);
+    const temp = allTasksList;
+    const starredTab = document.querySelector('.starred');
+    starredTab.style.backgroundColor = componentColor;
+    // allTasksList = currProject;
+    const starredTasks = allTasksList.getTasks().filter((task) => task.isStarred);
+    console.log(allTasksList);
+    console.log(currProject);
+    console.log(temp);
+    currProject = new Project('Starred', starredTasks);
+    console.log(temp);
+    console.log(currProject);
+    console.log(allTasksList);
+    console.log(starredTasks);
+    // const unassignedTasks = [];
+
+    // if (allTasksList !== undefined) {
+    //   allTasksList.getTasks().forEach((task) => {
+    //     if (task.project === '' && !allTasksList.getTasks().includes(task.name)) {
+    //       unassignedTasks.push(task);
+    //     }
+    //   });
+    //   allTasksList = undefined;
+    // }
+    resetSelectedProject();
+    resetProjects();
+    renderProjects();
+    // currProject = allTasksList;
+    renderTasksView(e);
+    renderTasks(currProject);
+    currProject = temp;
+    console.log(temp);
+    console.log(currProject);
+  }
+
   selectAll.addEventListener('click', showAll);
+  selectStarred.addEventListener('click', showStarred);
   addProjectBtn.addEventListener('click', toggleAddProject);
   formStar.addEventListener('click', toggleFormStar);
   addTaskBtn.addEventListener('click', renderFormView);
@@ -752,20 +808,21 @@ export default function appController() {
       ' - Tasks can be expanded to view more detailed information about them. \n\n - Add notes, due dates and favorite status from the task form pane. \n\n - Thank you for checking out my project!',
       'Default',
       '',
-      'true'
+      true
     );
     const introTaskTwo = new Task(
       'Sidebar Info',
       ' - Tasks can be filtered by All, Today or Week. \n\n - Add new projects by pressing the (+) button. \n\n - Hover over existing projects to edit or delete them.',
       'Default',
       '',
-      'true'
+      true
     );
     const introProject = new Project('Default');
     currProject = introProject;
     projects.push(introProject);
     introProject.getTasks().push(introTask);
     introProject.getTasks().push(introTaskTwo);
+
     renderProjects();
     resetTasks();
     renderTasks(currProject);
