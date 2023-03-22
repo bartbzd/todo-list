@@ -298,11 +298,14 @@ export default function appController() {
     note.textContent = currProject.tasks[id].note;
     if (currProject.name === 'All') {
       project.textContent = 'All';
+      folder.className = 'material-symbols-rounded open-folder';
       folder.textContent = 'inbox';
+
+      console.log(folder.className);
     } else if (currProject.name === 'Starred') {
       project.textContent = 'Starred';
-      folder.textContent = 'inbox';
-      folder.className.add('fa-regular fa-star');
+      folder.className = 'fa-regular fa-star open-folder';
+      folder.textContent = '';
     } else {
       project.textContent = currProject.tasks[id].project;
       folder.textContent = 'folder';
