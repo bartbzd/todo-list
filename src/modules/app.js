@@ -447,6 +447,8 @@ export default function appController() {
         e.stopPropagation();
         e.target.closest('.task').style.animation = 'ease-in formRight reverse 0.3s';
         e.target.closest('.task').style.opacity = '0';
+        console.log(currProject);
+        console.log(allTasksList);
         // toggleComplete(e, currProject);
         setTimeout(() => {
           deleteTask(e, currProject);
@@ -682,6 +684,7 @@ export default function appController() {
 
     if (projectToDeleteFrom !== currProject) {
       project.removeTask(taskToDelete);
+      allTasksList.removeTask(taskToDelete);
     }
 
     // getAllTasks();
