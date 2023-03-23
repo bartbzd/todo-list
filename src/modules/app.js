@@ -150,7 +150,7 @@ export default function appController() {
 
     const title = e.target.closest('.task').querySelector('.task-title');
     const wrapper = e.target.closest('.task');
-    const actions = e.target.closest('.task').querySelector('.actions');
+    // const actions = e.target.closest('.task').querySelector('.actions');
     const edit = e.target.closest('.task').querySelector('.edit');
     const trash = e.target.closest('.task').querySelector('.delete');
     const star = e.target.closest('.task').querySelector('.fa-star');
@@ -159,15 +159,14 @@ export default function appController() {
       wrapper.removeEventListener('click', renderTasksOpenView);
     }
     if (!task.isComplete) {
-      renderTasks(currProject);
       wrapper.addEventListener('click', renderTasksOpenView);
     }
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
-      title.style.transition = '0.1s ease-in-out';
+      title.style.transition = '0.2s ease-in-out';
       wrapper.style.transition = '0.2s ease-in-out';
-      edit.style.transition = '0.1s ease-in-out';
-      trash.style.transition = '0.1s ease-in-out';
-      star.style.transition = '0.1s ease-in-out';
+      edit.style.transition = '0.2s ease-in-out';
+      trash.style.transition = '0.2s ease-in-out';
+      star.style.transition = '0.2s ease-in-out';
 
       wrapper.style.backgroundColor = 'transparent';
 
@@ -191,6 +190,7 @@ export default function appController() {
       star.style.opacity = '1';
 
       setTimeout(() => {
+        renderTasks(currProject);
         edit.style.display = 'flex';
         trash.style.display = 'none';
         star.style.display = 'flex';
