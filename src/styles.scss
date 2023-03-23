@@ -470,6 +470,7 @@ header {
           display: flex;
           justify-content: center;
           transition: 0.2s ease-in-out;
+          // color: $dk-subtext;
           &:hover {
             transform: scale(1.1);
           }
@@ -547,7 +548,10 @@ header {
 
           .fa-star {
             font-size: 24px;
-            color: $dk-text;
+            background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
           }
         }
         .note-wrapper {
@@ -560,7 +564,7 @@ header {
         }
         hr {
           height: 4px;
-          background: $primary;
+          background: $dk-subtext;
 
           border: none;
           border-radius: 2px;
