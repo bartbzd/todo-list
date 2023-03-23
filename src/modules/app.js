@@ -155,6 +155,13 @@ export default function appController() {
     const trash = e.target.closest('.task').querySelector('.delete');
     const star = e.target.closest('.task').querySelector('.fa-star');
 
+    if (task.isComplete) {
+      wrapper.removeEventListener('click', renderTasksOpenView);
+    }
+    if (!task.isComplete) {
+      renderTasks(currProject);
+      wrapper.addEventListener('click', renderTasksOpenView);
+    }
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
       title.style.transition = '0.1s ease-in-out';
       wrapper.style.transition = '0.2s ease-in-out';
@@ -163,6 +170,7 @@ export default function appController() {
       star.style.transition = '0.1s ease-in-out';
 
       wrapper.style.backgroundColor = 'transparent';
+
       title.style.textDecoration = 'line-through';
       title.style.color = subtextColor;
       edit.style.opacity = '0';
@@ -178,7 +186,7 @@ export default function appController() {
       wrapper.style.backgroundColor = componentColor;
       title.style.textDecoration = '';
       title.style.color = textColor;
-      edit.style.opacity = '1';
+      edit.style.opacity = '0';
       trash.style.opacity = '0';
       star.style.opacity = '1';
 
@@ -343,14 +351,14 @@ export default function appController() {
     }
   }
 
-  const renderTasksOpenView = (e) => {
+  function renderTasksOpenView(e) {
     hideTasksLeft();
 
     setTimeout(() => {
       openTask();
       updateOpenTask(e);
     }, 100);
-  };
+  }
   const renderFormView = () => {
     resetForm();
     resetStar();
@@ -430,7 +438,12 @@ export default function appController() {
       button.addEventListener('click', renderTasksView);
     });
     taskWrapper.forEach((task) => {
-      task.addEventListener('click', renderTasksOpenView);
+      if (!task.isComplete) {
+        task.addEventListener('click', renderTasksOpenView);
+      }
+      if (task.isComplete) {
+        task.removeEventListener('click', renderTasksOpenView);
+      }
     });
     checkmarks.forEach((checkmark) => {
       checkmark.addEventListener('click', (e) => {
@@ -487,12 +500,12 @@ export default function appController() {
         const star = taskWrapper.closest('.task').querySelector('.fa-star');
 
         console.log(checkmark);
-
+        console.log(wrapper);
         title.style.textDecoration = 'line-through';
         title.style.color = subtextColor;
 
-        wrapper.style.backgroundColor = cardColor;
-
+        wrapper.style.backgroundColor = 'transparent';
+        wrapper.removeEventListener('click', renderTasksOpenView);
         // actions.style.opacity = '0';
         edit.style.display = 'none';
         trash.style.display = 'flex';
