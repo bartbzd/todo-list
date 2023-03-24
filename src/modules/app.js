@@ -169,6 +169,7 @@ export default function appController() {
       star.style.transition = '0.2s ease-in-out';
 
       wrapper.style.backgroundColor = 'transparent';
+      wrapper.style.boxShadow = 'none';
 
       title.style.textDecoration = 'line-through';
       title.style.color = subtextColor;
@@ -307,13 +308,13 @@ export default function appController() {
     console.log(currProject);
     title.textContent = currProject.tasks[id].title;
     note.textContent = currProject.tasks[id].note;
-
-    if (selectAll.style.backgroundColor === 'rgb(211, 222, 227)') {
+    console.log(currProject);
+    if (currProject.name === 'All') {
       project.textContent = 'All';
       folder.className = 'material-symbols-rounded open-folder';
       folder.textContent = 'inbox';
       console.log(folder.className);
-    } else if (selectStarred.style.backgroundColor === 'rgb(211, 222, 227)') {
+    } else if (currProject.name === 'Starred') {
       project.textContent = 'Starred';
       folder.className = 'fa-solid fa-star open-folder';
       folder.textContent = '';
