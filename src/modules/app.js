@@ -697,8 +697,10 @@ export default function appController() {
     }
 
     if (projectToDeleteFrom !== currProject) {
-      project.removeTask(taskToDelete);
       allTasksList.removeTask(taskToDelete);
+      if (currProject !== allTasksList) {
+        project.removeTask(taskToDelete);
+      }
     }
 
     // getAllTasks();
