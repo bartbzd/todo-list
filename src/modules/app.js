@@ -136,31 +136,33 @@ export default function appController() {
     addBtn.classList.toggle('hidden');
   };
   const toggleComplete = (e, project) => {
-    e.stopPropagation();
+    // e.stopPropagation();
+    const wrapper = e.target.closest('.task');
     taskIndex = e.target.closest('.task').getAttribute('data-id');
     const task = project.getTasks()[taskIndex];
-    task.isComplete = !task.isComplete;
+    const selectedTask = e.target || document.querySelector('.task');
 
-    const checkmarkClasses = ['fa-regular', 'fa-solid', 'fa-circle', 'fa-circle-check'];
-    checkmarkClasses.forEach((className) => {
-      if (e.target.classList.contains('check')) {
-        e.target.classList.toggle(className);
-      }
-    });
-
-    const title = e.target.closest('.task').querySelector('.task-title');
-    const wrapper = e.target.closest('.task');
-    // const actions = e.target.closest('.task').querySelector('.actions');
-    const edit = e.target.closest('.task').querySelector('.edit');
-    const trash = e.target.closest('.task').querySelector('.delete');
-    const star = e.target.closest('.task').querySelector('.fa-star');
-
-    if (task.isComplete) {
-      wrapper.removeEventListener('click', renderTasksOpenView);
-    }
     if (!task.isComplete) {
       wrapper.addEventListener('click', renderTasksOpenView);
     }
+    task.isComplete = !task.isComplete;
+    if (task.isComplete) {
+      wrapper.removeEventListener('click', renderTasksOpenView);
+    }
+
+    const checkmarkClasses = ['fa-regular', 'fa-solid', 'fa-circle', 'fa-circle-check'];
+    checkmarkClasses.forEach((className) => {
+      if (selectedTask.classList.contains('check')) {
+        selectedTask.classList.toggle(className);
+      }
+    });
+
+    const title = selectedTask.closest('.task').querySelector('.task-title');
+    // const actions = e.target.closest('.task').querySelector('.actions');
+    const edit = selectedTask.closest('.task').querySelector('.edit');
+    const trash = selectedTask.closest('.task').querySelector('.delete');
+    const star = selectedTask.closest('.task').querySelector('.fa-star');
+
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
       title.style.transition = '0.2s ease-in-out';
       wrapper.style.transition = '0.2s ease-in-out';
@@ -506,6 +508,7 @@ export default function appController() {
         title.style.color = subtextColor;
 
         wrapper.style.backgroundColor = 'transparent';
+        wrapper.style.boxShadow = 'none';
         wrapper.removeEventListener('click', renderTasksOpenView);
         // actions.style.opacity = '0';
         edit.style.display = 'none';
@@ -633,13 +636,17 @@ export default function appController() {
     e.preventDefault();
 
     const newTask = storeTask();
-    const temp = projects.find(({ name }) => name === projectsFormInput.value);
-    console.log(temp);
-    if (projectsFormInput.value !== project.name) {
+    project = projects.find(({ name }) => name === projectsFormInput.value);
+    console.log(currProject);
+    console.log(project);
+    // console.log(temp);
+
+    if (projectsFormInput.value === '') {
       allTasksList.getTasks().push(newTask);
       currProject = allTasksList;
     } else {
       project.getTasks().push(newTask);
+      currProject = project;
     }
 
     if (projectForm.hidden === false) {
@@ -656,13 +663,11 @@ export default function appController() {
   function editTask(e, project) {
     if (!isTaskValid()) return;
     e.preventDefault();
-    console.log(currProject.name);
+
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
-    console.log(temp);
-    console.log(currProject.name);
+
     if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
-      console.log(taskIndex);
       temp.getTasks().splice(taskIndex, 1, editedTask); //push(editedTask)
       project.getTasks().splice(taskIndex, 1);
       currProject = temp;
@@ -744,7 +749,7 @@ export default function appController() {
     renderProjects();
     renderTasksView(e);
     renderTasks(currProject);
-    // currProject = allTasksList;
+    currProject = allTasksList;
   }
 
   selectAll.addEventListener('click', showAll);
