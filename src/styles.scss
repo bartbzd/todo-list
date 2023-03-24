@@ -135,7 +135,7 @@ header {
   }
   span {
     background: $grad-base;
-    background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 75%);
+    background: linear-gradient(130deg, $gradient-1 0%, $gradient-2 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -345,9 +345,10 @@ header {
         height: 35px;
         margin-bottom: 8px;
         display: flex;
-        padding-right: 4px;
+        padding-right: 10px;
         background-color: $component;
-        // box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 3px, rgba(0, 0, 0, 0.22) 0px 2px 2px;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 8px 0px,
+          rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
         transition: 0.2s ease-in-out;
         .hide-check {
           display: none;
@@ -375,7 +376,6 @@ header {
           font-weight: 300;
           user-select: none;
           pointer-events: none;
-          // background-color: $component;
           color: $dk-text;
           overflow: hidden;
         }
@@ -394,21 +394,14 @@ header {
               transition: 0.2s ease-in-out;
               opacity: 1;
             }
-            // .fa-regular {
-            //   width: 18px;
-            //   display: flex;
-            //   justify-content: center;
-
-            // }
           }
         }
         .actions {
           z-index: 2;
           display: flex;
           align-items: center;
-          // gap: 10px;
           transition: 0.2s;
-          // padding-left: 8px;
+          gap: 4px;
           .options {
             height: 100%;
 
@@ -416,15 +409,14 @@ header {
             align-items: center;
           }
           i {
-            width: 32px;
+            transition: 0.2s ease-in-out;
+          }
+          .edit {
+            opacity: 0;
+            width: 30px;
             display: flex;
             justify-content: center;
           }
-          .edit {
-            transition: 0.1s ease-in-out;
-            opacity: 0;
-          }
-
           span {
             display: flex;
           }
@@ -477,7 +469,7 @@ header {
           display: flex;
           justify-content: center;
           transition: 0.2s ease-in-out;
-          // color: $dk-subtext;
+          color: $primary;
           &:hover {
             transform: scale(1.1);
           }
@@ -510,7 +502,7 @@ header {
           border: none;
           margin-left: auto;
           font-size: 16px;
-          color: $dk-text; //$bg-color;
+          color: $dk-text;
           background: $grad-base;
           background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
           box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
@@ -539,11 +531,9 @@ header {
             display: flex;
             i {
               margin-right: 6px;
-              // color: $primary;
             }
             p {
               font-size: 16px;
-              // color: $primary;
             }
           }
         }
@@ -560,11 +550,6 @@ header {
         }
         .note-wrapper {
           margin: 8px 16px 0 16px;
-          // padding: 16px;
-          // background-color: $component;
-          // border-radius: 16px;
-          // box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 3px, rgba(0, 0, 0, 0.22) 0px 2px 2px;
-          border-radius: 24px;
         }
         hr {
           height: 4px;
@@ -578,15 +563,12 @@ header {
           color: $dk-text;
         }
         #open-note {
-          // margin-top: 16px;
           color: $dk-subtext;
           display: block;
           font-size: 16px;
           white-space: pre-line;
-          // line-height: 1.5;
           height: 30vh;
           overflow: scroll;
-          // padding: 0px 16px;
         }
         .bot-hr {
           margin-top: 16px;
@@ -614,7 +596,6 @@ header {
             border: none;
             color: $dk-text;
             font-size: 30px;
-            // padding: 0 0 8px 8px;
           }
         }
       }
@@ -627,8 +608,7 @@ header {
       border: none;
       margin-left: auto;
       font-size: 16px;
-      color: $dk-text; //$bg-color;
-      // background-color: $primary;
+      color: $dk-text;
       background: $grad-base;
       background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
       transition: 0.2s ease-in-out;
