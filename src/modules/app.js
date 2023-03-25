@@ -502,8 +502,8 @@ export default function appController() {
         const trash = taskWrapper.closest('.task').querySelector('.delete');
         const star = taskWrapper.closest('.task').querySelector('.fa-star');
 
-        console.log(checkmark);
         console.log(wrapper);
+        console.log(checkmark);
         title.style.textDecoration = 'line-through';
         title.style.color = subtextColor;
 
@@ -663,12 +663,18 @@ export default function appController() {
   function editTask(e, project) {
     if (!isTaskValid()) return;
     e.preventDefault();
-
+    console.log(currProject);
+    console.log(project);
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
-
+    console.log(temp);
+    // project = temp;
+    console.log(
+      projectsFormInput.value !== project.name && projectsFormInput.value !== ''
+    );
     if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
-      temp.getTasks().splice(taskIndex, 1, editedTask); //push(editedTask)
+      // temp.getTasks().splice(taskIndex, 1, editedTask);
+      temp.getTasks().push(editedTask); //push(editedTask)
       project.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
@@ -684,6 +690,7 @@ export default function appController() {
     renderTasks(currProject);
   }
   function deleteTask(e, project) {
+    console.log(currProject);
     e.stopImmediatePropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
     const taskToDelete = project.getTasks()[taskIndex];
@@ -738,17 +745,19 @@ export default function appController() {
     console.log(currProject);
   }
   function showStarred(e) {
-    //showStarred is actually showing allTasks
     resetFilters();
     getAllTasks();
     selectStarred.style.backgroundColor = componentColor;
     getStarredTasks();
+
     resetSelectedProject();
     resetProjects();
 
     renderProjects();
     renderTasksView(e);
+    console.log(currProject);
     renderTasks(currProject);
+    // getAllTasks();
     currProject = allTasksList;
   }
 
@@ -834,3 +843,7 @@ export default function appController() {
     // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
+
+//moving task from one project to another works incorrectly.
+//editedTask is pushed to beginning of array, deleting the previous first task
+//Task being edited doesnt get deleted from original projeect
