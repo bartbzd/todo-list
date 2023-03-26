@@ -140,7 +140,8 @@ export default function appController() {
     const wrapper = e.target.closest('.task');
     taskIndex = e.target.closest('.task').getAttribute('data-id');
     const task = project.getTasks()[taskIndex];
-    const selectedTask = e.target || document.querySelector('.task');
+    const selectedTask = e.target;
+    // || document.querySelector('.task');
 
     if (!task.isComplete) {
       wrapper.addEventListener('click', renderTasksOpenView);
@@ -378,11 +379,13 @@ export default function appController() {
     }, 100);
   };
   const renderEditView = (e, project) => {
+    console.log(currProject);
     e.stopImmediatePropagation();
     if (projectForm.hidden === false) {
       toggleAddProject();
     }
     taskIndex = e.currentTarget.closest('.task').getAttribute('data-id');
+
     titleInput.value = project.getTasks()[taskIndex].title;
     noteInput.value = project.getTasks()[taskIndex].note;
     console.log(project.name);
@@ -463,16 +466,15 @@ export default function appController() {
         e.stopPropagation();
         e.target.closest('.task').style.animation = 'ease-in formRight reverse 0.3s';
         e.target.closest('.task').style.opacity = '0';
-        console.log(currProject);
-        console.log(allTasksList);
-        // toggleComplete(e, currProject);
+
         setTimeout(() => {
+          toggleComplete(e, currProject); //???
           deleteTask(e, currProject);
         }, 200);
       });
     });
   }
-  function renderTasks(project) {
+  function renderTasks(project, selectedTask) {
     resetTasks();
     if (project.getTasks().length === 0) {
       document.querySelector('.tasks').appendChild(document.createElement('p'));
@@ -483,17 +485,14 @@ export default function appController() {
     project.getTasks().forEach((task) => {
       const taskWrapper = createTask(task, project.getTasks());
       document.querySelector('.tasks').append(taskWrapper);
-      ////
-      // taskWrapper.setAttribute('data-project-id', projects.indexOf(project));
       taskWrapper.setAttribute('data-project-name', task.project);
-      ////
+
       if (task.isStarred) {
-        //// task.getIsStarred()
+        //// task.isStarred
         taskWrapper.querySelector('.fa-star').classList.replace('fa-regular', 'fa-solid');
-        // taskWrapper.querySelector('.fa-star').style.color = primaryColor;
       }
 
-      if (task.isComplete) {
+      if (task.isComplete && task !== selectedTask) {
         const wrapper = taskWrapper.closest('.task');
         const checkmark = taskWrapper.closest('.task').querySelector('.fa-circle-check');
         const title = taskWrapper.closest('.task').querySelector('.task-title');
@@ -668,10 +667,10 @@ export default function appController() {
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
     console.log(temp);
+    console.log(project);
+    console.log(taskIndex);
     // project = temp;
-    console.log(
-      projectsFormInput.value !== project.name && projectsFormInput.value !== ''
-    );
+
     if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
       // temp.getTasks().splice(taskIndex, 1, editedTask);
       temp.getTasks().push(editedTask); //push(editedTask)
@@ -693,8 +692,9 @@ export default function appController() {
     console.log(currProject);
     e.stopImmediatePropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
+    console.log(taskIndex);
     const taskToDelete = project.getTasks()[taskIndex];
-
+    console.log(taskToDelete);
     // Find project task originally came from
     let projectToDeleteFrom;
     for (let i = 0; i < projects.length; i++) {
@@ -710,14 +710,15 @@ export default function appController() {
 
     if (projectToDeleteFrom !== currProject) {
       allTasksList.removeTask(taskToDelete);
-      if (currProject !== allTasksList) {
-        project.removeTask(taskToDelete);
-      }
+      // if (currProject !== allTasksList) {
+      //   project.removeTask(taskToDelete);
+      // }
     }
 
+    console.log(allTasksList);
     // getAllTasks();
     renderTasksView(e);
-    renderTasks(currProject);
+    renderTasks(currProject, taskToDelete);
   }
 
   function getAllTasks() {
@@ -729,6 +730,7 @@ export default function appController() {
   function showAll(e) {
     resetFilters();
     getAllTasks();
+    console.log(allTasksList.getTasks());
     selectAll.style.backgroundColor = componentColor;
     resetSelectedProject();
     resetProjects();
@@ -745,8 +747,11 @@ export default function appController() {
     console.log(currProject);
   }
   function showStarred(e) {
+    console.log(allTasksList.getTasks());
+
     resetFilters();
     getAllTasks();
+
     selectStarred.style.backgroundColor = componentColor;
     getStarredTasks();
 
@@ -755,10 +760,10 @@ export default function appController() {
 
     renderProjects();
     renderTasksView(e);
-    console.log(currProject);
+    currProject = allTasksList;
     renderTasks(currProject);
     // getAllTasks();
-    currProject = allTasksList;
+    // currProject = allTasksList;
   }
 
   selectAll.addEventListener('click', showAll);
@@ -822,7 +827,7 @@ export default function appController() {
     );
     const introTaskTwo = new Task(
       'Sidebar Info',
-      ' - Filter created tasks by All, Starred, Today or Week. \n\n - Add new projects by pressing the (+) button. \n\n - Hover over existing projects to edit or delete them.',
+      ' - Filter created tasks by All, Starred, Today or Week. \n\n - Add  projects by clicking (+) and pressing Enter. \n\n - Hover over existing projects to edit or delete them.',
       'Default',
       '',
       true
@@ -843,7 +848,3 @@ export default function appController() {
     // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
-
-//moving task from one project to another works incorrectly.
-//editedTask is pushed to beginning of array, deleting the previous first task
-//Task being edited doesnt get deleted from original projeect
