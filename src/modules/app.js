@@ -747,8 +747,6 @@ export default function appController() {
     console.log(currProject);
   }
   function showStarred(e) {
-    console.log(allTasksList.getTasks());
-
     resetFilters();
     getAllTasks();
 
@@ -759,11 +757,17 @@ export default function appController() {
     resetProjects();
 
     renderProjects();
+    console.log(currProject.name);
+    if (
+      currProject.name === 'Starred' ||
+      currProject.name === 'Today' ||
+      currProject.name === 'Week'
+    ) {
+      currProject = allTasksList;
+    }
+
     renderTasksView(e);
-    currProject = allTasksList;
     renderTasks(currProject);
-    // getAllTasks();
-    // currProject = allTasksList;
   }
 
   selectAll.addEventListener('click', showAll);
