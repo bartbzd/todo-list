@@ -652,6 +652,33 @@ header {
     transform: translateX(0);
   }
 }
+@keyframes formVertical {
+  0% {
+    transform: translateY(-30%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes formVerticall {
+  0% {
+    transform: translateY(20%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes appearForm {
+  0% {
+    // transform-origin: top;
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 @keyframes textclip {
   100% {
     background-position: left;
