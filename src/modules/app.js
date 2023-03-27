@@ -45,6 +45,7 @@ export default function appController() {
   let projectIndex;
   let currProject;
   let allTasksList = new Project('All');
+  console.log(allTasksList);
   let selected = '';
 
   // animations
@@ -215,7 +216,12 @@ export default function appController() {
     selected = '';
     togglePlusBtn();
     projectForm.hidden = !projectForm.hidden;
+
     if (!projectForm.hidden) {
+      projectForm.style.animation = 'ease-out formVertical 0.2s';
+      for (let i = 0; i < projectGrp.children.length; i++) {
+        projectGrp.children[i].style.animation = 'ease-out formVertical 0.2s';
+      }
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
       input.focus();
     }
@@ -225,6 +231,7 @@ export default function appController() {
       btn.style.opacity = '0';
     });
     if (projectForm.hidden) {
+      // projectForm.style.animation = 'ease-out reverse formVertical 0.2s';
       selected = '';
       resetProjects();
       renderProjects();
@@ -245,6 +252,8 @@ export default function appController() {
       btn.style.opacity = '0';
     });
     if (!projectForm.hidden) {
+      projectForm.style.animation = 'ease-out appearForm 0.2s';
+
       projectGrp.insertBefore(projectForm, projectGrp.firstChild);
       projectIndex = e.target.closest('.project').getAttribute('data-id');
       // input.style.display = 'block';
@@ -311,7 +320,12 @@ export default function appController() {
     console.log(currProject);
     title.textContent = currProject.tasks[id].title;
     note.textContent = currProject.tasks[id].note;
-    console.log(currProject);
+
+    // console.log(componentColor);
+    // console.log(selectStarred.style.backgroundColor);
+    // if (selectStarred.style.color === componentColor) {
+    //   getStarredTasks();
+    // }
     if (currProject.name === 'All') {
       project.textContent = 'All';
       folder.className = 'material-symbols-rounded open-folder';
@@ -662,8 +676,7 @@ export default function appController() {
   function editTask(e, project) {
     if (!isTaskValid()) return;
     e.preventDefault();
-    console.log(currProject);
-    console.log(project);
+
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
     console.log(temp);
@@ -671,10 +684,22 @@ export default function appController() {
     console.log(taskIndex);
     // project = temp;
 
+    if (
+      currProject.name === 'Starred' ||
+      currProject.name === 'Today' ||
+      currProject.name === 'Week'
+    ) {
+      currProject = allTasksList;
+    }
+
+    //the index of the task is wrong when moving to new project
     if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
-      // temp.getTasks().splice(taskIndex, 1, editedTask);
-      temp.getTasks().push(editedTask); //push(editedTask)
-      project.getTasks().splice(taskIndex, 1);
+      temp.getTasks().splice(taskIndex, 1, editedTask);
+      // temp.getTasks().push(editedTask);
+      console.log(project.getTasks());
+      allTasksList.getTasks().splice(taskIndex, 1);
+      // currProject.getTasks().splice(taskIndex, 1); //deletes task from current project
+      console.log(project.getTasks());
       currProject = temp;
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
@@ -687,9 +712,9 @@ export default function appController() {
     updateSelectedProject();
     updateSelectedFilter();
     renderTasks(currProject);
+    // currProject = allTasksList; //uncomment line if things break
   }
   function deleteTask(e, project) {
-    console.log(currProject);
     e.stopImmediatePropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
     console.log(taskIndex);
@@ -709,28 +734,42 @@ export default function appController() {
     }
 
     if (projectToDeleteFrom !== currProject) {
+      //or currproject equals starred
+
       allTasksList.removeTask(taskToDelete);
       // if (currProject !== allTasksList) {
       //   project.removeTask(taskToDelete);
       // }
     }
 
-    console.log(allTasksList);
-    // getAllTasks();
     renderTasksView(e);
     renderTasks(currProject, taskToDelete);
   }
 
   function getAllTasks() {
-    const allTasks = projects.flatMap((project) => project.tasks);
-    const unassignedTasks = allTasksList.getTasks().filter((task) => task.project === '');
-    const combinedTasks = allTasks.concat(unassignedTasks);
-    allTasksList = new Project('All', combinedTasks);
+    if (allTasksList.getTasks().length === 0 || allTasksList.getTasks() !== currProject) {
+      const allTasks = projects.flatMap((project) => project.tasks);
+      const unassignedTasks = allTasksList
+        .getTasks()
+        .filter((task) => task.project === '');
+      const combinedTasks = allTasks.concat(unassignedTasks);
+      allTasksList = new Project('All', combinedTasks);
+      console.log(allTasksList);
+      // currProject = allTasksList;
+    } else {
+      console.log(allTasksList.getTasks().length === 0);
+      console.log(allTasksList.getTasks() !== currProject);
+      console.log(allTasksList);
+      currProject = allTasksList;
+    }
   }
+
   function showAll(e) {
     resetFilters();
     getAllTasks();
-    console.log(allTasksList.getTasks());
+    currProject = allTasksList;
+
+    console.log(allTasksList);
     selectAll.style.backgroundColor = componentColor;
     resetSelectedProject();
     resetProjects();
@@ -749,25 +788,18 @@ export default function appController() {
   function showStarred(e) {
     resetFilters();
     getAllTasks();
-
     selectStarred.style.backgroundColor = componentColor;
     getStarredTasks();
+    const starredProject = currProject;
 
     resetSelectedProject();
     resetProjects();
 
     renderProjects();
-    console.log(currProject.name);
-    if (
-      currProject.name === 'Starred' ||
-      currProject.name === 'Today' ||
-      currProject.name === 'Week'
-    ) {
-      currProject = allTasksList;
-    }
-
     renderTasksView(e);
-    renderTasks(currProject);
+    renderTasks(starredProject);
+    currProject = starredProject;
+    console.log(currProject);
   }
 
   selectAll.addEventListener('click', showAll);
