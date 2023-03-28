@@ -248,14 +248,15 @@ export default function appController() {
     console.log(input);
     const projectBtns = document.querySelectorAll('.options');
     projectBtns.forEach((btn) => {
-      // btn.style.display = 'none';
+      btn.style.display = 'none';
       btn.style.opacity = '0';
     });
     if (!projectForm.hidden) {
       projectForm.style.animation = 'ease-out appearForm 0.2s';
 
-      projectGrp.insertBefore(projectForm, projectGrp.firstChild);
-      projectIndex = e.target.closest('.project').getAttribute('data-id');
+      projectIndex = parseInt(e.target.closest('.project').getAttribute('data-id'));
+      const selectedIndex = projectGrp.children.item(projectIndex);
+      projectGrp.insertBefore(projectForm, selectedIndex);
       // input.style.display = 'block';
       input.value = projects[projectIndex].name;
       input.focus();
@@ -270,6 +271,7 @@ export default function appController() {
     }
     togglePlusBtn();
     console.log(currProject);
+    console.log(projectIndex);
   }
 
   // resets
@@ -352,11 +354,14 @@ export default function appController() {
     console.log(currProject);
     const projectsList = document.querySelectorAll('.project');
     let foundProject = false;
-    projectsList.forEach((project) => {
+    projectsList.forEach((project, index) => {
       if (foundProject) return;
       const i = project.querySelector('i');
       const p = project.querySelector('p');
-      if (p.textContent === currProject.name) {
+      console.log(index);
+      console.log(currProject.index);
+      console.log(projectIndex);
+      if (p.textContent === currProject.name && index === currProject.index) {
         p.closest('.project').style.backgroundColor = componentColor;
         i.closest('.folder').className = 'folder fa-solid fa-folder';
         foundProject = true;
@@ -545,7 +550,7 @@ export default function appController() {
     const folder = project.querySelector('.folder');
     folder.className = 'folder fa-solid fa-folder';
 
-    projectIndex = project.getAttribute('data-id');
+    projectIndex = parseInt(project.getAttribute('data-id'));
     currProject = projects[projectIndex];
 
     renderTasks(currProject);
@@ -568,6 +573,7 @@ export default function appController() {
       resetProjects();
       renderProjects();
       showAll(e);
+      // updateSelectedProject();
       renderTasksView(e);
     }, 100);
   }
@@ -607,6 +613,8 @@ export default function appController() {
     // if (!existingProject) {
     projects.unshift(newProject);
     currProject = newProject;
+    currProject.index = 0;
+    console.log(currProject.index);
     resetForm();
     // }
     resetProjects();
@@ -618,21 +626,24 @@ export default function appController() {
     // if (!isProjectValid()) return;
     const name = document.querySelector('#project-name');
     if (!name.value) {
-      console.log('test');
       name.setCustomValidity('Task cannot be empty');
       name.reportValidity();
       return;
     }
 
     projects[projectIndex].name = name.value;
+    currProject.index = projectIndex;
     resetForm();
     toggleEditProject();
     resetProjects();
     renderProjects();
+    console.log(projectIndex);
+    updateSelectedProject();
   }
   function deleteProject(e) {
     projectIndex = e.target.closest('.project').getAttribute('data-id');
     projects.splice(projectIndex, 1);
+    // updateSelectedProject();
   }
 
   function storeTask() {
@@ -869,6 +880,7 @@ export default function appController() {
       true
     );
     const introProject = new Project('Default');
+    introProject.index = 0;
     currProject = introProject;
     projects.push(introProject);
     introProject.getTasks().push(introTask);
