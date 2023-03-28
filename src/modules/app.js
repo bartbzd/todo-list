@@ -18,6 +18,7 @@ export default function appController() {
   const addProjectBtn = document.querySelector('.fa-plus');
   const titleInput = document.querySelector('#task');
   const noteInput = document.querySelector('#note');
+  const tasksTitle = document.querySelector('.current-title');
   const projectsFormInput = document.querySelector('#projects');
   const formStar = document.querySelector('.add-star');
   const projectGrp = document.querySelector('.project-grp');
@@ -354,6 +355,7 @@ export default function appController() {
     console.log(currProject);
     const projectsList = document.querySelectorAll('.project');
     let foundProject = false;
+
     projectsList.forEach((project, index) => {
       if (foundProject) return;
       const i = project.querySelector('i');
@@ -365,6 +367,7 @@ export default function appController() {
         p.closest('.project').style.backgroundColor = componentColor;
         i.closest('.folder').className = 'folder fa-solid fa-folder';
         foundProject = true;
+        tasksTitle.textContent = `· ${currProject.name}`;
       }
     });
   }
@@ -553,8 +556,11 @@ export default function appController() {
     projectIndex = Number(project.getAttribute('data-id'));
     currProject = projects[projectIndex];
 
+    tasksTitle.textContent = `· ${currProject.name}`;
+
     renderTasks(currProject);
     renderTasksView(e);
+    updateSelectedProject();
   }
   function handleEditProjectClick(e) {
     toggleEditProject(e);
