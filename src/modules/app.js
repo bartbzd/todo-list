@@ -254,7 +254,7 @@ export default function appController() {
     if (!projectForm.hidden) {
       projectForm.style.animation = 'ease-out appearForm 0.2s';
 
-      projectIndex = parseInt(e.target.closest('.project').getAttribute('data-id'));
+      projectIndex = Number(e.target.closest('.project').getAttribute('data-id'));
       const selectedIndex = projectGrp.children.item(projectIndex);
       projectGrp.insertBefore(projectForm, selectedIndex);
       // input.style.display = 'block';
@@ -550,16 +550,13 @@ export default function appController() {
     const folder = project.querySelector('.folder');
     folder.className = 'folder fa-solid fa-folder';
 
-    projectIndex = parseInt(project.getAttribute('data-id'));
+    projectIndex = Number(project.getAttribute('data-id'));
     currProject = projects[projectIndex];
 
     renderTasks(currProject);
     renderTasksView(e);
   }
   function handleEditProjectClick(e) {
-    // e.stopPropagation();
-    console.log(currProject);
-    console.log(projects);
     toggleEditProject(e);
     renderTasks(currProject);
     renderTasksView(e);
@@ -573,7 +570,6 @@ export default function appController() {
       resetProjects();
       renderProjects();
       showAll(e);
-      // updateSelectedProject();
       renderTasksView(e);
     }, 100);
   }
@@ -641,7 +637,7 @@ export default function appController() {
     updateSelectedProject();
   }
   function deleteProject(e) {
-    projectIndex = e.target.closest('.project').getAttribute('data-id');
+    projectIndex = Number(e.target.closest('.project').getAttribute('data-id'));
     projects.splice(projectIndex, 1);
     // updateSelectedProject();
   }
