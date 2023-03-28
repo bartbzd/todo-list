@@ -326,6 +326,17 @@ header {
     .t-wrapper {
       display: flex;
       flex-direction: column;
+      .title-grp {
+        display: flex;
+        gap: 6px;
+        .current-title {
+          padding-top: 6px;
+          padding-left: -2px;
+          font-size: 14px;
+          color: #454254;
+        }
+      }
+
       .no-tasks {
         color: $dk-subtext;
         display: flex;
@@ -654,7 +665,7 @@ header {
 }
 @keyframes formVertical {
   0% {
-    transform: translateY(-30%);
+    transform: translateY(-80%);
   }
   100% {
     transform: translateY(0);
