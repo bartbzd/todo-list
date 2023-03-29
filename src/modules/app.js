@@ -728,7 +728,7 @@ export default function appController() {
       project.getTasks().splice(taskIndex, 1);
       currProject = temp;
       console.log(currProject);
-    }
+    } else project.getTasks().splice(taskIndex, 1, editedTask);
 
     if (!projectForm.hidden) {
       toggleAddProject();
@@ -819,6 +819,7 @@ export default function appController() {
     getAllTasks();
     selectStarred.style.backgroundColor = componentColor;
     getStarredTasks();
+    console.log(currProject);
     const starredProject = currProject;
 
     resetSelectedProject();
