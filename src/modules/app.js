@@ -355,19 +355,18 @@ export default function appController() {
     console.log(currProject);
     const projectsList = document.querySelectorAll('.project');
     let foundProject = false;
-
+    console.log(projectsList);
     projectsList.forEach((project, index) => {
       if (foundProject) return;
       const i = project.querySelector('i');
       const p = project.querySelector('p');
       console.log(index);
-      console.log(currProject.index);
-      console.log(projectIndex);
       if (p.textContent === currProject.name && index === currProject.index) {
         p.closest('.project').style.backgroundColor = componentColor;
         i.closest('.folder').className = 'folder fa-solid fa-folder';
         foundProject = true;
-        tasksTitle.textContent = `· ${currProject.name}`;
+        // tasksTitle.textContent = `${currProject.name}`;
+        tasksTitle.className = 'current-title fa-solid fa-folder';
       }
     });
   }
@@ -556,7 +555,9 @@ export default function appController() {
     projectIndex = Number(project.getAttribute('data-id'));
     currProject = projects[projectIndex];
 
-    tasksTitle.textContent = `· ${currProject.name}`;
+    //testing icon or folder name
+    // tasksTitle.textContent = `· ${currProject.name}`;
+    tasksTitle.className = 'current-title fa-solid fa-folder';
 
     renderTasks(currProject);
     renderTasksView(e);
@@ -611,14 +612,14 @@ export default function appController() {
   function addProject() {
     if (!isProjectValid()) return;
     const newProject = storeProject();
-    // const existingProject = projects.find((project) => project.name === newProject.name);
-    // if (!existingProject) {
     projects.unshift(newProject);
     currProject = newProject;
-    currProject.index = 0;
-    console.log(currProject.index);
+    currProject.index = projects.indexOf(newProject);
+    for (let i = 0; i < projects.length; i++) {
+      projects[i].index = i;
+    }
+
     resetForm();
-    // }
     resetProjects();
     renderProjects();
     toggleAddProject();
@@ -632,7 +633,7 @@ export default function appController() {
       name.reportValidity();
       return;
     }
-
+    console.log(projectIndex);
     projects[projectIndex].name = name.value;
     currProject.index = projectIndex;
     resetForm();
@@ -684,6 +685,7 @@ export default function appController() {
     renderTasks(currProject);
     updateSelectedProject();
     updateSelectedFilter();
+
     resetForm();
   }
   function editTask(e, project) {
@@ -692,7 +694,7 @@ export default function appController() {
 
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === projectsFormInput.value);
-    console.log(temp);
+    console.log(temp); //new project task is being moved into
     console.log(project);
     console.log(taskIndex);
     // project = temp;
@@ -705,16 +707,28 @@ export default function appController() {
       currProject = allTasksList;
     }
 
+    console.log(projectsFormInput.value);
     //the index of the task is wrong when moving to new project
-    if (projectsFormInput.value !== project.name && projectsFormInput.value !== '') {
+    if (
+      projectsFormInput.value !== project.name &&
+      projectsFormInput.value !== '' &&
+      currProject === allTasksList
+    ) {
       temp.getTasks().splice(taskIndex, 1, editedTask);
-      // temp.getTasks().push(editedTask);
+
       console.log(project.getTasks());
       allTasksList.getTasks().splice(taskIndex, 1);
       // currProject.getTasks().splice(taskIndex, 1); //deletes task from current project
-      console.log(project.getTasks());
       currProject = temp;
-    } else project.getTasks().splice(taskIndex, 1, editedTask);
+    } else if (
+      projectsFormInput.value !== project.name &&
+      projectsFormInput.value !== ''
+    ) {
+      temp.getTasks().push(editedTask);
+      project.getTasks().splice(taskIndex, 1);
+      currProject = temp;
+      console.log(currProject);
+    }
 
     if (!projectForm.hidden) {
       toggleAddProject();
@@ -723,7 +737,9 @@ export default function appController() {
     renderProjects();
     renderTasksView(e);
     updateSelectedProject();
+    console.log(currProject);
     updateSelectedFilter();
+
     renderTasks(currProject);
     // currProject = allTasksList; //uncomment line if things break
   }
@@ -898,3 +914,5 @@ export default function appController() {
     // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
+
+//editing task from one folder to another breaks updateSelectedProject and editTasks location on where edited task goes, currently deleting first task
