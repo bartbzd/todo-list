@@ -328,10 +328,11 @@ header {
       flex-direction: column;
       .title-grp {
         display: flex;
-        gap: 6px;
+        justify-content: space-between;
+        // gap: 6px;
         .current-title {
-          padding-top: 6px;
-          padding-left: -2px;
+          margin-top: 6px;
+          margin-right: 12px;
           font-size: 14px;
           color: #454254;
         }
