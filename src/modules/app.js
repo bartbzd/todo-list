@@ -19,7 +19,7 @@ export default function appController() {
   const titleInput = document.querySelector('#task');
   const noteInput = document.querySelector('#note');
   const tasksTitle = document.querySelector('.current-title');
-  const projectsFormInput = document.querySelector('#projects');
+  const formInput = document.querySelector('#projects');
   const formStar = document.querySelector('.add-star');
   const projectGrp = document.querySelector('.project-grp');
   const input = document.querySelector('#project-name');
@@ -663,12 +663,12 @@ export default function appController() {
     e.preventDefault();
 
     const newTask = storeTask();
-    project = projects.find(({ name }) => name === projectsFormInput.value);
+    project = projects.find(({ name }) => name === formInput.value);
     console.log(currProject);
     console.log(project);
     // console.log(temp);
 
-    if (projectsFormInput.value === '') {
+    if (formInput.value === '') {
       allTasksList.getTasks().push(newTask);
       currProject = allTasksList;
     } else {
@@ -691,13 +691,8 @@ export default function appController() {
   function editTask(e, project) {
     if (!isTaskValid()) return;
     e.preventDefault();
-
     const editedTask = storeTask();
-    const temp = projects.find(({ name }) => name === projectsFormInput.value);
-    console.log(temp); //new project task is being moved into
-    console.log(project);
-    console.log(taskIndex);
-    // project = temp;
+    const temp = projects.find(({ name }) => name === formInput.value);
 
     if (
       currProject.name === 'Starred' ||
@@ -707,27 +702,19 @@ export default function appController() {
       currProject = allTasksList;
     }
 
-    console.log(projectsFormInput.value);
-    //the index of the task is wrong when moving to new project
     if (
-      projectsFormInput.value !== project.name &&
-      projectsFormInput.value !== '' &&
+      formInput.value !== project.name &&
+      formInput.value !== '' &&
       currProject === allTasksList
     ) {
       temp.getTasks().splice(taskIndex, 1, editedTask);
-
-      console.log(project.getTasks());
       allTasksList.getTasks().splice(taskIndex, 1);
       // currProject.getTasks().splice(taskIndex, 1); //deletes task from current project
       currProject = temp;
-    } else if (
-      projectsFormInput.value !== project.name &&
-      projectsFormInput.value !== ''
-    ) {
+    } else if (formInput.value !== project.name && formInput.value !== '') {
       temp.getTasks().push(editedTask);
       project.getTasks().splice(taskIndex, 1);
       currProject = temp;
-      console.log(currProject);
     } else project.getTasks().splice(taskIndex, 1, editedTask);
 
     if (!projectForm.hidden) {
@@ -736,12 +723,9 @@ export default function appController() {
     resetProjects();
     renderProjects();
     renderTasksView(e);
-    updateSelectedProject();
-    console.log(currProject);
-    updateSelectedFilter();
-
     renderTasks(currProject);
-    // currProject = allTasksList; //uncomment line if things break
+    updateSelectedProject();
+    updateSelectedFilter();
   }
   function deleteTask(e, project) {
     e.stopImmediatePropagation();
