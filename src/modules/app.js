@@ -25,8 +25,9 @@ export default function appController() {
   const input = document.querySelector('#project-name');
   const selectAll = document.querySelector('.all');
   const selectStarred = document.querySelector('.starred');
+  const themeIcon = document.querySelector('.theme');
 
-  const componentColor = window
+  let componentColor = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--component');
   const textColor = window
@@ -166,16 +167,14 @@ export default function appController() {
     const trash = selectedTask.closest('.task').querySelector('.delete');
     const star = selectedTask.closest('.task').querySelector('.fa-star');
 
+    title.style.transition = '0.2s ease-in-out';
+    wrapper.style.transition = '0.2s ease-in-out';
+    edit.style.transition = '0.2s ease-in-out';
+    trash.style.transition = '0.2s ease-in-out';
+    star.style.transition = '0.2s ease-in-out';
     if (title.style.textDecoration === '' && title.style.color !== '#d2d8f7a6') {
-      title.style.transition = '0.2s ease-in-out';
-      wrapper.style.transition = '0.2s ease-in-out';
-      edit.style.transition = '0.2s ease-in-out';
-      trash.style.transition = '0.2s ease-in-out';
-      star.style.transition = '0.2s ease-in-out';
-
       wrapper.style.backgroundColor = 'transparent';
       wrapper.style.boxShadow = 'none';
-
       title.style.textDecoration = 'line-through';
       title.style.color = subtextColor;
       edit.style.opacity = '0';
@@ -366,7 +365,7 @@ export default function appController() {
         i.closest('.folder').className = 'folder fa-solid fa-folder';
         foundProject = true;
         // tasksTitle.textContent = `${currProject.name}`;
-        tasksTitle.className = 'current-title fa-solid fa-folder';
+        // tasksTitle.className = 'current-title fa-solid fa-folder';
       }
     });
   }
@@ -557,7 +556,8 @@ export default function appController() {
 
     //testing icon or folder name
     // tasksTitle.textContent = `· ${currProject.name}`;
-    tasksTitle.className = 'current-title fa-solid fa-folder';
+    // tasksTitle.className = 'material-symbols-rounded theme';
+    // tasksTitle.textContent = 'toggle_on';
 
     renderTasks(currProject);
     renderTasksView(e);
@@ -816,6 +816,20 @@ export default function appController() {
     console.log(currProject);
   }
 
+  function toggleTheme() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+
+    const temp = themeIcon.textContent;
+    themeIcon.textContent = temp === 'toggle_on' ? 'toggle_off' : 'toggle_on';
+
+    componentColor = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue('--component');
+    updateSelectedProject();
+  }
+  themeIcon.addEventListener('click', toggleTheme);
   selectAll.addEventListener('click', showAll);
   selectStarred.addEventListener('click', showStarred);
   addProjectBtn.addEventListener('click', toggleAddProject);
