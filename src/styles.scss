@@ -1,12 +1,3 @@
-// html[data-theme='light'] {
-//   --bg-color: #100f14;
-//   --primary: #e87070;
-//   --dk-text: #d2d8f7;
-//   --dk-subtext: #d2d8f7a6;
-//   --card: #141319;
-//   --component-s: #353240;
-//   --component: #24222d;
-// }
 html[data-theme='light'] {
   --bg-color: #e4f0fa; //#f3ede394;
   --primary: #ff7c7c;
@@ -30,8 +21,9 @@ html[data-theme='dark'] {
   --component: #2f2d36;
   --grad-base: rgb(119, 81, 246);
   --gradient-1: rgb(119, 81, 246);
-  --gradient-2: rgb(88, 44, 232);
+  --gradient-2: rgb(104, 61, 247);
 }
+
 $bg-color: var(--bg-color);
 $primary: var(--primary);
 $dk-text: var(--dk-text);
@@ -56,12 +48,14 @@ $gradient-2: var(--gradient-2);
   box-sizing: border-box;
   font-family: 'Lexend Deca', sans-serif;
   font-weight: 400;
+
   // border: 1px solid red;
 }
 body {
   background-color: $bg-color;
   // background-color: #151319;
   // background-color: #1a181d;
+  transition: ease-in-out 0.3s;
   height: 100vh;
   h2,
   h3 {
@@ -139,6 +133,7 @@ header {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    transition: ease-in 0.3s;
   }
   div {
     width: 600px;
@@ -170,7 +165,7 @@ header {
     border-radius: 24px;
     padding: 24px;
     height: 55vh;
-
+    transition: ease-in-out 0.3s;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     // box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     //   rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
@@ -181,6 +176,7 @@ header {
   .section-header {
     margin-bottom: 16px;
     user-select: none;
+    transition: ease-in 0.3s;
   }
   .sidebar {
     background-color: $card;
@@ -189,6 +185,26 @@ header {
     flex-direction: column;
     .filters {
       margin-bottom: 40px;
+    }
+    .filters-title-grp {
+      display: flex;
+      justify-content: space-between;
+    }
+    .theme {
+      height: 26px;
+      font-size: 24px;
+      color: $component-s;
+      user-select: none;
+      transition: ease-in 0.3s;
+      // pointer-events: none;
+      // padding-right: 10px;
+      &:hover {
+        transform: scale(1.03);
+        color: $primary;
+      }
+      &:active {
+        transform: scale(0.97);
+      }
     }
     .filter {
       height: 32px;
@@ -228,6 +244,7 @@ header {
         line-height: 24px;
         font-size: 24px;
         transition: 0.2s ease-in-out;
+        color: $component-s;
       }
 
       .plus:hover {
@@ -265,6 +282,7 @@ header {
       align-items: center;
       opacity: 1;
       // user-select: none;
+      transition: 0.3s;
       .folder {
         pointer-events: none;
       }
@@ -518,12 +536,12 @@ header {
           background: $grad-base;
           background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
           box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-          transition: 0.2s ease-in-out;
+          transition: ease-in 0.3s;
           &:hover {
             transform: scale(1.02);
           }
           &:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
           }
         }
       }
@@ -623,7 +641,7 @@ header {
       color: $dk-text;
       background: $grad-base;
       background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
-      transition: 0.2s ease-in-out;
+      transition: 0.2s ease-in;
       box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 15px 0px;
 
       &:hover {
