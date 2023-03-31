@@ -9,6 +9,8 @@ html[data-theme='light'] {
   --grad-base: rgb(250, 177, 135);
   --gradient-1: rgb(250, 177, 135);
   --gradient-2: rgb(246, 117, 117);
+  --cal-indicator: invert(72%) sepia(40%) saturate(5103%) hue-rotate(314deg)
+    brightness(110%) contrast(105%);
 }
 
 html[data-theme='dark'] {
@@ -22,6 +24,8 @@ html[data-theme='dark'] {
   --grad-base: rgb(119, 81, 246);
   --gradient-1: rgb(119, 81, 246);
   --gradient-2: rgb(104, 61, 247);
+  --cal-indicator: invert(57%) sepia(96%) saturate(184%) hue-rotate(200deg)
+    brightness(85%) contrast(93%);
 }
 
 $bg-color: var(--bg-color);
@@ -34,6 +38,7 @@ $component: var(--component);
 $grad-base: var(--grad-base);
 $gradient-1: var(--gradient-1);
 $gradient-2: var(--gradient-2);
+$cal-indicator: var(--cal-indicator);
 // $bg-color: #d2d8f7a6;
 // $primary: #e87070;
 // $dk-text: #d2d8f7;
@@ -41,7 +46,6 @@ $gradient-2: var(--gradient-2);
 // $card: #141319;
 // $component-s: #353240;
 // $component: #24222d;
-
 * {
   margin: 0;
   padding: 0;
@@ -486,9 +490,17 @@ header {
         input[type='date'] {
           width: 100%;
           padding: 0 5px 0 10px;
+          transition: 5s ease-in;
+          user-select: none;
+          // pointer-events: none;
           &::-webkit-calendar-picker-indicator {
+            transition: 0.1s ease-in;
             filter: invert(100%) sepia(54%) saturate(5650%) hue-rotate(179deg)
               brightness(101%) contrast(93%);
+          }
+          &::-webkit-calendar-picker-indicator:hover {
+            scale: (1.1);
+            filter: $cal-indicator;
           }
         }
 
