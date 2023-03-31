@@ -72,7 +72,6 @@ body {
     // line-height: 25px;
     height: 25px;
   }
-
   p,
   span,
   i,
@@ -106,7 +105,9 @@ body {
     -moz-appearance: none;
     appearance: none;
   }
-
+  button {
+    transition: ease-in-out 0.3s;
+  }
   .material-symbols-rounded,
   .material-symbols-outlined {
     font-size: 18px;
@@ -523,6 +524,7 @@ header {
           border: none;
           color: $dk-text;
           font-size: 30px;
+          transition: 0.3s ease-in-out;
         }
 
         .submit-btn {
