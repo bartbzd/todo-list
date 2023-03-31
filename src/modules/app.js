@@ -1,6 +1,9 @@
+/* eslint-disable max-len */
+/* eslint-disable comma-dangle */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
+import { parseISO, isToday } from 'date-fns';
 import Task from './models/taskModel';
 import Project, { projects } from './models/projectModel';
 import createTask from './views/taskView';
@@ -25,6 +28,8 @@ export default function appController() {
   const input = document.querySelector('#project-name');
   const selectAll = document.querySelector('.all');
   const selectStarred = document.querySelector('.starred');
+  const selectToday = document.querySelector('.today');
+  const selectWeek = document.querySelector('.week');
   const themeIcon = document.querySelector('.theme');
 
   let componentColor = window
@@ -314,7 +319,7 @@ export default function appController() {
     const note = document.querySelector('#open-note');
     const project = document.querySelector('#open-project');
     const folder = document.querySelector('.open-folder');
-    // const date = document.querySelector('#date');
+    const date = document.querySelector('.open-date');
 
     const star = document.querySelector('.open-star');
     const id = e.target.closest('.task').getAttribute('data-id');
@@ -348,6 +353,11 @@ export default function appController() {
     if (isStarred === false) {
       star.style.display = 'none';
     } else star.style.display = 'inline-block';
+
+    console.log(currProject.tasks[id].date);
+    if (currProject.tasks[id].date === '') {
+      date.textContent = 'No Date';
+    } else date.textContent = currProject.tasks[id].date;
   }
   function updateSelectedProject() {
     resetFilters();
@@ -370,8 +380,12 @@ export default function appController() {
     });
   }
   function updateSelectedFilter() {
-    if (currProject.name === 'All') {
-      selectAll.style.backgroundColor = componentColor;
+    const filters = ['All', 'Starred', 'Today', 'Week'];
+    const arr = [selectAll, selectStarred, selectToday, selectWeek];
+    for (let i = 0; i < filters.length; i++) {
+      if (filters[i] === currProject.name) {
+        arr[i].style.backgroundColor = componentColor;
+      }
     }
   }
 
@@ -664,8 +678,6 @@ export default function appController() {
 
     const newTask = storeTask();
     project = projects.find(({ name }) => name === formInput.value);
-    console.log(currProject);
-    console.log(project);
     // console.log(temp);
 
     if (formInput.value === '') {
@@ -796,14 +808,11 @@ export default function appController() {
   function getStarredTasks() {
     const starredTasks = allTasksList.getTasks().filter((task) => task.isStarred);
     currProject = new Project('Starred', starredTasks);
-    console.log(currProject);
   }
   function showStarred(e) {
     resetFilters();
     getAllTasks();
-    selectStarred.style.backgroundColor = componentColor;
     getStarredTasks();
-    console.log(currProject);
     const starredProject = currProject;
 
     resetSelectedProject();
@@ -813,9 +822,33 @@ export default function appController() {
     renderTasksView(e);
     renderTasks(starredProject);
     currProject = starredProject;
-    console.log(currProject);
+    updateSelectedFilter();
   }
+  function getTodayTasks() {
+    // console.log(newTask);
+    // console.log(parseISO(newTask.date));
+    // console.log(isToday(parseISO(task.date)));
+    const todayTasks = allTasksList
+      .getTasks()
+      .filter((task) => isToday(parseISO(task.date)));
 
+    currProject = new Project('Today', todayTasks);
+  }
+  function showToday(e) {
+    resetFilters();
+    getAllTasks();
+    getTodayTasks();
+    const todayProject = currProject;
+
+    resetSelectedProject();
+    resetProjects();
+
+    renderProjects();
+    renderTasksView(e);
+    renderTasks(todayProject);
+    currProject = todayProject;
+    updateSelectedFilter();
+  }
   function toggleTheme() {
     const theme = document.documentElement.getAttribute('data-theme');
     const newTheme = theme === 'dark' ? 'light' : 'dark';
@@ -832,6 +865,7 @@ export default function appController() {
   themeIcon.addEventListener('click', toggleTheme);
   selectAll.addEventListener('click', showAll);
   selectStarred.addEventListener('click', showStarred);
+  selectToday.addEventListener('click', showToday);
   addProjectBtn.addEventListener('click', toggleAddProject);
   formStar.addEventListener('click', toggleFormStar);
   addTaskBtn.addEventListener('click', renderFormView);
