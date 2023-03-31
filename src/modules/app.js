@@ -21,6 +21,7 @@ export default function appController() {
   const addProjectBtn = document.querySelector('.fa-plus');
   const titleInput = document.querySelector('#task');
   const noteInput = document.querySelector('#note');
+  const dateInput = document.querySelector('#date');
   const tasksTitle = document.querySelector('.current-title');
   const formInput = document.querySelector('#projects');
   const formStar = document.querySelector('.add-star');
@@ -422,6 +423,7 @@ export default function appController() {
 
     titleInput.value = project.getTasks()[taskIndex].title;
     noteInput.value = project.getTasks()[taskIndex].note;
+    dateInput.value = project.getTasks()[taskIndex].date;
     console.log(project.name);
 
     const projectName = e.currentTarget
