@@ -762,9 +762,8 @@ export default function appController() {
   function deleteTask(e, project) {
     e.stopImmediatePropagation();
     taskIndex = e.target.closest('.task').getAttribute('data-id');
-    console.log(taskIndex);
     const taskToDelete = project.getTasks()[taskIndex];
-    console.log(taskToDelete);
+
     // Find project task originally came from
     let projectToDeleteFrom;
     for (let i = 0; i < projects.length; i++) {
@@ -773,18 +772,14 @@ export default function appController() {
         break;
       }
     }
-    console.log(projectToDeleteFrom);
+
     if (projectToDeleteFrom !== undefined) {
       projectToDeleteFrom.removeTask(taskToDelete);
     }
 
     if (projectToDeleteFrom !== currProject) {
-      //or currproject equals starred
-
       allTasksList.removeTask(taskToDelete);
-      // if (currProject !== allTasksList) {
-      //   project.removeTask(taskToDelete);
-      // }
+      currProject = allTasksList;
     }
 
     renderTasksView(e);
@@ -902,6 +897,24 @@ export default function appController() {
     updateSelectedProject();
     updateSelectedFilter();
   }
+  function toggleMobileFocus() {
+    const header = document.querySelector('header');
+    const content = document.querySelector('.content');
+    content.style.transition = '0.5s ease-out';
+
+    if (titleInput.matches(':focus') || noteInput.matches(':focus')) {
+      header.classList.add('header');
+      content.classList.add('mobile-stretch');
+    } else {
+      header.classList.remove('header');
+      content.classList.remove('mobile-stretch');
+    }
+  }
+
+  titleInput.addEventListener('focus', toggleMobileFocus);
+  titleInput.addEventListener('blur', toggleMobileFocus);
+  noteInput.addEventListener('focus', toggleMobileFocus);
+  noteInput.addEventListener('blur', toggleMobileFocus);
   themeIcon.addEventListener('click', toggleTheme);
   selectAll.addEventListener('click', showAll);
   selectStarred.addEventListener('click', showStarred);
