@@ -3,7 +3,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
-import { parseISO, isToday } from 'date-fns';
+import { parseISO, isToday, isPast, isThisWeek } from 'date-fns';
 import Task from './models/taskModel';
 import Project, { projects } from './models/projectModel';
 import createTask from './views/taskView';
@@ -45,7 +45,7 @@ export default function appController() {
   const cardColor = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--card');
-  const primaryColor = window
+  let primaryColor = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--primary');
 
@@ -327,13 +327,11 @@ export default function appController() {
     const isStarred = currProject.tasks[id].getIsStarred();
     console.log(currProject);
     title.textContent = currProject.tasks[id].title;
-    note.textContent = currProject.tasks[id].note;
 
-    // console.log(componentColor);
-    // console.log(selectStarred.style.backgroundColor);
-    // if (selectStarred.style.color === componentColor) {
-    //   getStarredTasks();
-    // }
+    if (currProject.tasks[id].note === '') {
+      note.textContent = 'No notes';
+    } else note.textContent = currProject.tasks[id].note;
+
     if (currProject.name === 'All') {
       project.textContent = 'All';
       folder.className = 'material-symbols-rounded open-folder';
@@ -343,22 +341,37 @@ export default function appController() {
       project.textContent = 'Starred';
       folder.className = 'fa-solid fa-star open-folder';
       folder.textContent = '';
-    }
-    //Add updates to Today
-    //Add updates to Week
-    else {
+    } else if (currProject.name === 'Today') {
+      project.textContent = 'Today';
+      folder.className = 'material-symbols-rounded';
+      folder.textContent = 'today';
+    } else if (currProject.name === 'Week') {
+      project.textContent = 'Today';
+      folder.className = 'material-symbols-rounded';
+      folder.textContent = 'date_range';
+    } else {
       folder.className = 'material-symbols-rounded open-folder';
       project.textContent = currProject.tasks[id].project;
       folder.textContent = 'folder';
     }
+
     if (isStarred === false) {
       star.style.display = 'none';
     } else star.style.display = 'inline-block';
 
-    console.log(currProject.tasks[id].date);
+    const selectedDate = parseISO(currProject.tasks[id].date);
     if (currProject.tasks[id].date === '') {
-      date.textContent = 'No Date';
-    } else date.textContent = currProject.tasks[id].date;
+      date.textContent = '';
+    } else if (isPast(selectedDate) && !isToday(selectedDate)) {
+      date.textContent = 'Past Due';
+      date.style.color = '#e45050';
+    } else {
+      primaryColor = window
+        .getComputedStyle(document.documentElement)
+        .getPropertyValue('--primary');
+      date.style.color = primaryColor;
+      date.textContent = selectedDate.toLocaleDateString();
+    }
   }
   function updateSelectedProject() {
     resetFilters();
@@ -385,6 +398,7 @@ export default function appController() {
     const arr = [selectAll, selectStarred, selectToday, selectWeek];
     for (let i = 0; i < filters.length; i++) {
       if (filters[i] === currProject.name) {
+        arr[i].style.transition = '0.2s ease-in';
         arr[i].style.backgroundColor = componentColor;
       }
     }
@@ -827,9 +841,6 @@ export default function appController() {
     updateSelectedFilter();
   }
   function getTodayTasks() {
-    // console.log(newTask);
-    // console.log(parseISO(newTask.date));
-    // console.log(isToday(parseISO(task.date)));
     const todayTasks = allTasksList
       .getTasks()
       .filter((task) => isToday(parseISO(task.date)));
@@ -851,6 +862,28 @@ export default function appController() {
     currProject = todayProject;
     updateSelectedFilter();
   }
+  function getWeekTasks() {
+    const weekTasks = allTasksList
+      .getTasks()
+      .filter((task) => isThisWeek(parseISO(task.date)));
+
+    currProject = new Project('Week', weekTasks);
+  }
+  function showWeek(e) {
+    resetFilters();
+    getAllTasks();
+    getWeekTasks();
+    const weekProject = currProject;
+
+    resetSelectedProject();
+    resetProjects();
+
+    renderProjects();
+    renderTasksView(e);
+    renderTasks(weekProject);
+    currProject = weekProject;
+    updateSelectedFilter();
+  }
   function toggleTheme() {
     const theme = document.documentElement.getAttribute('data-theme');
     const newTheme = theme === 'dark' ? 'light' : 'dark';
@@ -863,11 +896,13 @@ export default function appController() {
       .getComputedStyle(document.documentElement)
       .getPropertyValue('--component');
     updateSelectedProject();
+    updateSelectedFilter();
   }
   themeIcon.addEventListener('click', toggleTheme);
   selectAll.addEventListener('click', showAll);
   selectStarred.addEventListener('click', showStarred);
   selectToday.addEventListener('click', showToday);
+  selectWeek.addEventListener('click', showWeek);
   addProjectBtn.addEventListener('click', toggleAddProject);
   formStar.addEventListener('click', toggleFormStar);
   addTaskBtn.addEventListener('click', renderFormView);
