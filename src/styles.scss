@@ -169,7 +169,7 @@ header {
     background-color: $card;
     border-radius: 24px;
     padding: 24px;
-    height: 55vh;
+    height: 50vh;
     transition: ease-in-out 0.3s;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     // box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
@@ -200,7 +200,7 @@ header {
       font-size: 24px;
       color: $component-s;
       user-select: none;
-      transition: ease-in 0.3s;
+      transition: 0.2s ease-out;
       // pointer-events: none;
       // padding-right: 10px;
       &:hover {
@@ -573,8 +573,12 @@ header {
 
           .project-grp {
             display: flex;
+            margin-top: 2px;
+            // margin-left: 12px;
             i {
+              font-size: 20px;
               margin-right: 6px;
+              // margin-top: 1px;
             }
             p {
               font-size: 16px;
@@ -621,7 +625,7 @@ header {
         }
         .extras-wrapper {
           margin-top: auto;
-          padding: 0 16px 8px 16px;
+          padding: 0 16px 8px 8px;
           display: flex;
           justify-content: space-between;
         }
