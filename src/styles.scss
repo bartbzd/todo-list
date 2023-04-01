@@ -98,7 +98,7 @@ body {
   }
   textarea {
     height: 120px;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
     padding-top: 10px;
   }
   select {
@@ -126,6 +126,7 @@ header {
   align-items: center;
   justify-content: center;
   padding: 0 8vw;
+  transition: 0.3s ease-out;
   h1 {
     color: $dk-text;
     // padding-left: 5vw;
@@ -141,7 +142,7 @@ header {
     transition: ease-in 0.3s;
   }
   div {
-    width: 600px;
+    width: 510px;
   }
 }
 .hidden {
@@ -185,7 +186,7 @@ header {
   }
   .sidebar {
     background-color: $card;
-    width: 300px;
+    width: 270px;
     display: flex;
     flex-direction: column;
     .filters {
@@ -339,7 +340,7 @@ header {
     display: flex;
   }
   .content {
-    width: 560px;
+    width: 510px;
     overflow-x: hidden;
     .t-wrapper,
     .f-wrapper,
@@ -475,8 +476,12 @@ header {
         .form-header {
           margin-top: 24px;
         }
+        #task {
+          height: 36px;
+        }
         #note {
           height: 15vh;
+          // padding: 10px;
         }
         .extras-wrapper {
           display: flex;
@@ -490,13 +495,12 @@ header {
         input[type='date'] {
           width: 100%;
           padding: 0 5px 0 10px;
-          transition: 5s ease-in;
+          transition: 0.3s ease-in;
           user-select: none;
           // pointer-events: none;
           &::-webkit-calendar-picker-indicator {
             transition: 0.1s ease-in;
-            filter: invert(100%) sepia(54%) saturate(5650%) hue-rotate(179deg)
-              brightness(101%) contrast(93%);
+            filter: $cal-indicator;
           }
           &::-webkit-calendar-picker-indicator:hover {
             scale: (1.1);
@@ -730,5 +734,54 @@ header {
 @keyframes textclip {
   100% {
     background-position: left;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .section-header {
+    font-size: 18px;
+  }
+  .cards .content .f-wrapper .task-form .form-header {
+    margin-top: 14px;
+    margin-bottom: 10px;
+  }
+  .cards .content .f-wrapper .task-form .fa-star {
+    margin-top: 50px;
+  }
+  .cards .content .f-wrapper .task-form #task {
+    // height: 5.2vh;
+  }
+  // .cards .content .f-wrapper .task-form #note {
+  //   height: 15vh;
+  //   // margin-bottom: 0;
+  // }
+  .cards .content .f-wrapper .task-form .extras-wrapper {
+    margin-bottom: 20px;
+  }
+  input[type='date'] {
+    font-size: 10px;
+  }
+  .cards .content .t-wrapper .task p {
+    font-size: 12px;
+  }
+  .header {
+    opacity: 0;
+    height: 0;
+  }
+  .cards .content .f-wrapper .task-form .fa-regular {
+    font-size: 24px;
+  }
+  .cards .sidebar,
+  .cards .content {
+    transition: 0.1s ease-out;
+    height: 70vh;
+  }
+  .cards .mobile-stretch {
+    transition: 0.2s ease-out;
+    margin-top: 5vh;
+    height: 90vh;
+  }
+  .cards .sidebar {
+    display: none;
   }
 }
