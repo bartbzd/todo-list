@@ -328,10 +328,6 @@ export default function appController() {
     console.log(currProject);
     title.textContent = currProject.tasks[id].title;
 
-    if (currProject.tasks[id].note === '') {
-      note.textContent = 'No notes';
-    } else note.textContent = currProject.tasks[id].note;
-
     if (currProject.name === 'All') {
       project.textContent = 'All';
       folder.className = 'material-symbols-rounded open-folder';
@@ -358,6 +354,14 @@ export default function appController() {
     if (isStarred === false) {
       star.style.display = 'none';
     } else star.style.display = 'inline-block';
+
+    if (currProject.tasks[id].note === '') {
+      note.textContent = 'No note';
+      note.style.textAlign = 'center';
+    } else {
+      note.style.textAlign = 'left';
+      note.textContent = currProject.tasks[id].note;
+    }
 
     const selectedDate = parseISO(currProject.tasks[id].date);
     if (currProject.tasks[id].date === '') {
