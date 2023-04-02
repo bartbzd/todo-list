@@ -21,8 +21,8 @@ html[data-theme='dark'] {
   --card: #18181c;
   --component-s: #454254;
   --component: #2f2d36;
-  --grad-base: rgb(119, 81, 246);
-  --gradient-1: rgb(119, 81, 246);
+  --grad-base: rgb(125, 90, 242);
+  --gradient-1: rgb(144, 114, 244);
   --gradient-2: rgb(104, 61, 247);
   --cal-indicator: invert(57%) sepia(96%) saturate(184%) hue-rotate(200deg)
     brightness(85%) contrast(93%);
@@ -39,6 +39,7 @@ $grad-base: var(--grad-base);
 $gradient-1: var(--gradient-1);
 $gradient-2: var(--gradient-2);
 $cal-indicator: var(--cal-indicator);
+$transition: 0.2s ease-out;
 // $bg-color: #d2d8f7a6;
 // $primary: #e87070;
 // $dk-text: #d2d8f7;
@@ -59,7 +60,7 @@ body {
   background-color: $bg-color;
   // background-color: #151319;
   // background-color: #1a181d;
-  transition: ease-in-out 0.3s;
+  transition: $transition;
   height: 100vh;
   h2,
   h3 {
@@ -110,7 +111,7 @@ body {
     appearance: none;
   }
   button {
-    transition: ease-in-out 0.3s;
+    transition: $transition;
   }
   .material-symbols-rounded,
   .material-symbols-outlined {
@@ -126,12 +127,13 @@ header {
   align-items: center;
   justify-content: center;
   padding: 0 8vw;
-  transition: 0.3s ease-out;
+  transition: $transition;
   h1 {
     color: $dk-text;
     // padding-left: 5vw;
     font-size: 48px;
     width: 285px;
+    transition: $transition;
   }
   span {
     background: $grad-base;
@@ -139,7 +141,7 @@ header {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: ease-in 0.3s;
+    transition: $transition;
   }
   div {
     width: 510px;
@@ -159,7 +161,7 @@ header {
     &:hover {
       color: $primary;
       transform: scale(1.2);
-      transition: 0.2s ease-in-out;
+      transition: $transition;
     }
     &:active {
       transform: scale(0.9);
@@ -171,7 +173,7 @@ header {
     border-radius: 24px;
     padding: 24px;
     height: 50vh;
-    transition: ease-in-out 0.3s;
+    transition: 0.2s ease-out;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     // box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     //   rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
@@ -182,7 +184,7 @@ header {
   .section-header {
     margin-bottom: 16px;
     user-select: none;
-    transition: ease-in 0.3s;
+    transition: $transition;
   }
   .sidebar {
     background-color: $card;
@@ -201,7 +203,7 @@ header {
       font-size: 24px;
       color: $component-s;
       user-select: none;
-      transition: 0.2s ease-out;
+      transition: $transition;
       // pointer-events: none;
       // padding-right: 10px;
       &:hover {
@@ -249,7 +251,7 @@ header {
         height: 24px;
         line-height: 24px;
         font-size: 24px;
-        transition: 0.2s ease-in-out;
+        transition: $transition;
         color: $component-s;
       }
 
@@ -259,7 +261,7 @@ header {
       }
       .rotated {
         transform: rotate(45deg);
-        transition: 0.2s ease-in-out;
+        transition: $transition;
         &:hover {
           color: $primary;
         }
@@ -288,7 +290,7 @@ header {
       align-items: center;
       opacity: 1;
       // user-select: none;
-      transition: 0.3s;
+      transition: $transition;
       .folder {
         pointer-events: none;
       }
@@ -342,6 +344,7 @@ header {
   .content {
     width: 510px;
     overflow-x: hidden;
+    // transition: 0.2s ease-out;
     .t-wrapper,
     .f-wrapper,
     .o-wrapper {
@@ -385,14 +388,14 @@ header {
         background-color: $component;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 8px 0px,
           rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-        transition: 0.2s ease-in-out;
+        transition: $transition;
         .hide-check {
           display: none;
         }
         .checkmark {
           margin: auto 0;
           height: 32px;
-          transition: 0.2s ease-in-out;
+          transition: $transition;
           &:active {
             transform: scale(0.8);
           }
@@ -427,7 +430,7 @@ header {
           .actions {
             .edit,
             .fa-regular {
-              transition: 0.2s ease-in-out;
+              transition: $transition;
               opacity: 1;
             }
           }
@@ -436,7 +439,7 @@ header {
           z-index: 2;
           display: flex;
           align-items: center;
-          transition: 0.2s;
+          transition: $transition;
           gap: 4px;
           .options {
             height: 100%;
@@ -445,7 +448,7 @@ header {
             align-items: center;
           }
           i {
-            transition: 0.2s ease-in-out;
+            transition: $transition;
           }
           .edit {
             opacity: 0;
@@ -481,7 +484,7 @@ header {
         }
         #note {
           height: 15vh;
-          // padding: 10px;
+          padding: 10px;
         }
         .extras-wrapper {
           display: flex;
@@ -492,14 +495,16 @@ header {
         .extras {
           width: 45%;
         }
+
         input[type='date'] {
           width: 100%;
           padding: 0 5px 0 10px;
-          transition: 0.3s ease-in;
+          // transition: 0.3s ease-in;
           user-select: none;
           // pointer-events: none;
           &::-webkit-calendar-picker-indicator {
-            transition: 0.1s ease-in;
+            font-size: 16px;
+            transition: $transition;
             filter: $cal-indicator;
           }
           &::-webkit-calendar-picker-indicator:hover {
@@ -515,7 +520,7 @@ header {
           width: 30px;
           display: flex;
           justify-content: center;
-          transition: 0.2s ease-in-out;
+          transition: $transition;
           color: $primary;
           &:hover {
             transform: scale(1.1);
@@ -528,7 +533,7 @@ header {
           font-size: 20px;
         }
         .starred {
-          transition: 0.2s ease-in-out;
+          transition: $transition;
         }
 
         .btn-group {
@@ -540,7 +545,7 @@ header {
           border: none;
           color: $dk-text;
           font-size: 30px;
-          transition: 0.3s ease-in-out;
+          // transition: 0.3s ease-in-out;
         }
 
         .submit-btn {
@@ -554,7 +559,7 @@ header {
           background: $grad-base;
           background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
           box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-          transition: ease-in 0.3s;
+          transition: $transition;
           &:hover {
             transform: scale(1.02);
           }
@@ -594,7 +599,7 @@ header {
           display: flex;
           justify-content: space-between;
           margin: 8px 16px;
-
+          transition: $transition;
           .fa-star {
             font-size: 24px;
             color: $primary;
@@ -622,6 +627,9 @@ header {
           height: 30vh;
           overflow: scroll;
         }
+        // #open-note::-webkit-scrollbar {
+        //   background-color: red;
+        // }
         .bot-hr {
           margin-top: 16px;
           width: 88px;
@@ -663,7 +671,7 @@ header {
       color: $dk-text;
       background: $grad-base;
       background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
-      transition: 0.2s ease-in;
+      transition: $transition;
       box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 15px 0px;
 
       &:hover {
@@ -748,9 +756,9 @@ header {
   .cards .content .f-wrapper .task-form .fa-star {
     margin-top: 50px;
   }
-  .cards .content .f-wrapper .task-form #task {
-    // height: 5.2vh;
-  }
+  // .cards .content .f-wrapper .task-form #task {
+  //   height: 5.2vh;
+  // }
   // .cards .content .f-wrapper .task-form #note {
   //   height: 15vh;
   //   // margin-bottom: 0;
@@ -771,13 +779,24 @@ header {
   .cards .content .f-wrapper .task-form .fa-regular {
     font-size: 24px;
   }
+  .cards .content .o-wrapper .expand-view #open-title {
+    width: 215px;
+    font-size: 16px;
+    margin-top: 4px;
+  }
+  .cards .content .o-wrapper .expand-view #open-note {
+    font-size: 12px;
+    // width: 280px;
+  }
+
   .cards .sidebar,
   .cards .content {
-    transition: 0.1s ease-out;
+    transition: 0s;
     height: 70vh;
   }
+
   .cards .mobile-stretch {
-    transition: 0.2s ease-out;
+    transition: 0s;
     margin-top: 5vh;
     height: 90vh;
   }
