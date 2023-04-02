@@ -402,7 +402,7 @@ export default function appController() {
     const arr = [selectAll, selectStarred, selectToday, selectWeek];
     for (let i = 0; i < filters.length; i++) {
       if (filters[i] === currProject.name) {
-        arr[i].style.transition = '0.2s ease-in';
+        arr[i].style.transition = '0.2s ease-out';
         arr[i].style.backgroundColor = componentColor;
       }
     }
@@ -900,14 +900,16 @@ export default function appController() {
   function toggleMobileFocus() {
     const header = document.querySelector('header');
     const content = document.querySelector('.content');
-    content.style.transition = '0.5s ease-out';
+    content.style.transition = '0.2s ease-out';
 
     if (titleInput.matches(':focus') || noteInput.matches(':focus')) {
       header.classList.add('header');
       content.classList.add('mobile-stretch');
+      content.style.transition = '';
     } else {
       header.classList.remove('header');
       content.classList.remove('mobile-stretch');
+      content.style.transition = '0.2s ease-out';
     }
   }
 
