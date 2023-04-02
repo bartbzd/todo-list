@@ -377,6 +377,14 @@ export default function appController() {
       date.textContent = selectedDate.toLocaleDateString();
     }
   }
+  function toggleOverflow() {
+    const note = document.querySelector('#open-note');
+    const botLine = document.querySelector('.bot-note-line');
+    console.log(note.scrollWidth > note.clientWidth);
+    if (note.scrollHeight > note.clientHeight) {
+      botLine.classList.add('visible');
+    } else botLine.classList.remove('visible');
+  }
   function updateSelectedProject() {
     resetFilters();
     console.log(currProject);
@@ -414,6 +422,7 @@ export default function appController() {
     setTimeout(() => {
       openTask();
       updateOpenTask(e);
+      toggleOverflow();
     }, 100);
   }
   const renderFormView = () => {
