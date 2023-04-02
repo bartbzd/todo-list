@@ -518,7 +518,7 @@ export default function appController() {
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        e.target.closest('.task').style.animation = 'ease-in formRight reverse 0.3s';
+        e.target.closest('.task').style.animation = 'ease-in formRight reverse 0.2s';
         e.target.closest('.task').style.opacity = '0';
 
         setTimeout(() => {
@@ -604,7 +604,7 @@ export default function appController() {
   }
   function handleDeleteProjectClick(e) {
     e.stopPropagation();
-    e.target.closest('.project').style.animation = 'ease-in formRight reverse 0.3s';
+    e.target.closest('.project').style.animation = 'ease-in formRight reverse 0.2s';
     e.target.closest('.project').style.opacity = '0.7';
     setTimeout(() => {
       deleteProject(e);

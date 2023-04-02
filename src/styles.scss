@@ -1,7 +1,7 @@
 html[data-theme='light'] {
   --bg-color: #e4f0fa; //#f3ede394;
   --primary: #ff7c7c;
-  --dk-text: #334669;
+  --dk-text: #233048;
   --dk-subtext: #7a8aa3;
   --card: #e6eef8; //#f3f0e384;
   --component-s: #c4cdd1;
@@ -22,7 +22,7 @@ html[data-theme='dark'] {
   --component-s: #454254;
   --component: #2f2d36;
   --grad-base: rgb(125, 90, 242);
-  --gradient-1: rgb(144, 114, 244);
+  --gradient-1: rgb(145, 114, 247);
   --gradient-2: rgb(104, 61, 247);
   --cal-indicator: invert(57%) sepia(96%) saturate(184%) hue-rotate(200deg)
     brightness(85%) contrast(93%);
@@ -93,9 +93,11 @@ body {
     background-color: $component;
     color: $dk-text;
     resize: none;
+    transition: $transition;
   }
   input {
     height: 35px;
+    // transition: 0.2s ease-out !important;
   }
   textarea {
     height: 120px;
