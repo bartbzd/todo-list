@@ -616,9 +616,10 @@ header {
 
           border: none;
           border-radius: 2px;
-          margin-bottom: 16px;
+          // margin-bottom: 16px;
         }
         #open-title {
+          font-size: 18px;
           color: $dk-text;
         }
         #open-note {
@@ -626,16 +627,27 @@ header {
           display: block;
           font-size: 16px;
           white-space: pre-line;
-          height: 30vh;
+          height: 27vh;
           overflow: scroll;
+          padding-top: 16px;
+          &::-webkit-scrollbar-corner {
+            color: transparent;
+          }
         }
         // #open-note::-webkit-scrollbar {
         //   background-color: red;
         // }
-        .bot-hr {
-          margin-top: 16px;
-          width: 88px;
+        .bot-note-line {
+          // margin-top: 16px;
+          display: none;
+          width: 4px;
           margin-left: auto;
+          margin-right: auto;
+          margin-top: 14px;
+          margin-bottom: 0;
+        }
+        .visible {
+          display: block;
         }
         .extras-wrapper {
           margin-top: auto;
@@ -761,10 +773,10 @@ header {
   // .cards .content .f-wrapper .task-form #task {
   //   height: 5.2vh;
   // }
-  // .cards .content .f-wrapper .task-form #note {
-  //   height: 15vh;
-  //   // margin-bottom: 0;
-  // }
+  .cards .content .f-wrapper .task-form #note {
+    height: 20vh;
+    // margin-bottom: 0;
+  }
   .cards .content .f-wrapper .task-form .extras-wrapper {
     margin-bottom: 20px;
   }
@@ -789,6 +801,7 @@ header {
   .cards .content .o-wrapper .expand-view #open-note {
     font-size: 12px;
     // width: 280px;
+    height: 40vh;
   }
 
   .cards .sidebar,
