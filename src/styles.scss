@@ -761,43 +761,6 @@ header {
 }
 
 @media screen and (max-width: 480px) {
-  .section-header {
-    font-size: 18px;
-  }
-  .cards .content .f-wrapper .task-form .form-header {
-    margin-top: 14px;
-    margin-bottom: 10px;
-  }
-  .cards .content .f-wrapper .task-form .fa-star {
-    margin-top: 50px;
-  }
-  .cards .content .o-wrapper .expand-view .expand-header .project-grp p {
-    font-size: 14px;
-    margin-top: 1px;
-  }
-  // .cards .content .f-wrapper .task-form #task {
-  //   height: 5.2vh;
-  // }
-  .cards .content .f-wrapper .task-form #note {
-    height: 20vh;
-    font-size: 12px;
-  }
-  .cards .content .f-wrapper .task-form .extras-wrapper {
-    margin-bottom: 20px;
-  }
-  .section-header {
-    font-size: 18px;
-  }
-  .form-header,
-  .form-title-header {
-    font-size: 16px;
-  }
-  .cards .content .o-wrapper .expand-view .expand-header .project-grp i {
-    font-size: 18px;
-  }
-  .cards .content .o-wrapper .expand-view .expand-header {
-    margin-bottom: 8px;
-  }
   header {
     height: 110px;
   }
@@ -813,42 +776,90 @@ header {
     height: 32px;
     font-size: 12px;
   }
-  .cards .content .t-wrapper .task p {
-    font-size: 12px;
+  .section-header {
+    font-size: 18px;
   }
+  .form-header,
+  .form-title-header {
+    font-size: 16px;
+  }
+
+  .cards {
+    .content {
+      .f-wrapper {
+        .task-form {
+          .form-header {
+            margin-top: 14px;
+            margin-bottom: 10px;
+          }
+          .fa-star {
+            margin-top: 50px;
+          }
+          #note {
+            height: 20vh;
+            font-size: 12px;
+          }
+          .extras-wrapper {
+            margin-bottom: 20px;
+          }
+          .fa-regular {
+            font-size: 24px;
+          }
+        }
+        .expand-view {
+          .expand-header {
+            margin-bottom: 8px;
+            .project-grp p {
+              font-size: 14px;
+              margin-top: 1px;
+            }
+            .project-grp i {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+      .t-wrapper {
+        .task p {
+          font-size: 12px;
+        }
+        .no-tasks {
+          font-size: 16px;
+        }
+      }
+      .o-wrapper {
+        .expand-view {
+          #open-title {
+            width: 215px;
+            font-size: 16px;
+            margin-top: 4px;
+          }
+          #open-note {
+            font-size: 14px;
+            height: 40vh;
+          }
+        }
+      }
+    }
+  }
+
   .header {
     opacity: 0;
     height: 0;
   }
-  .cards .content .t-wrapper .no-tasks {
-    font-size: 16px;
-  }
-  .cards .content .f-wrapper .task-form .fa-regular {
-    font-size: 24px;
-  }
-  .cards .content .o-wrapper .expand-view #open-title {
-    width: 215px;
-    font-size: 16px;
-    margin-top: 4px;
-  }
-  .cards .content .o-wrapper .expand-view #open-note {
-    font-size: 13px;
-    // width: 280px;
-    height: 40vh;
-  }
-
-  .cards .sidebar,
-  .cards .content {
-    transition: 0s;
-    height: 70vh;
-  }
-
-  .cards .mobile-stretch {
-    transition: 0s;
-    margin-top: 5vh;
-    height: 90vh;
-  }
-  .cards .sidebar {
-    display: none;
+  .cards {
+    .sidebar,
+    .content {
+      transition: 0s;
+      height: 70vh;
+    }
+    .mobile-stretch {
+      transition: 0s;
+      margin-top: 5vh;
+      height: 90vh;
+    }
+    .sidebar {
+      display: none;
+    }
   }
 }
