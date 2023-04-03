@@ -372,7 +372,7 @@ header {
         display: flex;
         justify-content: center;
         margin-top: 16px;
-        font-size: 20px;
+        font-size: 18px;
         user-select: none;
       }
       .tasks {
@@ -629,7 +629,7 @@ header {
           white-space: pre-line;
           height: 27vh;
           overflow: scroll;
-          padding-top: 16px;
+          padding-top: 8px;
           &::-webkit-scrollbar-corner {
             color: transparent;
           }
@@ -640,7 +640,8 @@ header {
         .bot-note-line {
           // margin-top: 16px;
           display: none;
-          width: 4px;
+          width: 20px;
+          // height: 15px;
           margin-left: auto;
           margin-right: auto;
           margin-top: 14px;
@@ -770,18 +771,46 @@ header {
   .cards .content .f-wrapper .task-form .fa-star {
     margin-top: 50px;
   }
+  .cards .content .o-wrapper .expand-view .expand-header .project-grp p {
+    font-size: 14px;
+    margin-top: 1px;
+  }
   // .cards .content .f-wrapper .task-form #task {
   //   height: 5.2vh;
   // }
   .cards .content .f-wrapper .task-form #note {
     height: 20vh;
-    // margin-bottom: 0;
+    font-size: 12px;
   }
   .cards .content .f-wrapper .task-form .extras-wrapper {
     margin-bottom: 20px;
   }
+  .section-header {
+    font-size: 18px;
+  }
+  .form-header,
+  .form-title-header {
+    font-size: 16px;
+  }
+  .cards .content .o-wrapper .expand-view .expand-header .project-grp i {
+    font-size: 18px;
+  }
+  .cards .content .o-wrapper .expand-view .expand-header {
+    margin-bottom: 8px;
+  }
+  header {
+    height: 110px;
+  }
+  select {
+    font-size: 12px;
+  }
   input[type='date'] {
     font-size: 10px;
+  }
+  .cards .content .f-wrapper .task-form #task,
+  select#projects,
+  input[type='date'] {
+    height: 32px;
   }
   .cards .content .t-wrapper .task p {
     font-size: 12px;
@@ -789,6 +818,9 @@ header {
   .header {
     opacity: 0;
     height: 0;
+  }
+  .cards .content .t-wrapper .no-tasks {
+    font-size: 16px;
   }
   .cards .content .f-wrapper .task-form .fa-regular {
     font-size: 24px;
