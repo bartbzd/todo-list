@@ -802,15 +802,16 @@ header {
     height: 110px;
   }
   select {
-    font-size: 12px;
+    font-size: 11px;
   }
   input[type='date'] {
-    font-size: 10px;
+    font-size: 11px;
   }
   .cards .content .f-wrapper .task-form #task,
   select#projects,
   input[type='date'] {
     height: 32px;
+    font-size: 12px;
   }
   .cards .content .t-wrapper .task p {
     font-size: 12px;
@@ -831,7 +832,7 @@ header {
     margin-top: 4px;
   }
   .cards .content .o-wrapper .expand-view #open-note {
-    font-size: 12px;
+    font-size: 13px;
     // width: 280px;
     height: 40vh;
   }
