@@ -812,7 +812,6 @@ export default function appController() {
       currProject = allTasksList;
     }
   }
-
   function showAll(e) {
     resetFilters();
     getAllTasks();
@@ -848,6 +847,7 @@ export default function appController() {
     currProject = starredProject;
     updateSelectedFilter();
   }
+
   function getTodayTasks() {
     const todayTasks = allTasksList
       .getTasks()
@@ -870,6 +870,7 @@ export default function appController() {
     currProject = todayProject;
     updateSelectedFilter();
   }
+
   function getWeekTasks() {
     const weekTasks = allTasksList
       .getTasks()
@@ -922,6 +923,19 @@ export default function appController() {
     }
   }
 
+  const mobileMenu = document.querySelector('.menu-icon');
+
+  function toggleSideBarModal() {
+    const sidebar = document.querySelector('.sidebar');
+
+    sidebar.style.display = 'flex';
+    mobileMenu.classList.toggle('active');
+
+    if (mobileMenu.classList.contains('active')) {
+      toggleSideBarModal();
+    }
+  }
+  mobileMenu.addEventListener('click', toggleSideBarModal);
   titleInput.addEventListener('focus', toggleMobileFocus);
   titleInput.addEventListener('blur', toggleMobileFocus);
   noteInput.addEventListener('focus', toggleMobileFocus);
