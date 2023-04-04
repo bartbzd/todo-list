@@ -128,7 +128,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 8vw;
+  padding: 0 10vw;
   transition: $transition;
   h1 {
     color: $dk-text;
@@ -760,7 +760,77 @@ header {
   }
 }
 
+.side-menu {
+  display: none;
+}
 @media screen and (max-width: 480px) {
+  .side-menu {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    width: 80px;
+    height: 45px;
+    cursor: pointer;
+    .menu-icon {
+      width: 40px;
+      height: 45px;
+      position: relative;
+      cursor: pointer;
+      z-index: 2;
+      -webkit-touch-callout: none;
+      position: absolute;
+      opacity: 0;
+    }
+    .menu-grp {
+      margin: auto;
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      width: 25px;
+      height: 13px;
+
+      .menu-line {
+        position: absolute;
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: $component;
+        background-color: $primary;
+        border-radius: 1px;
+        transition: all 0.2s cubic-bezier(0.1, 0.82, 0.76, 0.965);
+
+        &:first-of-type {
+          top: 0;
+        }
+        &:last-of-type {
+          bottom: 0;
+        }
+      }
+    }
+
+    &.active,
+    .menu-icon:checked + div {
+      .menu-line {
+        &:first-of-type {
+          transform: rotate(45deg);
+          top: 5px;
+        }
+        &:last-of-type {
+          transform: rotate(-45deg);
+          bottom: 5px;
+        }
+      }
+    }
+
+    // &.active:hover .menu-line:first-of-type,
+    // &.active:hover .menu-line:last-of-type,
+    // &:hover .menu-icon:checked + div.menu-grp .menu-line:first-of-type,
+    // &:hover .menu-icon:checked + div.menu-grp .menu-line:last-of-type {
+    //   width: 25px;
+    // }
+  }
   header {
     height: 110px;
   }
