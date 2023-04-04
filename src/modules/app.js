@@ -11,6 +11,7 @@ import createProject from './views/projectView';
 
 export default function appController() {
   const projectForm = document.querySelector('#project-form');
+  const projectInput = document.querySelector('#project-name');
   const taskForm = document.querySelector('.task-form');
   const tasksWrapper = document.querySelector('.t-wrapper');
   const formWrapper = document.querySelector('.f-wrapper');
@@ -218,7 +219,6 @@ export default function appController() {
     formStar.classList.toggle('fa-solid');
   };
   const togglePlusBtn = () => {
-    // resetForm();
     addProjectBtn.classList.toggle('plus');
     addProjectBtn.classList.toggle('rotated');
   };
@@ -226,8 +226,24 @@ export default function appController() {
     document.querySelector('form').reset();
     selected = '';
     togglePlusBtn();
-    projectForm.hidden = !projectForm.hidden;
 
+    // if (projectInput === document.activeElement) {
+    //   e.stopPropagation();
+    //   return;
+    // }
+    // if (projectInput.focus()) {
+    //   e.stopPropagation();
+    // }
+    projectForm.hidden = !projectForm.hidden;
+    if (projectForm.hidden) {
+      // projectForm.style.animation = 'ease-out reverse formVertical 0.2s';
+
+      selected = '';
+      resetProjects();
+      renderProjects();
+      updateSelectedProject();
+      updateSelectedFilter();
+    }
     if (!projectForm.hidden) {
       projectForm.style.animation = 'ease-out formVertical 0.2s';
       for (let i = 0; i < projectGrp.children.length; i++) {
@@ -241,14 +257,6 @@ export default function appController() {
     projectBtns.forEach((btn) => {
       btn.style.opacity = '0';
     });
-    if (projectForm.hidden) {
-      // projectForm.style.animation = 'ease-out reverse formVertical 0.2s';
-      selected = '';
-      resetProjects();
-      renderProjects();
-      updateSelectedProject();
-      updateSelectedFilter();
-    }
   };
   function toggleEditProject(e) {
     // e.stopPropagation();
@@ -433,7 +441,7 @@ export default function appController() {
   const renderFormView = () => {
     resetForm();
     resetStar();
-    if (projectForm.hidden === false) {
+    if (!projectForm.hidden) {
       toggleAddProject();
     }
     document.querySelector('select').value = currProject.name;
@@ -448,7 +456,7 @@ export default function appController() {
   const renderEditView = (e, project) => {
     console.log(currProject);
     e.stopImmediatePropagation();
-    if (projectForm.hidden === false) {
+    if (!projectForm.hidden) {
       toggleAddProject();
     }
     taskIndex = e.currentTarget.closest('.task').getAttribute('data-id');
@@ -621,7 +629,8 @@ export default function appController() {
     renderTasksView(e);
 
     if (content.style.display === 'none') {
-      filters.style.display = 'none';
+      console.log('test');
+      toggleSideBarFocus();
     }
   }
   function handleDeleteProjectClick(e) {
@@ -680,6 +689,9 @@ export default function appController() {
     renderProjects();
     toggleAddProject();
     updateSelectedProject();
+    if (mobileMenu.classList.contains('active')) {
+      toggleSideBarModal();
+    }
   }
   function editProject() {
     // e.stopImmediatePropagation();
@@ -701,7 +713,6 @@ export default function appController() {
     updateSelectedProject();
     if (mobileMenu.classList.contains('active')) {
       toggleSideBarModal();
-      filters.style.display = 'block';
     }
   }
   function deleteProject(e) {
@@ -735,7 +746,7 @@ export default function appController() {
       currProject = project;
     }
 
-    if (projectForm.hidden === false) {
+    if (!projectForm.hidden) {
       toggleAddProject();
     }
     resetProjects();
@@ -811,6 +822,9 @@ export default function appController() {
 
     renderTasksView(e);
     renderTasks(currProject, taskToDelete);
+
+    updateSelectedProject();
+    updateSelectedFilter();
   }
 
   function getAllTasks() {
@@ -940,7 +954,7 @@ export default function appController() {
   }
   function toggleMobileFocus() {
     const header = document.querySelector('header');
-    const content = document.querySelector('.content');
+    // const content = document.querySelector('.content');
     content.style.transition = '0.2s ease-out';
 
     if (titleInput.matches(':focus') || noteInput.matches(':focus')) {
@@ -951,6 +965,28 @@ export default function appController() {
       header.classList.remove('header');
       content.classList.remove('mobile-stretch');
       content.style.transition = '0.2s ease-out';
+    }
+  }
+  function toggleSideBarFocus() {
+    if (projectInput.matches(':focus')) {
+      filters.classList.add('filtersHide');
+      resetFilters();
+    } else if (!addProjectBtn.matches(':active')) {
+      // togglePlusBtn();
+      toggleAddProject();
+      resetProjects();
+      renderProjects();
+      filters.classList.remove('filtersHide');
+
+      const filtersArr = ['All', 'Starred', 'Today', 'Week'];
+      for (let i = 0; i < filtersArr.length; i++) {
+        if (currProject.name === filtersArr[i]) {
+          updateSelectedFilter();
+          break;
+        } else {
+          updateSelectedProject();
+        }
+      }
     }
   }
 
@@ -973,9 +1009,12 @@ export default function appController() {
         content.style.display = 'block';
         sidebar.style.display = 'none';
         resetMobileAnimations();
+        mobileMenu.checked = false;
       }, 100);
     }
   }
+  projectInput.addEventListener('focus', toggleSideBarFocus);
+  projectInput.addEventListener('blur', toggleSideBarFocus);
   mobileMenu.addEventListener('click', toggleSideBarModal);
   titleInput.addEventListener('focus', toggleMobileFocus);
   titleInput.addEventListener('blur', toggleMobileFocus);
