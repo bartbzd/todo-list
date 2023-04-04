@@ -32,6 +32,10 @@ export default function appController() {
   const selectToday = document.querySelector('.today');
   const selectWeek = document.querySelector('.week');
   const themeIcon = document.querySelector('.theme');
+  const mobileMenu = document.querySelector('.menu-icon');
+  const sidebar = document.querySelector('.sidebar');
+  const content = document.querySelector('.content');
+  const filters = document.querySelector('.filters');
 
   let componentColor = window
     .getComputedStyle(document.documentElement)
@@ -219,6 +223,7 @@ export default function appController() {
     addProjectBtn.classList.toggle('rotated');
   };
   const toggleAddProject = () => {
+    document.querySelector('form').reset();
     selected = '';
     togglePlusBtn();
     projectForm.hidden = !projectForm.hidden;
@@ -279,7 +284,14 @@ export default function appController() {
     console.log(currProject);
     console.log(projectIndex);
   }
-
+  function toggleOverflow() {
+    const note = document.querySelector('#open-note');
+    const botLine = document.querySelector('.bot-note-line');
+    console.log(note.scrollWidth > note.clientWidth);
+    if (note.scrollHeight > note.clientHeight) {
+      botLine.classList.add('visible');
+    } else botLine.classList.remove('visible');
+  }
   // resets
   function resetStar() {
     document.querySelector('.add-star').className = 'add-star fa-regular fa-star';
@@ -377,14 +389,7 @@ export default function appController() {
       date.textContent = selectedDate.toLocaleDateString();
     }
   }
-  function toggleOverflow() {
-    const note = document.querySelector('#open-note');
-    const botLine = document.querySelector('.bot-note-line');
-    console.log(note.scrollWidth > note.clientWidth);
-    if (note.scrollHeight > note.clientHeight) {
-      botLine.classList.add('visible');
-    } else botLine.classList.remove('visible');
-  }
+
   function updateSelectedProject() {
     resetFilters();
     console.log(currProject);
@@ -605,11 +610,19 @@ export default function appController() {
     renderTasks(currProject);
     renderTasksView(e);
     updateSelectedProject();
+    if (mobileMenu.classList.contains('active')) {
+      toggleSideBarModal();
+    }
   }
   function handleEditProjectClick(e) {
+    e.stopImmediatePropagation();
     toggleEditProject(e);
     renderTasks(currProject);
     renderTasksView(e);
+
+    if (content.style.display === 'none') {
+      filters.style.display = 'none';
+    }
   }
   function handleDeleteProjectClick(e) {
     e.stopPropagation();
@@ -669,6 +682,7 @@ export default function appController() {
     updateSelectedProject();
   }
   function editProject() {
+    // e.stopImmediatePropagation();
     // if (!isProjectValid()) return;
     const name = document.querySelector('#project-name');
     if (!name.value) {
@@ -685,6 +699,10 @@ export default function appController() {
     renderProjects();
     console.log(projectIndex);
     updateSelectedProject();
+    if (mobileMenu.classList.contains('active')) {
+      toggleSideBarModal();
+      filters.style.display = 'block';
+    }
   }
   function deleteProject(e) {
     projectIndex = Number(e.target.closest('.project').getAttribute('data-id'));
@@ -826,6 +844,10 @@ export default function appController() {
     currProject = allTasksList;
     renderTasksView(e);
     renderTasks(currProject);
+
+    if (mobileMenu.classList.contains('active')) {
+      toggleSideBarModal();
+    }
   }
 
   function getStarredTasks() {
@@ -846,6 +868,9 @@ export default function appController() {
     renderTasks(starredProject);
     currProject = starredProject;
     updateSelectedFilter();
+    if (mobileMenu.classList.contains('active')) {
+      toggleSideBarModal();
+    }
   }
 
   function getTodayTasks() {
@@ -869,6 +894,9 @@ export default function appController() {
     renderTasks(todayProject);
     currProject = todayProject;
     updateSelectedFilter();
+    if (mobileMenu.classList.contains('active')) {
+      toggleSideBarModal();
+    }
   }
 
   function getWeekTasks() {
@@ -892,6 +920,9 @@ export default function appController() {
     renderTasks(weekProject);
     currProject = weekProject;
     updateSelectedFilter();
+    if (mobileMenu.classList.contains('active')) {
+      toggleSideBarModal();
+    }
   }
   function toggleTheme() {
     const theme = document.documentElement.getAttribute('data-theme');
@@ -923,16 +954,26 @@ export default function appController() {
     }
   }
 
-  const mobileMenu = document.querySelector('.menu-icon');
-
+  function resetMobileAnimations() {
+    content.style.animation = '';
+    sidebar.style.animation = '';
+  }
   function toggleSideBarModal() {
-    const sidebar = document.querySelector('.sidebar');
-
-    sidebar.style.display = 'flex';
     mobileMenu.classList.toggle('active');
-
     if (mobileMenu.classList.contains('active')) {
-      toggleSideBarModal();
+      sidebar.style.animation = '0.1s formRight ease-out';
+      sidebar.style.display = 'flex';
+      content.style.display = 'none';
+      setTimeout(() => {
+        resetMobileAnimations();
+      }, 200);
+    } else {
+      sidebar.style.animation = '0.1s reverse formRight ease-out';
+      setTimeout(() => {
+        content.style.display = 'block';
+        sidebar.style.display = 'none';
+        resetMobileAnimations();
+      }, 100);
     }
   }
   mobileMenu.addEventListener('click', toggleSideBarModal);
