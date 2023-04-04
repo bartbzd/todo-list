@@ -227,23 +227,8 @@ export default function appController() {
     selected = '';
     togglePlusBtn();
 
-    // if (projectInput === document.activeElement) {
-    //   e.stopPropagation();
-    //   return;
-    // }
-    // if (projectInput.focus()) {
-    //   e.stopPropagation();
-    // }
     projectForm.hidden = !projectForm.hidden;
-    if (projectForm.hidden) {
-      // projectForm.style.animation = 'ease-out reverse formVertical 0.2s';
 
-      selected = '';
-      resetProjects();
-      renderProjects();
-      updateSelectedProject();
-      updateSelectedFilter();
-    }
     if (!projectForm.hidden) {
       projectForm.style.animation = 'ease-out formVertical 0.2s';
       for (let i = 0; i < projectGrp.children.length; i++) {
@@ -257,12 +242,17 @@ export default function appController() {
     projectBtns.forEach((btn) => {
       btn.style.opacity = '0';
     });
+    if (projectForm.hidden) {
+      // projectForm.style.animation = 'ease-out reverse formVertical 0.2s';
+      filters.classList.remove('filtersHide');
+      selected = '';
+      resetProjects();
+      renderProjects();
+      updateSelectedProject();
+      updateSelectedFilter();
+    }
   };
   function toggleEditProject(e) {
-    // e.stopPropagation();
-    console.log(currProject);
-    console.log(currProject);
-    console.log(input);
     projectForm.hidden = !projectForm.hidden;
     console.log(input);
     const projectBtns = document.querySelectorAll('.options');
@@ -642,6 +632,10 @@ export default function appController() {
       resetProjects();
       renderProjects();
       showAll(e);
+
+      // updateSelectedProject();
+      // updateSelectedFilter();
+
       renderTasksView(e);
     }, 100);
   }
@@ -855,7 +849,7 @@ export default function appController() {
     resetProjects();
 
     renderProjects();
-    currProject = allTasksList;
+    // currProject = allTasksList;
     renderTasksView(e);
     renderTasks(currProject);
 
@@ -972,11 +966,12 @@ export default function appController() {
       filters.classList.add('filtersHide');
       resetFilters();
     } else if (!addProjectBtn.matches(':active')) {
-      // togglePlusBtn();
-      toggleAddProject();
+      togglePlusBtn();
+      projectForm.hidden = true;
+      document.querySelector('form').reset();
+      // toggleEditProject();
       resetProjects();
       renderProjects();
-      filters.classList.remove('filtersHide');
 
       const filtersArr = ['All', 'Starred', 'Today', 'Week'];
       for (let i = 0; i < filtersArr.length; i++) {
@@ -987,6 +982,7 @@ export default function appController() {
           updateSelectedProject();
         }
       }
+      filters.classList.remove('filtersHide');
     }
   }
 
@@ -1049,8 +1045,13 @@ export default function appController() {
         if (selected === '') {
           addProject();
           console.log('Add ran');
+          // togglePlusBtn();
+          projectForm.hidden = true;
         } else {
           editProject();
+          togglePlusBtn();
+          // projectForm.hidden = true;
+          console.log(selected);
           selected.classList.toggle('edited');
           selected = '';
           console.log('Edit ran');
@@ -1106,5 +1107,3 @@ export default function appController() {
     // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
-
-//editing task from one folder to another breaks updateSelectedProject and editTasks location on where edited task goes, currently deleting first task
