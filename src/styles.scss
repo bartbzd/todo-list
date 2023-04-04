@@ -923,6 +923,13 @@ header {
       transition: 0s;
       height: 70vh;
     }
+    .sidebar {
+      .project {
+        .project-name {
+          width: 200px;
+        }
+      }
+    }
     .mobile-stretch {
       transition: 0s;
       margin-top: 5vh;
