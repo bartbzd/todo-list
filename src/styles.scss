@@ -927,6 +927,12 @@ header {
       .projects-header {
         overflow-x: hidden;
       }
+
+      .project {
+        .project-name {
+          width: 140px;
+        }
+      }
     }
     .mobile-stretch {
       transition: 0s;
