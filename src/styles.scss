@@ -917,6 +917,9 @@ header {
     opacity: 0;
     height: 0;
   }
+  .filtersHide {
+    display: none;
+  }
   .cards {
     .sidebar,
     .content {
