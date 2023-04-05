@@ -992,15 +992,19 @@ export default function appController() {
   }
   function toggleSideBarModal() {
     mobileMenu.classList.toggle('active');
+    const body = document.querySelector('header h1');
     if (mobileMenu.classList.contains('active')) {
       sidebar.style.animation = '0.1s formRight ease-out';
       sidebar.style.display = 'flex';
       content.style.display = 'none';
+
+      body.classList.add('blurred');
       setTimeout(() => {
         resetMobileAnimations();
       }, 200);
     } else {
       sidebar.style.animation = '0.1s reverse formRight ease-out';
+      body.classList.remove('blurred');
       setTimeout(() => {
         content.style.display = 'block';
         sidebar.style.display = 'none';
