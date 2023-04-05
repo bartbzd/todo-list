@@ -831,6 +831,9 @@ header {
     //   width: 25px;
     // }
   }
+  .blurred {
+    filter: blur(3px);
+  }
   header {
     height: 110px;
   }
