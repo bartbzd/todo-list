@@ -858,6 +858,21 @@ header {
   }
 
   .cards {
+    .sidebar {
+      .filter,
+      .project {
+        font-size: 13px;
+      }
+      .projects-header {
+        overflow-x: hidden;
+      }
+      .project {
+        .project-name {
+          font-size: 13px;
+          width: 140px;
+        }
+      }
+    }
     .content {
       .f-wrapper {
         .task-form {
@@ -914,32 +929,12 @@ header {
         }
       }
     }
-  }
-
-  .header {
-    opacity: 0;
-    height: 0;
-  }
-  .filtersHide {
-    display: none;
-  }
-  .cards {
     .sidebar,
     .content {
       transition: 0s;
       height: 70vh;
     }
-    .sidebar {
-      .projects-header {
-        overflow-x: hidden;
-      }
 
-      .project {
-        .project-name {
-          width: 140px;
-        }
-      }
-    }
     .mobile-stretch {
       transition: 0s;
       margin-top: 5vh;
@@ -948,5 +943,13 @@ header {
     .sidebar {
       display: none;
     }
+  }
+
+  .header {
+    opacity: 0;
+    height: 0;
+  }
+  .filtersHide {
+    display: none;
   }
 }
