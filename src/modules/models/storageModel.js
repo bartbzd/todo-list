@@ -1,18 +1,51 @@
 import Task from './taskModel';
 import Project from './projectModel';
-// import appController from './projectModel';
 
-export let projects = [];
+let projects = [];
 
-export default class Storage {
-  getProjects() {
-    const storedProjects = localStorage.getItem('projects');
-    console.log(storedProjects);
-    projects = JSON.parse(storedProjects);
-    projects = projects.map((project) => new Project(project.name, []));
+export default function storage() {
+  let data = {
+    projects,
+    tasks: projects.flatMap((project) => project.getTasks()),
+  };
+
+  function saveData() {
+    localStorage.setItem('data', JSON.stringify(data));
   }
 
-  saveProjects() {
-    localStorage.setItem('projects', JSON.stringify(projects));
+  function getProjects() {
+    const storedData = localStorage.getItem('data');
+    data = JSON.parse(storedData);
+    // console.log(data);
+    // console.log(data.projects[0]);
+    const tempProjects = data.projects.map((project) => {
+      const tempTasks = project.tasks.map(
+        (task) =>
+          new Task(
+            task.title,
+            task.note,
+            task.project,
+            task.date,
+            task.isStarred,
+            task.isComplete
+          )
+      );
+      return new Project(project.name, tempTasks);
+    });
+    data = {
+      projects: tempProjects,
+      tasks: tempProjects.flatMap((project) => project.getTasks()),
+    };
+    projects = tempProjects;
+    // console.log(data);
+    // console.log(projects);
   }
+
+  return {
+    getProjects,
+    saveData,
+    projects,
+  };
 }
+
+export { projects };
