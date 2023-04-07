@@ -791,23 +791,24 @@ export default function appController() {
       formInput.value !== '' &&
       currProject === allTasksList
     ) {
-      console.log(lastProject);
-      temp.getTasks().splice(taskIndex, 1, editedTask);
+      console.log('test1');
+      // temp.getTasks().splice(taskIndex, 1, editedTask);
+      temp.getTasks().push(editedTask);
       allTasksList.getTasks().splice(taskIndex, 1);
-      lastProject.getTasks().splice(taskIndex, 1);
-      // currProject.getTasks().splice(taskIndex, 1); //deletes task from current project
       currProject = temp;
-      lastProject = undefined;
-      // updateSelectedFilter();
+
+      if (lastProject !== undefined) {
+        lastProject.getTasks().splice(taskIndex, 1);
+        lastProject = undefined;
+      }
     } else if (formInput.value !== project.name && formInput.value !== '') {
-      console.log('test');
-      console.log(temp);
+      console.log('test2');
       temp.getTasks().push(editedTask);
       project.getTasks().splice(taskIndex, 1);
       allTasksList.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else {
-      console.log('test2');
+      console.log('test3');
       project.getTasks().splice(taskIndex, 1, editedTask);
     }
 
