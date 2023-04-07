@@ -3,9 +3,11 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
+// eslint-disable-next-line import/no-extraneous-dependencies, object-curly-newline
 import { parseISO, isToday, isPast, isThisWeek } from 'date-fns';
 import Task from './models/taskModel';
-import Project, { projects } from './models/projectModel';
+import Project from './models/projectModel';
+import storage, { projects } from './models/storageModel';
 import createTask from './views/taskView';
 import createProject from './views/projectView';
 
@@ -23,7 +25,6 @@ export default function appController() {
   const titleInput = document.querySelector('#task');
   const noteInput = document.querySelector('#note');
   const dateInput = document.querySelector('#date');
-  const tasksTitle = document.querySelector('.current-title');
   const formInput = document.querySelector('#projects');
   const formStar = document.querySelector('.add-star');
   const projectGrp = document.querySelector('.project-grp');
@@ -57,9 +58,9 @@ export default function appController() {
   let taskIndex = 0;
   let projectIndex;
   let currProject;
-  let allTasksList = new Project('All');
-  console.log(allTasksList);
+  let lastProject;
   let selected = '';
+  let { allTasksList } = storage();
 
   // animations
   const showForm = () => {
@@ -334,6 +335,7 @@ export default function appController() {
 
     const star = document.querySelector('.open-star');
     const id = e.target.closest('.task').getAttribute('data-id');
+    console.log(currProject.tasks[id]);
     const isStarred = currProject.tasks[id].getIsStarred();
     console.log(currProject);
     title.textContent = currProject.tasks[id].title;
@@ -342,7 +344,6 @@ export default function appController() {
       project.textContent = 'All';
       folder.className = 'material-symbols-rounded open-folder';
       folder.textContent = 'inbox';
-      console.log(folder.className);
     } else if (currProject.name === 'Starred') {
       project.textContent = 'Starred';
       folder.className = 'fa-solid fa-star open-folder';
@@ -387,10 +388,13 @@ export default function appController() {
       date.textContent = selectedDate.toLocaleDateString();
     }
   }
-
+  // function updateSideBarTab() {
+  //   updateSelectedFilter();
+  //   updateSelectedProject();
+  // }
   function updateSelectedProject() {
     resetFilters();
-    console.log(currProject);
+    // console.log(currProject);
     const projectsList = document.querySelectorAll('.project');
     let foundProject = false;
     console.log(projectsList);
@@ -398,7 +402,7 @@ export default function appController() {
       if (foundProject) return;
       const i = project.querySelector('i');
       const p = project.querySelector('p');
-      console.log(index);
+      // console.log(index);
       if (p.textContent === currProject.name && index === currProject.index) {
         p.closest('.project').style.backgroundColor = componentColor;
         i.closest('.folder').className = 'folder fa-solid fa-folder';
@@ -415,8 +419,10 @@ export default function appController() {
       if (filters[i] === currProject.name) {
         arr[i].style.transition = '0.2s ease-out';
         arr[i].style.backgroundColor = componentColor;
+        // return true;
       }
     }
+    // return false;
   }
 
   function renderTasksOpenView(e) {
@@ -460,7 +466,9 @@ export default function appController() {
       .closest('.task')
       .getAttribute('data-project-name');
     document.querySelector('select').value = projectName;
-
+    lastProject = projects.find(({ name }) => name === projectName);
+    console.log(projectName);
+    console.log(lastProject);
     if (project.getTasks()[taskIndex].getIsStarred()) {
       formStar.classList.add('starred');
       formStar.classList.remove('fa-regular');
@@ -686,6 +694,8 @@ export default function appController() {
     if (mobileMenu.classList.contains('active')) {
       toggleSideBarModal();
     }
+
+    storage().saveData();
   }
   function editProject() {
     // e.stopImmediatePropagation();
@@ -708,11 +718,15 @@ export default function appController() {
     if (mobileMenu.classList.contains('active')) {
       toggleSideBarModal();
     }
+
+    storage().saveData();
   }
   function deleteProject(e) {
     projectIndex = Number(e.target.closest('.project').getAttribute('data-id'));
     projects.splice(projectIndex, 1);
     // updateSelectedProject();
+
+    storage().saveData();
   }
 
   function storeTask() {
@@ -751,13 +765,19 @@ export default function appController() {
     updateSelectedFilter();
 
     resetForm();
+    storage().saveData();
+    // storage().saveAllTasks();
+    console.log(allTasksList);
   }
   function editTask(e, project) {
+    console.log(currProject);
     if (!isTaskValid()) return;
     e.preventDefault();
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === formInput.value);
-
+    console.log('hello');
+    console.log(allTasksList);
+    console.log(temp);
     if (
       currProject.name === 'Starred' ||
       currProject.name === 'Today' ||
@@ -765,31 +785,47 @@ export default function appController() {
     ) {
       currProject = allTasksList;
     }
-
+    console.log(currProject);
     if (
       formInput.value !== project.name &&
       formInput.value !== '' &&
       currProject === allTasksList
     ) {
+      console.log(lastProject);
       temp.getTasks().splice(taskIndex, 1, editedTask);
       allTasksList.getTasks().splice(taskIndex, 1);
+      lastProject.getTasks().splice(taskIndex, 1);
       // currProject.getTasks().splice(taskIndex, 1); //deletes task from current project
       currProject = temp;
+      lastProject = undefined;
+      // updateSelectedFilter();
     } else if (formInput.value !== project.name && formInput.value !== '') {
+      console.log('test');
+      console.log(temp);
       temp.getTasks().push(editedTask);
       project.getTasks().splice(taskIndex, 1);
+      allTasksList.getTasks().splice(taskIndex, 1);
       currProject = temp;
-    } else project.getTasks().splice(taskIndex, 1, editedTask);
+    } else {
+      console.log('test2');
+      project.getTasks().splice(taskIndex, 1, editedTask);
+    }
 
     if (!projectForm.hidden) {
       toggleAddProject();
     }
+
     resetProjects();
     renderProjects();
     renderTasksView(e);
     renderTasks(currProject);
+    // if (updateSelectedFilter() === false) {
+    //   resetFilters();
+    //   updateSelectedProject();
+    // } else updateSelectedFilter();
     updateSelectedProject();
-    updateSelectedFilter();
+
+    storage().saveData();
   }
   function deleteTask(e, project) {
     e.stopImmediatePropagation();
@@ -819,6 +855,10 @@ export default function appController() {
 
     updateSelectedProject();
     updateSelectedFilter();
+
+    storage().saveData();
+    // storage().saveAllTasks();
+    console.log(allTasksList);
   }
 
   function getAllTasks() {
@@ -946,6 +986,8 @@ export default function appController() {
     updateSelectedProject();
     updateSelectedFilter();
   }
+
+  //mobile
   function toggleMobileFocus() {
     const header = document.querySelector('header');
     // const content = document.querySelector('.content');
@@ -985,25 +1027,28 @@ export default function appController() {
       filters.classList.remove('filtersHide');
     }
   }
-
   function resetMobileAnimations() {
     content.style.animation = '';
     sidebar.style.animation = '';
   }
   function toggleSideBarModal() {
+    console.log(currProject);
+    // updateSelectedProject();
     mobileMenu.classList.toggle('active');
     const body = document.querySelector('header h1');
     if (mobileMenu.classList.contains('active')) {
-      sidebar.style.animation = '0.1s formRight ease-out';
+      sidebar.style.animation = '0.2s formRight ease-out';
       sidebar.style.display = 'flex';
       content.style.display = 'none';
 
       body.classList.add('blurred');
+      updateSelectedFilter();
+
       setTimeout(() => {
         resetMobileAnimations();
       }, 200);
     } else {
-      sidebar.style.animation = '0.1s reverse formRight ease-out';
+      sidebar.style.animation = '0.2s reverse formRight ease-out';
       body.classList.remove('blurred');
       setTimeout(() => {
         content.style.display = 'block';
@@ -1011,6 +1056,57 @@ export default function appController() {
         resetMobileAnimations();
         mobileMenu.checked = false;
       }, 100);
+    }
+  }
+
+  //local storage
+  //save todos?
+  function initIntro() {
+    const introTask = new Task(
+      'Click me to learn more!',
+      ' - Expand tasks to view additional details about them. \n\n - Write notes, add dates and star tasks from the form pane. \n\n - Thank you for checking out my project!',
+      'Default',
+      '',
+      true
+    );
+    const introTaskTwo = new Task(
+      'Sidebar Info',
+      ' - Filter created tasks by All, Starred, Today or Week. \n\n - Add  projects by clicking (+) and pressing Enter. \n\n - Hover over existing projects to edit or delete them.',
+      'Default',
+      '',
+      true
+    );
+    const introProject = new Project('Default');
+    introProject.index = 0;
+    currProject = introProject;
+    projects.push(introProject);
+    introProject.getTasks().push(introTask);
+    introProject.getTasks().push(introTaskTwo);
+  }
+  function findProjects() {
+    console.log(localStorage.getItem('data'));
+    if (!localStorage.getItem('data')) {
+      console.log('test');
+      initIntro();
+      // currProject = allTasksList;
+      // storage().saveData();
+    } else {
+      console.log('test');
+      console.log(lastProject);
+      storage().getData();
+      // storage().getAllTasks();
+      getAllTasks();
+      console.table(projects);
+      console.log(localStorage.data);
+      console.log(allTasksList);
+      currProject = allTasksList;
+      resetTasks();
+      renderTasks(currProject);
+      // resetFilters();
+      // selectAll.style.backgroundColor = componentColor;
+      // updateSelectedProject();
+      // console.log(currProject);
+      updateSelectedFilter();
     }
   }
   projectInput.addEventListener('focus', toggleSideBarFocus);
@@ -1036,7 +1132,6 @@ export default function appController() {
     // incorrectInput = false;
     editTask(e, currProject);
   });
-
   projectForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -1080,26 +1175,7 @@ export default function appController() {
   });
 
   document.addEventListener('DOMContentLoaded', (e) => {
-    const introTask = new Task(
-      'Click me to learn more!',
-      ' - Expand tasks to view additional details about them. \n\n - Write notes, add dates and star tasks from the form pane. \n\n - Thank you for checking out my project!',
-      'Default',
-      '',
-      true
-    );
-    const introTaskTwo = new Task(
-      'Sidebar Info',
-      ' - Filter created tasks by All, Starred, Today or Week. \n\n - Add  projects by clicking (+) and pressing Enter. \n\n - Hover over existing projects to edit or delete them.',
-      'Default',
-      '',
-      true
-    );
-    const introProject = new Project('Default');
-    introProject.index = 0;
-    currProject = introProject;
-    projects.push(introProject);
-    introProject.getTasks().push(introTask);
-    introProject.getTasks().push(introTaskTwo);
+    findProjects();
 
     renderProjects();
     resetTasks();
@@ -1111,3 +1187,5 @@ export default function appController() {
     // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
+
+//edit task is not highlighting correct sidebar tab when moving task
