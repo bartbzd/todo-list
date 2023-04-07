@@ -8,7 +8,7 @@ export default function storage() {
   let all = allTasksList.getTasks();
   console.log(allTasksList.getTasks());
   let data = {
-    projects: [],
+    projects,
     tasks: projects.flatMap((project) => project.getTasks()),
   };
 
