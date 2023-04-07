@@ -641,16 +641,16 @@ export default function appController() {
       renderProjects();
 
       // showAll(e);
-      updateSelectedProject();
-      updateSelectedFilter();
-      // if (projects.length === 0) {
-      //   currProject = allTasksList;
-      //   updateSelectedFilter();
-      // } else {
-      //   currProject = projects[0];
-      //   console.log(currProject);
-      //   updateSelectedProject();
-      // }
+
+      if (projects.length === 0) {
+        currProject = allTasksList;
+        updateSelectedFilter();
+      } else if (projects.length === 1) {
+        currProject.index = 0;
+        updateSelectedProject();
+      } else {
+        updateSelectedProject();
+      }
 
       renderTasksView(e);
     }, 100);
@@ -764,17 +764,15 @@ export default function appController() {
     if (!projectForm.hidden) {
       toggleAddProject();
     }
-    resetProjects();
-    renderProjects();
+    // resetProjects();
+    // renderProjects();
     renderTasksView(e);
     renderTasks(currProject);
-    updateSelectedProject();
-    updateSelectedFilter();
+    // updateSelectedProject();
+    // updateSelectedFilter();
 
     resetForm();
     storage().saveData();
-    // storage().saveAllTasks();
-    console.log(allTasksList);
   }
   function editTask(e, project) {
     console.log(currProject);
