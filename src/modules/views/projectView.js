@@ -1,4 +1,4 @@
-import { projects } from '../models/projectModel';
+import { projects } from '../models/storageModel';
 
 export default function createProject(project) {
   const div = () => document.createElement('div');
