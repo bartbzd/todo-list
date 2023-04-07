@@ -641,6 +641,7 @@ export default function appController() {
       renderProjects();
 
       // showAll(e);
+      updateSelectedProject();
       updateSelectedFilter();
       // if (projects.length === 0) {
       //   currProject = allTasksList;
