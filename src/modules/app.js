@@ -392,12 +392,17 @@ export default function appController() {
   //   updateSelectedFilter();
   //   updateSelectedProject();
   // }
+  function updateProjectsIndex() {
+    for (let i = 0; i < projects.length; i++) {
+      projects[i].index = i;
+    }
+  }
   function updateSelectedProject() {
     resetFilters();
-    console.log(currProject);
+    // console.log(currProject);
     const projectsList = document.querySelectorAll('.project');
     let foundProject = false;
-    console.log(projectsList);
+    // console.log(projectsList);
     projectsList.forEach((project, index) => {
       if (foundProject) return;
       const i = project.querySelector('i');
@@ -413,9 +418,14 @@ export default function appController() {
     });
   }
   function updateSelectedFilter() {
+    console.log(currProject);
+
     const filters = ['All', 'Starred', 'Today', 'Week'];
     const arr = [selectAll, selectStarred, selectToday, selectWeek];
     for (let i = 0; i < filters.length; i++) {
+      console.log(filters[0]);
+      console.log(currProject.name);
+      console.log(arr[0]);
       if (filters[i] === currProject.name) {
         arr[i].style.transition = '0.2s ease-out';
         arr[i].style.backgroundColor = componentColor;
@@ -642,15 +652,16 @@ export default function appController() {
 
       // showAll(e);
 
-      if (projects.length === 0) {
+      if (projects.length === 0 || currProject === allTasksList) {
         currProject = allTasksList;
+        resetFilters();
         updateSelectedFilter();
-      } else if (projects.length === 1) {
-        currProject.index = 0;
+      } else if (projects.length > 0) {
+        console.log('tester');
+        // currProject.index = 0;
         updateSelectedProject();
-      } else {
-        updateSelectedProject();
-      }
+        // getAllTasks();
+      } else updateSelectedFilter();
 
       renderTasksView(e);
     }, 100);
@@ -690,9 +701,7 @@ export default function appController() {
     projects.unshift(newProject);
     currProject = newProject;
     currProject.index = projects.indexOf(newProject);
-    for (let i = 0; i < projects.length; i++) {
-      projects[i].index = i;
-    }
+    updateProjectsIndex();
 
     resetForm();
     resetProjects();
@@ -726,10 +735,11 @@ export default function appController() {
     closeSideBarModal();
     storage().saveData();
   }
+
   function deleteProject(e) {
     projectIndex = Number(e.target.closest('.project').getAttribute('data-id'));
     projects.splice(projectIndex, 1);
-
+    updateProjectsIndex();
     // currProject = projects[0];
     // updateSelectedProject();
 
@@ -1105,12 +1115,15 @@ export default function appController() {
       console.log(localStorage.data);
       console.log(allTasksList);
       currProject = allTasksList;
-      resetTasks();
+      console.log(currProject);
+      // resetTasks();
+
       renderTasks(currProject);
       // resetFilters();
       // selectAll.style.backgroundColor = componentColor;
       // updateSelectedProject();
-      // console.log(currProject);
+      console.log(currProject.name);
+      console.log(selectAll);
       updateSelectedFilter();
     }
   }
@@ -1187,10 +1200,10 @@ export default function appController() {
     renderTasks(currProject);
     renderTasksView(e);
     // console.log(projects);
-    updateSelectedProject();
+
+    // updateSelectedProject();
+
     // document.querySelector('.project').style.backgroundColor = componentColor;
     // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
-
-//edit task is not highlighting correct sidebar tab when moving task
