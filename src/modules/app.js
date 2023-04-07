@@ -729,7 +729,6 @@ export default function appController() {
     toggleEditProject();
     resetProjects();
     renderProjects();
-    console.log(projectIndex);
     updateSelectedProject();
 
     closeSideBarModal();
@@ -841,6 +840,7 @@ export default function appController() {
     //   resetFilters();
     //   updateSelectedProject();
     // } else updateSelectedFilter();
+    updateProjectsIndex();
     updateSelectedProject();
 
     storage().saveData();
@@ -1103,7 +1103,8 @@ export default function appController() {
     if (!localStorage.getItem('data')) {
       console.log('test');
       initIntro();
-      // currProject = allTasksList;
+      getAllTasks();
+      currProject = allTasksList;
       // storage().saveData();
     } else {
       console.log('test');
@@ -1124,8 +1125,8 @@ export default function appController() {
       // updateSelectedProject();
       console.log(currProject.name);
       console.log(selectAll);
-      updateSelectedFilter();
     }
+    updateSelectedFilter();
   }
   projectInput.addEventListener('focus', toggleSideBarFocus);
   projectInput.addEventListener('blur', toggleSideBarFocus);
