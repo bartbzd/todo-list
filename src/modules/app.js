@@ -394,7 +394,7 @@ export default function appController() {
   // }
   function updateSelectedProject() {
     resetFilters();
-    // console.log(currProject);
+    console.log(currProject);
     const projectsList = document.querySelectorAll('.project');
     let foundProject = false;
     console.log(projectsList);
@@ -616,9 +616,8 @@ export default function appController() {
     renderTasks(currProject);
     renderTasksView(e);
     updateSelectedProject();
-    if (mobileMenu.classList.contains('active')) {
-      toggleSideBarModal();
-    }
+
+    closeSideBarModal();
   }
   function handleEditProjectClick(e) {
     e.stopImmediatePropagation();
@@ -636,13 +635,21 @@ export default function appController() {
     e.target.closest('.project').style.animation = 'ease-in formRight reverse 0.2s';
     e.target.closest('.project').style.opacity = '0.7';
     setTimeout(() => {
+      console.log(currProject);
       deleteProject(e);
       resetProjects();
       renderProjects();
-      showAll(e);
 
-      // updateSelectedProject();
-      // updateSelectedFilter();
+      // showAll(e);
+      updateSelectedFilter();
+      // if (projects.length === 0) {
+      //   currProject = allTasksList;
+      //   updateSelectedFilter();
+      // } else {
+      //   currProject = projects[0];
+      //   console.log(currProject);
+      //   updateSelectedProject();
+      // }
 
       renderTasksView(e);
     }, 100);
@@ -691,9 +698,8 @@ export default function appController() {
     renderProjects();
     toggleAddProject();
     updateSelectedProject();
-    if (mobileMenu.classList.contains('active')) {
-      toggleSideBarModal();
-    }
+
+    closeSideBarModal();
 
     storage().saveData();
   }
@@ -715,15 +721,15 @@ export default function appController() {
     renderProjects();
     console.log(projectIndex);
     updateSelectedProject();
-    if (mobileMenu.classList.contains('active')) {
-      toggleSideBarModal();
-    }
 
+    closeSideBarModal();
     storage().saveData();
   }
   function deleteProject(e) {
     projectIndex = Number(e.target.closest('.project').getAttribute('data-id'));
     projects.splice(projectIndex, 1);
+
+    // currProject = projects[0];
     // updateSelectedProject();
 
     storage().saveData();
@@ -791,7 +797,8 @@ export default function appController() {
       formInput.value !== '' &&
       currProject === allTasksList
     ) {
-      console.log('test1');
+      console.log('test1'); //from allTasksList to target project while deleting from original project
+
       // temp.getTasks().splice(taskIndex, 1, editedTask);
       temp.getTasks().push(editedTask);
       allTasksList.getTasks().splice(taskIndex, 1);
@@ -802,13 +809,14 @@ export default function appController() {
         lastProject = undefined;
       }
     } else if (formInput.value !== project.name && formInput.value !== '') {
+      //transfer from project to project and update allTasksList
       console.log('test2');
       temp.getTasks().push(editedTask);
       project.getTasks().splice(taskIndex, 1);
       allTasksList.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else {
-      console.log('test3');
+      console.log('test3'); //edit within same project
       project.getTasks().splice(taskIndex, 1, editedTask);
     }
 
@@ -894,9 +902,7 @@ export default function appController() {
     renderTasksView(e);
     renderTasks(currProject);
 
-    if (mobileMenu.classList.contains('active')) {
-      toggleSideBarModal();
-    }
+    closeSideBarModal();
   }
 
   function getStarredTasks() {
@@ -917,9 +923,7 @@ export default function appController() {
     renderTasks(starredProject);
     currProject = starredProject;
     updateSelectedFilter();
-    if (mobileMenu.classList.contains('active')) {
-      toggleSideBarModal();
-    }
+    closeSideBarModal();
   }
 
   function getTodayTasks() {
@@ -943,9 +947,7 @@ export default function appController() {
     renderTasks(todayProject);
     currProject = todayProject;
     updateSelectedFilter();
-    if (mobileMenu.classList.contains('active')) {
-      toggleSideBarModal();
-    }
+    closeSideBarModal();
   }
 
   function getWeekTasks() {
@@ -969,9 +971,7 @@ export default function appController() {
     renderTasks(weekProject);
     currProject = weekProject;
     updateSelectedFilter();
-    if (mobileMenu.classList.contains('active')) {
-      toggleSideBarModal();
-    }
+    closeSideBarModal();
   }
   function toggleTheme() {
     const theme = document.documentElement.getAttribute('data-theme');
@@ -1032,6 +1032,7 @@ export default function appController() {
     content.style.animation = '';
     sidebar.style.animation = '';
   }
+
   function toggleSideBarModal() {
     console.log(currProject);
     // updateSelectedProject();
@@ -1059,7 +1060,11 @@ export default function appController() {
       }, 100);
     }
   }
-
+  function closeSideBarModal() {
+    if (mobileMenu.classList.contains('active')) {
+      toggleSideBarModal();
+    }
+  }
   //local storage
   //save todos?
   function initIntro() {
