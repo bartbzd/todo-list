@@ -7,7 +7,7 @@
 import { parseISO, isToday, isPast, isThisWeek } from 'date-fns';
 import Task from './models/taskModel';
 import Project from './models/projectModel';
-import storage, { projects } from './models/storageModel';
+import storage, { projects, allTasksList } from './models/storageModel';
 import createTask from './views/taskView';
 import createProject from './views/projectView';
 
@@ -60,7 +60,7 @@ export default function appController() {
   let currProject;
   let lastProject;
   let selected = '';
-  let { allTasksList } = storage();
+  // let { allTasksList } = storage();
 
   // animations
   const showForm = () => {
@@ -423,9 +423,9 @@ export default function appController() {
     const filters = ['All', 'Starred', 'Today', 'Week'];
     const arr = [selectAll, selectStarred, selectToday, selectWeek];
     for (let i = 0; i < filters.length; i++) {
-      console.log(filters[0]);
-      console.log(currProject.name);
-      console.log(arr[0]);
+      // console.log(filters[0]);
+      // console.log(currProject.name);
+      // console.log(arr[0]);
       if (filters[i] === currProject.name) {
         arr[i].style.transition = '0.2s ease-out';
         arr[i].style.backgroundColor = componentColor;
@@ -886,8 +886,8 @@ export default function appController() {
         .getTasks()
         .filter((task) => task.project === '');
       const combinedTasks = allTasks.concat(unassignedTasks);
-      allTasksList = new Project('All', combinedTasks);
-      console.log(allTasksList);
+      storage().setAllTasksList(combinedTasks);
+      // console.log(allTasksList);
       // currProject = allTasksList;
     } else {
       console.log(allTasksList.getTasks().length === 0);
@@ -1100,8 +1100,10 @@ export default function appController() {
   }
   function findProjects() {
     console.log(localStorage.getItem('data'));
+    console.log(allTasksList);
     if (!localStorage.getItem('data')) {
       console.log('test');
+      // allTasksList = new Project('All');
       initIntro();
       getAllTasks();
       currProject = allTasksList;
@@ -1112,19 +1114,19 @@ export default function appController() {
       storage().getData();
       // storage().getAllTasks();
       getAllTasks();
-      console.table(projects);
-      console.log(localStorage.data);
-      console.log(allTasksList);
+      // console.table(projects);
+      // console.log(localStorage.data);
+      // console.log(allTasksList);
       currProject = allTasksList;
-      console.log(currProject);
+      // console.log(currProject);
       // resetTasks();
 
       renderTasks(currProject);
       // resetFilters();
       // selectAll.style.backgroundColor = componentColor;
       // updateSelectedProject();
-      console.log(currProject.name);
-      console.log(selectAll);
+      // console.log(currProject.name);
+      // console.log(selectAll);
     }
     updateSelectedFilter();
   }
