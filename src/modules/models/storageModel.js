@@ -3,17 +3,23 @@ import Project from './projectModel';
 
 let projects = [];
 let allTasksList = new Project('All');
-
+function setAllTasksList(tasks) {
+  allTasksList = new Project('All', tasks);
+}
 export default function storage() {
-  let all = allTasksList.getTasks();
-  console.log(allTasksList.getTasks());
+  //   let all = allTasksList.getTasks();
+  //   console.log(allTasksList.getTasks());
+  console.log(allTasksList);
   let data = {
     projects,
     tasks: projects.flatMap((project) => project.getTasks()),
+    all: allTasksList.getTasks(),
   };
 
   function saveData() {
     localStorage.setItem('data', JSON.stringify(data));
+    // localStorage.setItem('allTasksData', JSON.stringify(all));
+    console.log('Im here');
   }
 
   function getData() {
@@ -35,13 +41,10 @@ export default function storage() {
       );
       return new Project(project.name, tempTasks);
     });
-    data = {
-      projects: tempProjects,
-      tasks: tempProjects.flatMap((project) => project.getTasks()),
-    };
-    projects = tempProjects;
+
     // allTasksList = new Project('All');
-    const allTasks = all.map(
+    console.log(data.all);
+    const allTasks = data.all.map(
       (task) =>
         new Task(
           task.title,
@@ -52,7 +55,12 @@ export default function storage() {
           task.isComplete
         )
     );
-    console.log(allTasks);
+    // console.log(allTasks);
+
+    data.projects = tempProjects;
+    data.tasks = tempProjects.flatMap((project) => project.getTasks());
+    data.all = allTasks;
+    projects = tempProjects;
     allTasksList = new Project('All', allTasks);
   }
   //   function saveAllTasks() {
@@ -83,15 +91,15 @@ export default function storage() {
   //     allTasksList = tempTasks;
   //     // projects = tempProjects;
   //   }
+
   return {
     getData,
     saveData,
     projects,
-    // saveAllTasks,
-    // getAllTasks,
     allTasksList,
+    setAllTasksList,
   };
 }
 
-export { projects };
-export { allTasksList };
+export { projects, allTasksList };
+// export { allTasksList };
