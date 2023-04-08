@@ -111,6 +111,7 @@ body {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    user-select: none;
   }
   button {
     transition: $transition;
@@ -130,6 +131,7 @@ header {
   justify-content: center;
   padding: 0 10vw;
   transition: $transition;
+  user-select: none;
   h1 {
     color: $dk-text;
     // padding-left: 5vw;
@@ -562,6 +564,7 @@ header {
           background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
           box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
           transition: $transition;
+          user-select: none;
           &:hover {
             transform: scale(1.02);
           }
@@ -688,7 +691,7 @@ header {
       background: linear-gradient(160deg, $gradient-1 0%, $gradient-2 100%);
       transition: $transition;
       box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 15px 0px;
-
+      user-select: none;
       &:hover {
         transform: scale(1.02);
       }
