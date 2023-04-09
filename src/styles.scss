@@ -624,6 +624,10 @@ header {
         #open-title {
           font-size: 18px;
           color: $dk-text;
+          width: 90%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         #open-note {
           color: $dk-subtext;
