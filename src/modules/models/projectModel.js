@@ -13,7 +13,10 @@ export default class Project {
   }
 
   removeTask(selectedTask) {
-    const index = this.tasks.findIndex((task) => task.title === selectedTask.title);
+    // prettier-ignore
+    const index = this.tasks.findIndex(
+      (task) => task.title === selectedTask.title
+    );
     if (index !== -1) {
       this.tasks.splice(index, 1);
     }
