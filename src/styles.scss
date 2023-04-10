@@ -1,5 +1,6 @@
 html[data-theme='light'] {
   --bg-color: #e4f0fa;
+  --primary: #ff7c7c;
   --dk-text: #2b3c5b;
   --dk-subtext: #7a8aa3;
   --card: #e6eef8;
@@ -732,6 +733,7 @@ header {
     width: 80px;
     height: 45px;
     cursor: pointer;
+
     .menu-icon {
       width: 40px;
       height: 45px;
@@ -751,7 +753,6 @@ header {
       bottom: 0;
       width: 25px;
       height: 13px;
-
       .menu-line {
         position: absolute;
         display: block;
@@ -761,7 +762,6 @@ header {
         background-color: $primary;
         border-radius: 1px;
         transition: all 0.2s cubic-bezier(0.1, 0.82, 0.76, 0.965);
-
         &:first-of-type {
           top: 0;
         }
@@ -770,7 +770,6 @@ header {
         }
       }
     }
-
     &.active,
     .menu-icon:checked + div {
       .menu-line {
@@ -887,7 +886,6 @@ header {
     .content {
       height: 70vh;
     }
-
     .mobile-stretch {
       transition: 0s;
       margin-top: 5vh;
@@ -897,7 +895,6 @@ header {
       display: none;
     }
   }
-
   .header {
     opacity: 0;
     height: 0;
