@@ -65,6 +65,9 @@ body {
     align-items: end;
     height: 25px;
   }
+  p {
+    display: flex;
+  }
   p,
   span,
   i,
@@ -313,10 +316,7 @@ header {
       }
     }
   }
-  .task,
-  p {
-    display: flex;
-  }
+
   .content {
     width: 510px;
     overflow-x: hidden;
