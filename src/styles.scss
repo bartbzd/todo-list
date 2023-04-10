@@ -88,7 +88,7 @@ body {
   select {
     border: none;
     border-radius: 10px;
-    padding-left: 10px;
+    padding: 0 10px;
     outline-width: 0;
     background-color: $component;
     color: $dk-text;
@@ -379,7 +379,7 @@ header {
       }
       .tasks {
         overflow-x: hidden;
-        height: 40vh;
+        height: 35vh;
       }
       .task {
         user-select: none;
@@ -388,6 +388,7 @@ header {
         height: 35px;
         margin-bottom: 8px;
         display: flex;
+        min-width: 0;
         padding-right: 10px;
         background-color: $component;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 8px 0px,
@@ -411,8 +412,10 @@ header {
           display: flex;
           align-items: center;
         }
-        p {
+        .task-title {
           height: 35px;
+          width: fit-content;
+          padding-right: 8px;
           border: none;
           line-height: 35px;
           font-size: 14px;
@@ -421,6 +424,8 @@ header {
           pointer-events: none;
           color: $dk-text;
           overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
 
         & input[type='checkbox'] {
@@ -447,7 +452,6 @@ header {
           gap: 4px;
           .options {
             height: 100%;
-
             display: flex;
             align-items: center;
           }
@@ -761,14 +765,11 @@ header {
     opacity: 1;
   }
 }
-@keyframes textclip {
-  100% {
-    background-position: left;
-  }
-}
-
 .side-menu {
   display: none;
+}
+.toggler {
+  display: flex;
 }
 @media screen and (max-width: 480px) {
   .side-menu {
@@ -830,13 +831,6 @@ header {
         }
       }
     }
-
-    // &.active:hover .menu-line:first-of-type,
-    // &.active:hover .menu-line:last-of-type,
-    // &:hover .menu-icon:checked + div.menu-grp .menu-line:first-of-type,
-    // &:hover .menu-icon:checked + div.menu-grp .menu-line:last-of-type {
-    //   width: 25px;
-    // }
   }
   .blurred {
     filter: blur(4px);
@@ -938,7 +932,6 @@ header {
     }
     .sidebar,
     .content {
-      transition: 0s;
       height: 70vh;
     }
 
