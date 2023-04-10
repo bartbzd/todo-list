@@ -413,8 +413,9 @@ header {
           align-items: center;
         }
         .task-title {
+          display: block;
           height: 35px;
-          width: fit-content;
+          width: 75%;
           padding-right: 8px;
           border: none;
           line-height: 35px;
