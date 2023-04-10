@@ -1,9 +1,8 @@
 html[data-theme='light'] {
-  --bg-color: #e4f0fa; //#f3ede394;
-  --primary: #ff7c7c;
+  --bg-color: #e4f0fa;
   --dk-text: #2b3c5b;
   --dk-subtext: #7a8aa3;
-  --card: #e6eef8; //#f3f0e384;
+  --card: #e6eef8;
   --component-s: #c4cdd1;
   --component: #d3dee3;
   --grad-base: rgb(250, 177, 135);
@@ -12,11 +11,10 @@ html[data-theme='light'] {
   --cal-indicator: invert(72%) sepia(40%) saturate(5103%) hue-rotate(314deg)
     brightness(110%) contrast(105%);
 }
-
 html[data-theme='dark'] {
   --bg-color: #121215;
   --primary: #8d8fd2;
-  --dk-text: #dfe0fb; //#d9d9e8;
+  --dk-text: #dfe0fb;
   --dk-subtext: #84849d;
   --card: #18181c;
   --component-s: #454254;
@@ -40,26 +38,16 @@ $gradient-1: var(--gradient-1);
 $gradient-2: var(--gradient-2);
 $cal-indicator: var(--cal-indicator);
 $transition: 0.2s ease-out;
-// $bg-color: #d2d8f7a6;
-// $primary: #e87070;
-// $dk-text: #d2d8f7;
-// $dk-subtext: #d2d8f7a6;
-// $card: #141319;
-// $component-s: #353240;
-// $component: #24222d;
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Lexend Deca', sans-serif;
   font-weight: 400;
-
-  // border: 1px solid red;
 }
 body {
   background-color: $bg-color;
-  // background-color: #151319;
-  // background-color: #1a181d;
   transition: $transition;
   height: 100vh;
   h2,
@@ -74,14 +62,13 @@ body {
     color: $dk-subtext;
     display: flex;
     align-items: end;
-    // line-height: 25px;
     height: 25px;
   }
   p,
   span,
   i,
   q {
-    color: $dk-subtext; //$primary
+    color: $dk-subtext;
   }
   input,
   textarea,
@@ -97,11 +84,9 @@ body {
   }
   input {
     height: 35px;
-    // transition: 0.2s ease-out !important;
   }
   textarea {
     height: 120px;
-    // margin-bottom: 10px;
     padding-top: 10px;
   }
   select {
@@ -134,7 +119,6 @@ header {
   user-select: none;
   h1 {
     color: $dk-text;
-    // padding-left: 5vw;
     font-size: 48px;
     width: 285px;
     transition: $transition;
@@ -154,10 +138,12 @@ header {
 .hidden {
   display: none;
 }
+.side-menu {
+  display: none;
+}
 .cards {
   display: flex;
   flex-wrap: nowrap;
-  // flex-direction: row-reverse;
   justify-content: center;
   gap: 24px;
   padding: 0 8vw;
@@ -178,12 +164,7 @@ header {
     padding: 24px;
     height: 50vh;
     transition: 0.2s ease-out;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-    // box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
-    //   rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px;
-    // box-shadow: rgba(0, 0, 0, 0.1) 0px 13px 27px -5px,
-    //   rgba(0, 0, 0, 0.1) 0px 8px 16px -8px;
   }
   .section-header {
     margin-bottom: 16px;
@@ -208,8 +189,6 @@ header {
       color: $component-s;
       user-select: none;
       transition: $transition;
-      // pointer-events: none;
-      // padding-right: 10px;
       &:hover {
         transform: scale(1.03);
         color: $primary;
@@ -220,9 +199,7 @@ header {
     }
     .filter {
       height: 32px;
-      // background-color: $card;
       .fa-star {
-        // height: 18px;
         padding: 1px;
         width: 18px;
       }
@@ -233,11 +210,9 @@ header {
       margin-bottom: 8px;
       border-radius: 8px;
       user-select: none;
-
       i {
         margin-right: 6px;
       }
-
       p {
         user-select: none;
         pointer-events: none;
@@ -250,7 +225,6 @@ header {
     .projects-header {
       display: flex;
       justify-content: space-between;
-
       i {
         height: 24px;
         line-height: 24px;
@@ -258,7 +232,6 @@ header {
         transition: $transition;
         color: $component-s;
       }
-
       .plus:hover {
         color: $primary;
         transform: scale(1.1);
@@ -288,12 +261,10 @@ header {
     .project {
       display: flex;
       height: 32px;
-      // width: 100%;
       padding: 8px;
       overflow: hidden;
       align-items: center;
       opacity: 1;
-      // user-select: none;
       transition: $transition;
       .folder {
         pointer-events: none;
@@ -348,7 +319,6 @@ header {
   .content {
     width: 510px;
     overflow-x: hidden;
-    // transition: 0.2s ease-out;
     .t-wrapper,
     .f-wrapper,
     .o-wrapper {
@@ -360,7 +330,6 @@ header {
       .title-grp {
         display: flex;
         justify-content: space-between;
-        // gap: 6px;
         .current-title {
           margin-top: 6px;
           margin-right: 12px;
@@ -508,9 +477,7 @@ header {
         input[type='date'] {
           width: 100%;
           padding: 0 5px 0 10px;
-          // transition: 0.3s ease-in;
           user-select: none;
-          // pointer-events: none;
           &::-webkit-calendar-picker-indicator {
             font-size: 16px;
             transition: $transition;
@@ -554,7 +521,6 @@ header {
           border: none;
           color: $dk-text;
           font-size: 30px;
-          // transition: 0.3s ease-in-out;
         }
 
         .submit-btn {
@@ -593,11 +559,9 @@ header {
           .project-grp {
             display: flex;
             margin-top: 2px;
-            // margin-left: 12px;
             i {
               font-size: 20px;
               margin-right: 6px;
-              // margin-top: 1px;
             }
             p {
               font-size: 16px;
@@ -624,7 +588,6 @@ header {
 
           border: none;
           border-radius: 2px;
-          // margin-bottom: 16px;
         }
         #open-title {
           font-size: 18px;
@@ -646,14 +609,9 @@ header {
             color: transparent;
           }
         }
-        // #open-note::-webkit-scrollbar {
-        //   background-color: red;
-        // }
         .bot-note-line {
-          // margin-top: 16px;
           display: none;
           width: 20px;
-          // height: 15px;
           margin-left: auto;
           margin-right: auto;
           margin-top: 14px;
@@ -757,7 +715,6 @@ header {
 }
 @keyframes appearForm {
   0% {
-    // transform-origin: top;
     transform: scale(0.95);
     opacity: 0;
   }
@@ -766,12 +723,7 @@ header {
     opacity: 1;
   }
 }
-.side-menu {
-  display: none;
-}
-.toggler {
-  display: flex;
-}
+
 @media screen and (max-width: 480px) {
   .side-menu {
     display: flex;
