@@ -38,6 +38,7 @@ export default function appController() {
   const sidebar = document.querySelector('.sidebar');
   const content = document.querySelector('.content');
   const filters = document.querySelector('.filters');
+  const logo = document.querySelector('header h1');
 
   let componentColor = window
     .getComputedStyle(document.documentElement)
@@ -327,17 +328,15 @@ export default function appController() {
 
   // updates
   function updateOpenTask(e) {
-    const title = document.querySelector('#open-title');
-    const note = document.querySelector('#open-note');
     const project = document.querySelector('#open-project');
     const folder = document.querySelector('.open-folder');
+    const title = document.querySelector('#open-title');
+    const note = document.querySelector('#open-note');
     const date = document.querySelector('.open-date');
-
     const star = document.querySelector('.open-star');
     const id = e.target.closest('.task').getAttribute('data-id');
-    console.log(currProject.tasks[id]);
     const isStarred = currProject.tasks[id].getIsStarred();
-    console.log(currProject);
+
     title.textContent = currProject.tasks[id].title;
 
     if (currProject.name === 'All') {
@@ -379,19 +378,12 @@ export default function appController() {
       date.textContent = '';
     } else if (isPast(selectedDate) && !isToday(selectedDate)) {
       date.textContent = 'Past Due';
-      date.style.color = '#e45050';
+      date.style.color = '#E34A4A';
     } else {
-      primaryColor = window
-        .getComputedStyle(document.documentElement)
-        .getPropertyValue('--primary');
-      date.style.color = primaryColor;
       date.textContent = selectedDate.toLocaleDateString();
     }
   }
-  // function updateSideBarTab() {
-  //   updateSelectedFilter();
-  //   updateSelectedProject();
-  // }
+
   function updateProjectsIndex() {
     for (let i = 0; i < projects.length; i++) {
       projects[i].index = i;
@@ -653,9 +645,11 @@ export default function appController() {
       // showAll(e);
 
       if (projects.length === 0 || currProject === allTasksList) {
+        getAllTasks();
         currProject = allTasksList;
         resetFilters();
         updateSelectedFilter();
+        // resetTasks();
       } else if (projects.length > 0) {
         console.log('tester');
         // currProject.index = 0;
@@ -663,6 +657,7 @@ export default function appController() {
         // getAllTasks();
       } else updateSelectedFilter();
 
+      renderTasks(currProject);
       renderTasksView(e);
     }, 100);
   }
@@ -993,8 +988,23 @@ export default function appController() {
     componentColor = window
       .getComputedStyle(document.documentElement)
       .getPropertyValue('--component');
+    primaryColor = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue('--primary');
+    // updateOpenTask(e);
+
+    // if (document.querySelector('.open-date')) {
+    const date = document.querySelector('.open-date');
+    if (date.textContent === 'Past Due') {
+      date.style.color = '#E34A4A';
+    } else {
+      date.style.color = primaryColor;
+    }
+    // }
+
     updateSelectedProject();
     updateSelectedFilter();
+    // renderTasksView(e);
   }
 
   //mobile
@@ -1046,13 +1056,13 @@ export default function appController() {
     console.log(currProject);
     // updateSelectedProject();
     mobileMenu.classList.toggle('active');
-    const body = document.querySelector('header h1');
+
     if (mobileMenu.classList.contains('active')) {
       sidebar.style.animation = '0.2s formRight ease-out';
       sidebar.style.display = 'flex';
       content.style.display = 'none';
 
-      body.classList.add('blurred');
+      logo.classList.add('blurred');
       updateSelectedFilter();
 
       setTimeout(() => {
@@ -1060,10 +1070,11 @@ export default function appController() {
       }, 200);
     } else {
       sidebar.style.animation = '0.2s reverse formRight ease-out';
-      body.classList.remove('blurred');
+      logo.classList.remove('blurred');
       setTimeout(() => {
         content.style.display = 'block';
         sidebar.style.display = 'none';
+
         resetMobileAnimations();
         mobileMenu.checked = false;
       }, 100);
@@ -1074,8 +1085,6 @@ export default function appController() {
       toggleSideBarModal();
     }
   }
-  //local storage
-  //save todos?
   function initIntro() {
     const introTask = new Task(
       'Click me to learn more!',
@@ -1130,6 +1139,19 @@ export default function appController() {
     }
     updateSelectedFilter();
   }
+  function isMobileView() {
+    if (window.innerWidth >= 480) {
+      sidebar.style.display = 'flex';
+      content.style.display = 'block';
+    } else if (window.innerWidth < 480) {
+      sidebar.style.display = 'none';
+      content.style.display = 'block';
+      mobileMenu.classList.remove('active');
+      logo.classList.remove('blurred');
+      mobileMenu.checked = false;
+    }
+  }
+  window.addEventListener('resize', isMobileView);
   projectInput.addEventListener('focus', toggleSideBarFocus);
   projectInput.addEventListener('blur', toggleSideBarFocus);
   mobileMenu.addEventListener('click', toggleSideBarModal);
@@ -1197,16 +1219,9 @@ export default function appController() {
 
   document.addEventListener('DOMContentLoaded', (e) => {
     findProjects();
-
     renderProjects();
     resetTasks();
     renderTasks(currProject);
     renderTasksView(e);
-    // console.log(projects);
-
-    // updateSelectedProject();
-
-    // document.querySelector('.project').style.backgroundColor = componentColor;
-    // document.querySelector('.folder').className = 'folder material-symbols-rounded';
   });
 }
