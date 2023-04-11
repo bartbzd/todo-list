@@ -9,9 +9,13 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true }],
-    "function-paren-newline": "off"
-  },
-  "plugins": ["prettier"]
+    "function-paren-newline": "off",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-param-reassign": 0,
+    "operator-linebreak": "off",
+    "eslintprettier/prettier": ["off"]
+  }
 }
