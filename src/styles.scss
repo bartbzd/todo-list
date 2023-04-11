@@ -313,6 +313,13 @@ header {
       margin-top: auto;
       .fa-github {
         font-size: 25px;
+        transition: $transition;
+        &:hover {
+          color: $primary;
+        }
+        &:active {
+          transform: scale(0.95);
+        }
       }
     }
   }
