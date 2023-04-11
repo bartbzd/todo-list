@@ -1,9 +1,5 @@
-/* eslint-disable max-len */
-/* eslint-disable comma-dangle */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
-// eslint-disable-next-line import/no-extraneous-dependencies, object-curly-newline
+/* eslint-disable no-use-before-define */
+/* eslint-disable prettier/prettier */
 import { parseISO, isToday, isPast, isThisWeek } from 'date-fns';
 import Task from './models/taskModel';
 import Project from './models/projectModel';
@@ -43,27 +39,22 @@ export default function appController() {
   let componentColor = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--component');
+  let primaryColor = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue('--primary');
   const textColor = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--dk-text');
   const subtextColor = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--dk-subtext');
-  const cardColor = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue('--card');
-  let primaryColor = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue('--primary');
 
   let taskIndex = 0;
   let projectIndex;
   let currProject;
   let lastProject;
   let selected = '';
-  // let { allTasksList } = storage();
 
-  // animations
   const showForm = () => {
     formWrapper.style.animation = 'ease-out formRight 0.1s';
     formWrapper.style.display = 'flex';
@@ -107,10 +98,8 @@ export default function appController() {
     }, 100);
   };
   const openTask = () => {
-    // console.log(tasks);
     openWrapper.style.display = 'flex';
     openWrapper.style.animation = 'ease-out taskRight reverse 0.1s';
-
     setTimeout(() => {
       openWrapper.style.animation = '';
     }, 100);
@@ -123,11 +112,9 @@ export default function appController() {
     }, 100);
   };
 
-  // validity
   function isProjectValid() {
     const project = document.querySelector('#project-name');
     if (!project.value) {
-      console.log('test');
       project.setCustomValidity('Project cannot be empty');
       project.reportValidity();
       return false;
@@ -144,20 +131,17 @@ export default function appController() {
     return true;
   }
 
-  // toggles
-  const toggleBtnText = () => {
+  function toggleBtnText() {
     const title = document.querySelector('.form-title-header');
     title.textContent = 'Edit Task';
     editBtn.classList.toggle('hidden');
     addBtn.classList.toggle('hidden');
-  };
-  const toggleComplete = (e, project) => {
-    // e.stopPropagation();
+  }
+  function toggleComplete(e, project) {
     const wrapper = e.target.closest('.task');
     taskIndex = e.target.closest('.task').getAttribute('data-id');
     const task = project.getTasks()[taskIndex];
     const selectedTask = e.target;
-    // || document.querySelector('.task');
 
     if (!task.isComplete) {
       wrapper.addEventListener('click', renderTasksOpenView);
@@ -175,7 +159,6 @@ export default function appController() {
     });
 
     const title = selectedTask.closest('.task').querySelector('.task-title');
-    // const actions = e.target.closest('.task').querySelector('.actions');
     const edit = selectedTask.closest('.task').querySelector('.edit');
     const trash = selectedTask.closest('.task').querySelector('.delete');
     const star = selectedTask.closest('.task').querySelector('.fa-star');
@@ -214,21 +197,20 @@ export default function appController() {
         star.style.display = 'flex';
       }, 100);
     }
-  };
-  const toggleFormStar = () => {
+  }
+  function toggleFormStar() {
     formStar.classList.toggle('starred');
     formStar.classList.toggle('fa-regular');
     formStar.classList.toggle('fa-solid');
-  };
-  const togglePlusBtn = () => {
+  }
+  function togglePlusBtn() {
     addProjectBtn.classList.toggle('plus');
     addProjectBtn.classList.toggle('rotated');
-  };
-  const toggleAddProject = () => {
+  }
+  function toggleAddProject() {
     document.querySelector('form').reset();
     selected = '';
     togglePlusBtn();
-
     projectForm.hidden = !projectForm.hidden;
 
     if (!projectForm.hidden) {
@@ -244,8 +226,8 @@ export default function appController() {
     projectBtns.forEach((btn) => {
       btn.style.opacity = '0';
     });
+
     if (projectForm.hidden) {
-      // projectForm.style.animation = 'ease-out reverse formVertical 0.2s';
       filters.classList.remove('filtersHide');
       selected = '';
       resetProjects();
@@ -253,22 +235,22 @@ export default function appController() {
       updateSelectedProject();
       updateSelectedFilter();
     }
-  };
+  }
   function toggleEditProject(e) {
     projectForm.hidden = !projectForm.hidden;
-    console.log(input);
     const projectBtns = document.querySelectorAll('.options');
+
     projectBtns.forEach((btn) => {
       btn.style.display = 'none';
       btn.style.opacity = '0';
     });
+
     if (!projectForm.hidden) {
       projectForm.style.animation = 'ease-out appearForm 0.2s';
-
       projectIndex = Number(e.target.closest('.project').getAttribute('data-id'));
       const selectedIndex = projectGrp.children.item(projectIndex);
+
       projectGrp.insertBefore(projectForm, selectedIndex);
-      // input.style.display = 'block';
       input.value = projects[projectIndex].name;
       input.focus();
 
@@ -277,22 +259,17 @@ export default function appController() {
       selected.style.display = 'none';
 
       currProject = projects[projectIndex];
-      // renderTasksView(e);
-      // renderTasks(currProject);
     }
     togglePlusBtn();
-    console.log(currProject);
-    console.log(projectIndex);
   }
   function toggleOverflow() {
     const note = document.querySelector('#open-note');
     const botLine = document.querySelector('.bot-note-line');
-    console.log(note.scrollWidth > note.clientWidth);
     if (note.scrollHeight > note.clientHeight) {
       botLine.classList.add('visible');
     } else botLine.classList.remove('visible');
   }
-  // resets
+
   function resetStar() {
     document.querySelector('.add-star').className = 'add-star fa-regular fa-star';
   }
@@ -310,8 +287,8 @@ export default function appController() {
     }
   }
   function resetFilters() {
-    const filters = document.querySelectorAll('.filter');
-    filters.forEach((filter) => {
+    const filtersList = document.querySelectorAll('.filter');
+    filtersList.forEach((filter) => {
       filter.style.backgroundColor = 'transparent';
     });
   }
@@ -324,6 +301,10 @@ export default function appController() {
     projectsList.forEach((project) => {
       project.style.backgroundColor = 'transparent';
     });
+  }
+  function resetMobileAnimations() {
+    content.style.animation = '';
+    sidebar.style.animation = '';
   }
 
   // updates
@@ -383,7 +364,6 @@ export default function appController() {
       date.textContent = selectedDate.toLocaleDateString();
     }
   }
-
   function updateProjectsIndex() {
     for (let i = 0; i < projects.length; i++) {
       projects[i].index = i;
@@ -391,42 +371,40 @@ export default function appController() {
   }
   function updateSelectedProject() {
     resetFilters();
-    // console.log(currProject);
     const projectsList = document.querySelectorAll('.project');
     let foundProject = false;
-    // console.log(projectsList);
+
     projectsList.forEach((project, index) => {
       if (foundProject) return;
       const i = project.querySelector('i');
       const p = project.querySelector('p');
-      // console.log(index);
       if (p.textContent === currProject.name && index === currProject.index) {
         p.closest('.project').style.backgroundColor = componentColor;
         i.closest('.folder').className = 'folder fa-solid fa-folder';
         foundProject = true;
-        // tasksTitle.textContent = `${currProject.name}`;
-        // tasksTitle.className = 'current-title fa-solid fa-folder';
       }
     });
   }
   function updateSelectedFilter() {
-    console.log(currProject);
-
-    const filters = ['All', 'Starred', 'Today', 'Week'];
+    const filtersList = ['All', 'Starred', 'Today', 'Week'];
     const arr = [selectAll, selectStarred, selectToday, selectWeek];
-    for (let i = 0; i < filters.length; i++) {
-      // console.log(filters[0]);
-      // console.log(currProject.name);
-      // console.log(arr[0]);
-      if (filters[i] === currProject.name) {
+    for (let i = 0; i < filtersList.length; i++) {
+      if (filtersList[i] === currProject.name) {
         arr[i].style.transition = '0.2s ease-out';
         arr[i].style.backgroundColor = componentColor;
-        // return true;
       }
     }
-    // return false;
+  }
+  function updateColors() {
+    componentColor = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue('--component');
+    primaryColor = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue('--primary');
   }
 
+  // view renders
   function renderTasksOpenView(e) {
     hideTasksLeft();
 
@@ -436,7 +414,7 @@ export default function appController() {
       toggleOverflow();
     }, 100);
   }
-  const renderFormView = () => {
+  function renderFormView() {
     resetForm();
     resetStar();
     if (!projectForm.hidden) {
@@ -450,9 +428,8 @@ export default function appController() {
       showForm();
       titleInput.focus();
     }, 100);
-  };
-  const renderEditView = (e, project) => {
-    console.log(currProject);
+  }
+  function renderEditView(e, project) {
     e.stopImmediatePropagation();
     if (!projectForm.hidden) {
       toggleAddProject();
@@ -462,15 +439,12 @@ export default function appController() {
     titleInput.value = project.getTasks()[taskIndex].title;
     noteInput.value = project.getTasks()[taskIndex].note;
     dateInput.value = project.getTasks()[taskIndex].date;
-    console.log(project.name);
 
     const projectName = e.currentTarget
       .closest('.task')
       .getAttribute('data-project-name');
     document.querySelector('select').value = projectName;
     lastProject = projects.find(({ name }) => name === projectName);
-    console.log(projectName);
-    console.log(lastProject);
     if (project.getTasks()[taskIndex].getIsStarred()) {
       formStar.classList.add('starred');
       formStar.classList.remove('fa-regular');
@@ -487,9 +461,8 @@ export default function appController() {
       titleInput.focus();
       toggleBtnText();
     }, 100);
-  };
-  const renderTasksView = (e) => {
-    // resetForm();
+  }
+  function renderTasksView(e) {
     e.preventDefault();
     if (addBtn.classList.contains('hidden')) {
       toggleBtnText();
@@ -507,7 +480,130 @@ export default function appController() {
         showTasksLeft();
       }, 100);
     }
-  };
+  }
+
+  function handleProjectClick(e) {
+    resetFilters();
+    resetSelectedProject();
+    const projectWrappers = document.querySelectorAll('.project');
+    const project = e.currentTarget.closest('.project');
+    projectWrappers.forEach((wrapper) => {
+      wrapper.style.backgroundColor = '';
+    });
+    project.style.backgroundColor = componentColor;
+
+    const folder = project.querySelector('.folder');
+    folder.className = 'folder fa-solid fa-folder';
+
+    projectIndex = Number(project.getAttribute('data-id'));
+    currProject = projects[projectIndex];
+
+    renderTasks(currProject);
+    renderTasksView(e);
+    updateSelectedProject();
+
+    closeSideBarModal();
+  }
+  function handleEditProjectClick(e) {
+    e.stopImmediatePropagation();
+    toggleEditProject(e);
+    renderTasks(currProject);
+    renderTasksView(e);
+
+    if (content.style.display === 'none') {
+      toggleSideBarFocus();
+    }
+  }
+  function handleDeleteProjectClick(e) {
+    e.stopPropagation();
+    e.target.closest('.project').style.animation = 'ease-in formRight reverse 0.2s';
+    e.target.closest('.project').style.opacity = '0.7';
+
+    setTimeout(() => {
+      deleteProject(e);
+      resetProjects();
+      renderProjects();
+
+      if (projects.length === 0 || currProject === allTasksList) {
+        updateAllTasks();
+        currProject = allTasksList;
+        resetFilters();
+        updateSelectedFilter();
+      } else if (projects.length > 0) {
+        updateSelectedProject();
+      } else updateSelectedFilter();
+
+      renderTasks(currProject);
+      renderTasksView(e);
+    }, 100);
+  }
+  function addProjectHandlers() {
+    const projectWrappers = document.querySelectorAll('.project');
+    const editBtns = document.querySelectorAll('.edit-p');
+    const deleteBtns = document.querySelectorAll('.delete-p');
+
+    projectWrappers.forEach((wrapper) => {
+      wrapper.addEventListener('click', handleProjectClick);
+    });
+
+    editBtns.forEach((btn) => {
+      btn.addEventListener('click', handleEditProjectClick);
+    });
+
+    deleteBtns.forEach((btn) => {
+      btn.addEventListener('click', handleDeleteProjectClick);
+    });
+  }
+  function renderProjects() {
+    projects.forEach((project) => {
+      createProject(project);
+    });
+    addProjectHandlers();
+  }
+  function storeProject() {
+    const name = document.querySelector('#project-name').value;
+    return new Project(name);
+  }
+  function addProject() {
+    if (!isProjectValid()) return;
+    const newProject = storeProject();
+    projects.unshift(newProject);
+    currProject = newProject;
+    currProject.index = projects.indexOf(newProject);
+    updateProjectsIndex();
+
+    resetForm();
+    resetProjects();
+    renderProjects();
+    toggleAddProject();
+    updateSelectedProject();
+    closeSideBarModal();
+    storage().saveData();
+  }
+  function editProject() {
+    const name = document.querySelector('#project-name');
+    if (!name.value) {
+      name.setCustomValidity('Task cannot be empty');
+      name.reportValidity();
+      return;
+    }
+
+    projects[projectIndex].name = name.value;
+    currProject.index = projectIndex;
+    resetForm();
+    toggleEditProject();
+    resetProjects();
+    renderProjects();
+    updateSelectedProject();
+    closeSideBarModal();
+    storage().saveData();
+  }
+  function deleteProject(e) {
+    projectIndex = Number(e.target.closest('.project').getAttribute('data-id'));
+    projects.splice(projectIndex, 1);
+    updateProjectsIndex();
+    storage().saveData();
+  }
 
   function addTaskHandlers() {
     const taskWrapper = document.querySelectorAll('.task');
@@ -544,7 +640,7 @@ export default function appController() {
         e.target.closest('.task').style.opacity = '0';
 
         setTimeout(() => {
-          toggleComplete(e, currProject); //???
+          toggleComplete(e, currProject);
           deleteTask(e, currProject);
         }, 200);
       });
@@ -564,28 +660,23 @@ export default function appController() {
       taskWrapper.setAttribute('data-project-name', task.project);
 
       if (task.isStarred) {
-        //// task.isStarred
         taskWrapper.querySelector('.fa-star').classList.replace('fa-regular', 'fa-solid');
       }
 
       if (task.isComplete && task !== selectedTask) {
         const wrapper = taskWrapper.closest('.task');
-        const checkmark = taskWrapper.closest('.task').querySelector('.fa-circle-check');
         const title = taskWrapper.closest('.task').querySelector('.task-title');
-        // const actions = taskWrapper.closest('.task').querySelector('.actions');
         const edit = taskWrapper.closest('.task').querySelector('.edit');
         const trash = taskWrapper.closest('.task').querySelector('.delete');
         const star = taskWrapper.closest('.task').querySelector('.fa-star');
 
-        console.log(wrapper);
-        console.log(checkmark);
         title.style.textDecoration = 'line-through';
         title.style.color = subtextColor;
 
         wrapper.style.backgroundColor = 'transparent';
         wrapper.style.boxShadow = 'none';
         wrapper.removeEventListener('click', renderTasksOpenView);
-        // actions.style.opacity = '0';
+
         edit.style.display = 'none';
         trash.style.display = 'flex';
         star.style.display = 'none';
@@ -593,153 +684,6 @@ export default function appController() {
     });
     addTaskHandlers();
   }
-
-  function handleProjectClick(e) {
-    resetFilters();
-    resetSelectedProject();
-    const projectWrappers = document.querySelectorAll('.project');
-    const project = e.currentTarget.closest('.project');
-    projectWrappers.forEach((wrapper) => {
-      wrapper.style.backgroundColor = '';
-    });
-    project.style.backgroundColor = componentColor;
-
-    const folder = project.querySelector('.folder');
-    folder.className = 'folder fa-solid fa-folder';
-
-    projectIndex = Number(project.getAttribute('data-id'));
-    currProject = projects[projectIndex];
-
-    //testing icon or folder name
-    // tasksTitle.textContent = `· ${currProject.name}`;
-    // tasksTitle.className = 'material-symbols-rounded theme';
-    // tasksTitle.textContent = 'toggle_on';
-
-    renderTasks(currProject);
-    renderTasksView(e);
-    updateSelectedProject();
-
-    closeSideBarModal();
-  }
-  function handleEditProjectClick(e) {
-    e.stopImmediatePropagation();
-    toggleEditProject(e);
-    renderTasks(currProject);
-    renderTasksView(e);
-
-    if (content.style.display === 'none') {
-      console.log('test');
-      toggleSideBarFocus();
-    }
-  }
-  function handleDeleteProjectClick(e) {
-    e.stopPropagation();
-    e.target.closest('.project').style.animation = 'ease-in formRight reverse 0.2s';
-    e.target.closest('.project').style.opacity = '0.7';
-    setTimeout(() => {
-      console.log(currProject);
-      deleteProject(e);
-      resetProjects();
-      renderProjects();
-
-      // showAll(e);
-
-      if (projects.length === 0 || currProject === allTasksList) {
-        getAllTasks();
-        currProject = allTasksList;
-        resetFilters();
-        updateSelectedFilter();
-        // resetTasks();
-      } else if (projects.length > 0) {
-        console.log('tester');
-        // currProject.index = 0;
-        updateSelectedProject();
-        // getAllTasks();
-      } else updateSelectedFilter();
-
-      renderTasks(currProject);
-      renderTasksView(e);
-    }, 100);
-  }
-  function addProjectHandlers() {
-    const projectWrappers = document.querySelectorAll('.project');
-    const editBtns = document.querySelectorAll('.edit-p');
-    const deleteBtns = document.querySelectorAll('.delete-p');
-
-    projectWrappers.forEach((wrapper) => {
-      wrapper.addEventListener('click', handleProjectClick);
-    });
-
-    editBtns.forEach((btn) => {
-      btn.addEventListener('click', handleEditProjectClick);
-    });
-
-    deleteBtns.forEach((btn) => {
-      btn.addEventListener('click', handleDeleteProjectClick);
-    });
-  }
-  function renderProjects() {
-    // resetProjects();
-    projects.forEach((project) => {
-      createProject(project);
-    });
-    addProjectHandlers();
-  }
-
-  function storeProject() {
-    const name = document.querySelector('#project-name').value;
-    return new Project(name);
-  }
-  function addProject() {
-    if (!isProjectValid()) return;
-    const newProject = storeProject();
-    projects.unshift(newProject);
-    currProject = newProject;
-    currProject.index = projects.indexOf(newProject);
-    updateProjectsIndex();
-
-    resetForm();
-    resetProjects();
-    renderProjects();
-    toggleAddProject();
-    updateSelectedProject();
-
-    closeSideBarModal();
-
-    storage().saveData();
-  }
-  function editProject() {
-    // e.stopImmediatePropagation();
-    // if (!isProjectValid()) return;
-    const name = document.querySelector('#project-name');
-    if (!name.value) {
-      name.setCustomValidity('Task cannot be empty');
-      name.reportValidity();
-      return;
-    }
-    console.log(projectIndex);
-    projects[projectIndex].name = name.value;
-    currProject.index = projectIndex;
-    resetForm();
-    toggleEditProject();
-    resetProjects();
-    renderProjects();
-    updateSelectedProject();
-
-    closeSideBarModal();
-    storage().saveData();
-  }
-
-  function deleteProject(e) {
-    projectIndex = Number(e.target.closest('.project').getAttribute('data-id'));
-    projects.splice(projectIndex, 1);
-    updateProjectsIndex();
-    // currProject = projects[0];
-    // updateSelectedProject();
-
-    storage().saveData();
-  }
-
   function storeTask() {
     const title = document.querySelector('#task').value;
     const note = document.querySelector('#note').value;
@@ -755,7 +699,6 @@ export default function appController() {
 
     const newTask = storeTask();
     project = projects.find(({ name }) => name === formInput.value);
-    // console.log(temp);
 
     if (formInput.value === '') {
       allTasksList.getTasks().push(newTask);
@@ -768,25 +711,18 @@ export default function appController() {
     if (!projectForm.hidden) {
       toggleAddProject();
     }
-    // resetProjects();
-    // renderProjects();
+
     renderTasksView(e);
     renderTasks(currProject);
-    // updateSelectedProject();
-    // updateSelectedFilter();
-
     resetForm();
     storage().saveData();
   }
   function editTask(e, project) {
-    console.log(currProject);
     if (!isTaskValid()) return;
     e.preventDefault();
     const editedTask = storeTask();
     const temp = projects.find(({ name }) => name === formInput.value);
-    console.log('hello');
-    console.log(allTasksList);
-    console.log(temp);
+
     if (
       currProject.name === 'Starred' ||
       currProject.name === 'Today' ||
@@ -794,15 +730,12 @@ export default function appController() {
     ) {
       currProject = allTasksList;
     }
-    console.log(currProject);
+
     if (
       formInput.value !== project.name &&
       formInput.value !== '' &&
       currProject === allTasksList
     ) {
-      console.log('test1'); //from allTasksList to target project while deleting from original project
-
-      // temp.getTasks().splice(taskIndex, 1, editedTask);
       temp.getTasks().push(editedTask);
       allTasksList.getTasks().splice(taskIndex, 1);
       currProject = temp;
@@ -812,14 +745,11 @@ export default function appController() {
         lastProject = undefined;
       }
     } else if (formInput.value !== project.name && formInput.value !== '') {
-      //transfer from project to project and update allTasksList
-      console.log('test2');
       temp.getTasks().push(editedTask);
       project.getTasks().splice(taskIndex, 1);
       allTasksList.getTasks().splice(taskIndex, 1);
       currProject = temp;
     } else {
-      console.log('test3'); //edit within same project
       project.getTasks().splice(taskIndex, 1, editedTask);
     }
 
@@ -831,13 +761,8 @@ export default function appController() {
     renderProjects();
     renderTasksView(e);
     renderTasks(currProject);
-    // if (updateSelectedFilter() === false) {
-    //   resetFilters();
-    //   updateSelectedProject();
-    // } else updateSelectedFilter();
     updateProjectsIndex();
     updateSelectedProject();
-
     storage().saveData();
   }
   function deleteTask(e, project) {
@@ -845,7 +770,6 @@ export default function appController() {
     taskIndex = e.target.closest('.task').getAttribute('data-id');
     const taskToDelete = project.getTasks()[taskIndex];
 
-    // Find project task originally came from
     let projectToDeleteFrom;
     for (let i = 0; i < projects.length; i++) {
       if (projects[i].getTasks().includes(taskToDelete)) {
@@ -865,16 +789,11 @@ export default function appController() {
 
     renderTasksView(e);
     renderTasks(currProject, taskToDelete);
-
     updateSelectedProject();
     updateSelectedFilter();
-
     storage().saveData();
-    // storage().saveAllTasks();
-    console.log(allTasksList);
   }
-
-  function getAllTasks() {
+  function updateAllTasks() {
     if (allTasksList.getTasks().length === 0 || allTasksList.getTasks() !== currProject) {
       const allTasks = projects.flatMap((project) => project.tasks);
       const unassignedTasks = allTasksList
@@ -882,41 +801,46 @@ export default function appController() {
         .filter((task) => task.project === '');
       const combinedTasks = allTasks.concat(unassignedTasks);
       storage().setAllTasksList(combinedTasks);
-      // console.log(allTasksList);
-      // currProject = allTasksList;
     } else {
-      console.log(allTasksList.getTasks().length === 0);
-      console.log(allTasksList.getTasks() !== currProject);
-      console.log(allTasksList);
       currProject = allTasksList;
     }
   }
+  function updateStarredTasks() {
+    const starredTasks = allTasksList.getTasks().filter((task) => task.isStarred);
+    currProject = new Project('Starred', starredTasks);
+  }
+  function updateTodayTasks() {
+    const todayTasks = allTasksList
+      .getTasks()
+      .filter((task) => isToday(parseISO(task.date)));
+
+    currProject = new Project('Today', todayTasks);
+  }
+  function updateWeekTasks() {
+    const weekTasks = allTasksList
+      .getTasks()
+      .filter((task) => isThisWeek(parseISO(task.date)));
+
+    currProject = new Project('Week', weekTasks);
+  }
   function showAll(e) {
     resetFilters();
-    getAllTasks();
+    updateAllTasks();
     currProject = allTasksList;
 
-    console.log(allTasksList);
-    selectAll.style.backgroundColor = componentColor;
+    // selectAll.style.backgroundColor = componentColor;
     resetSelectedProject();
     resetProjects();
 
     renderProjects();
-    // currProject = allTasksList;
     renderTasksView(e);
     renderTasks(currProject);
-
     closeSideBarModal();
-  }
-
-  function getStarredTasks() {
-    const starredTasks = allTasksList.getTasks().filter((task) => task.isStarred);
-    currProject = new Project('Starred', starredTasks);
   }
   function showStarred(e) {
     resetFilters();
-    getAllTasks();
-    getStarredTasks();
+    updateAllTasks();
+    updateStarredTasks();
     const starredProject = currProject;
 
     resetSelectedProject();
@@ -929,18 +853,10 @@ export default function appController() {
     updateSelectedFilter();
     closeSideBarModal();
   }
-
-  function getTodayTasks() {
-    const todayTasks = allTasksList
-      .getTasks()
-      .filter((task) => isToday(parseISO(task.date)));
-
-    currProject = new Project('Today', todayTasks);
-  }
   function showToday(e) {
     resetFilters();
-    getAllTasks();
-    getTodayTasks();
+    updateAllTasks();
+    updateTodayTasks();
     const todayProject = currProject;
 
     resetSelectedProject();
@@ -953,18 +869,10 @@ export default function appController() {
     updateSelectedFilter();
     closeSideBarModal();
   }
-
-  function getWeekTasks() {
-    const weekTasks = allTasksList
-      .getTasks()
-      .filter((task) => isThisWeek(parseISO(task.date)));
-
-    currProject = new Project('Week', weekTasks);
-  }
   function showWeek(e) {
     resetFilters();
-    getAllTasks();
-    getWeekTasks();
+    updateAllTasks();
+    updateWeekTasks();
     const weekProject = currProject;
 
     resetSelectedProject();
@@ -977,40 +885,9 @@ export default function appController() {
     updateSelectedFilter();
     closeSideBarModal();
   }
-  function toggleTheme() {
-    const theme = document.documentElement.getAttribute('data-theme');
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
 
-    const temp = themeIcon.textContent;
-    themeIcon.textContent = temp === 'toggle_on' ? 'toggle_off' : 'toggle_on';
-
-    componentColor = window
-      .getComputedStyle(document.documentElement)
-      .getPropertyValue('--component');
-    primaryColor = window
-      .getComputedStyle(document.documentElement)
-      .getPropertyValue('--primary');
-    // updateOpenTask(e);
-
-    // if (document.querySelector('.open-date')) {
-    const date = document.querySelector('.open-date');
-    if (date.textContent === 'Past Due') {
-      date.style.color = '#E34A4A';
-    } else {
-      date.style.color = primaryColor;
-    }
-    // }
-
-    updateSelectedProject();
-    updateSelectedFilter();
-    // renderTasksView(e);
-  }
-
-  //mobile
   function toggleMobileFocus() {
     const header = document.querySelector('header');
-    // const content = document.querySelector('.content');
     content.style.transition = '0.2s ease-out';
 
     if (titleInput.matches(':focus') || noteInput.matches(':focus')) {
@@ -1028,10 +905,9 @@ export default function appController() {
       filters.classList.add('filtersHide');
       resetFilters();
     } else if (!addProjectBtn.matches(':active')) {
-      togglePlusBtn();
-      projectForm.hidden = true;
       document.querySelector('form').reset();
-      // toggleEditProject();
+      projectForm.hidden = true;
+      togglePlusBtn();
       resetProjects();
       renderProjects();
 
@@ -1047,21 +923,13 @@ export default function appController() {
       filters.classList.remove('filtersHide');
     }
   }
-  function resetMobileAnimations() {
-    content.style.animation = '';
-    sidebar.style.animation = '';
-  }
-
   function toggleSideBarModal() {
-    console.log(currProject);
-    // updateSelectedProject();
     mobileMenu.classList.toggle('active');
 
     if (mobileMenu.classList.contains('active')) {
       sidebar.style.animation = '0.2s formRight ease-out';
       sidebar.style.display = 'flex';
       content.style.display = 'none';
-
       logo.classList.add('blurred');
       updateSelectedFilter();
 
@@ -1071,10 +939,10 @@ export default function appController() {
     } else {
       sidebar.style.animation = '0.2s reverse formRight ease-out';
       logo.classList.remove('blurred');
+
       setTimeout(() => {
         content.style.display = 'block';
         sidebar.style.display = 'none';
-
         resetMobileAnimations();
         mobileMenu.checked = false;
       }, 100);
@@ -1084,6 +952,37 @@ export default function appController() {
     if (mobileMenu.classList.contains('active')) {
       toggleSideBarModal();
     }
+  }
+  function isMobileView() {
+    if (window.innerWidth >= 480) {
+      sidebar.style.display = 'flex';
+      content.style.display = 'block';
+    } else if (window.innerWidth < 480) {
+      sidebar.style.display = 'none';
+      content.style.display = 'block';
+      mobileMenu.classList.remove('active');
+      logo.classList.remove('blurred');
+      mobileMenu.checked = false;
+    }
+  }
+
+  function toggleTheme() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+
+    const temp = themeIcon.textContent;
+    themeIcon.textContent = temp === 'toggle_on' ? 'toggle_off' : 'toggle_on';
+
+    const date = document.querySelector('.open-date');
+    if (date.textContent === 'Past Due') {
+      date.style.color = '#E34A4A';
+    } else {
+      date.style.color = primaryColor;
+    }
+    updateColors();
+    updateSelectedProject();
+    updateSelectedFilter();
   }
   function initIntro() {
     const introTask = new Task(
@@ -1108,48 +1007,17 @@ export default function appController() {
     introProject.getTasks().push(introTaskTwo);
   }
   function findProjects() {
-    console.log(localStorage.getItem('data'));
-    console.log(allTasksList);
     if (!localStorage.getItem('data')) {
-      console.log('test');
-      // allTasksList = new Project('All');
       initIntro();
-      getAllTasks();
+      updateAllTasks();
       currProject = allTasksList;
-      // storage().saveData();
     } else {
-      console.log('test');
-      console.log(lastProject);
       storage().getData();
-      // storage().getAllTasks();
-      getAllTasks();
-      // console.table(projects);
-      // console.log(localStorage.data);
-      // console.log(allTasksList);
+      updateAllTasks();
       currProject = allTasksList;
-      // console.log(currProject);
-      // resetTasks();
-
       renderTasks(currProject);
-      // resetFilters();
-      // selectAll.style.backgroundColor = componentColor;
-      // updateSelectedProject();
-      // console.log(currProject.name);
-      // console.log(selectAll);
     }
     updateSelectedFilter();
-  }
-  function isMobileView() {
-    if (window.innerWidth >= 480) {
-      sidebar.style.display = 'flex';
-      content.style.display = 'block';
-    } else if (window.innerWidth < 480) {
-      sidebar.style.display = 'none';
-      content.style.display = 'block';
-      mobileMenu.classList.remove('active');
-      logo.classList.remove('blurred');
-      mobileMenu.checked = false;
-    }
   }
   window.addEventListener('resize', isMobileView);
   projectInput.addEventListener('focus', toggleSideBarFocus);
@@ -1168,35 +1036,23 @@ export default function appController() {
   formStar.addEventListener('click', toggleFormStar);
   addTaskBtn.addEventListener('click', renderFormView);
   addBtn.addEventListener('click', (e) => {
-    // incorrectInput = false;
     addTask(e, currProject);
   });
   editBtn.addEventListener('click', (e) => {
-    // incorrectInput = false;
     editTask(e, currProject);
   });
   projectForm.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-
-      console.log(selected);
-      console.log(isProjectValid());
-      // console.log(doesProjectExist());
-
       if (isProjectValid()) {
         if (selected === '') {
           addProject();
-          console.log('Add ran');
-          // togglePlusBtn();
           projectForm.hidden = true;
         } else {
           editProject();
           togglePlusBtn();
-          // projectForm.hidden = true;
-          console.log(selected);
           selected.classList.toggle('edited');
           selected = '';
-          console.log('Edit ran');
         }
       }
 
@@ -1204,8 +1060,6 @@ export default function appController() {
       renderTasksView(e);
       renderTasks(currProject);
       resetForm();
-      // resetProjects();
-      // renderProjects();
     }
   });
   projectForm.addEventListener('submit', (e) => {
