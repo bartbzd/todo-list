@@ -1,8 +1,8 @@
 import Task from './taskModel';
 import Project from './projectModel';
 
-let projects = [];
-let allTasksList = new Project('All');
+export const projects = [];
+export const allTasksList = new Project('All');
 
 export default function storage() {
   let data = {
@@ -45,25 +45,24 @@ export default function storage() {
           task.isComplete
         )
     );
-
     data.projects = storedProjects;
     data.tasks = storedProjects.flatMap((project) => project.getTasks());
     data.all = allTasks;
-    projects = storedProjects;
-    allTasksList = new Project('All', allTasks);
-  }
 
-  function setAllTasksList(tasks) {
-    allTasksList = new Project('All', tasks);
+    projects.length = 0;
+    projects.push(...storedProjects);
+    allTasksList.tasks.length = 0;
+    allTasksList.tasks.push(...allTasks);
   }
 
   return {
     getData,
     saveData,
-    projects,
-    allTasksList,
-    setAllTasksList,
+    get projects() {
+      return projects;
+    },
+    get allTasksList() {
+      return allTasksList;
+    },
   };
 }
-
-export { projects, allTasksList };
