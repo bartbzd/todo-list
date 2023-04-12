@@ -1020,14 +1020,14 @@ export default function appController() {
   window.addEventListener('resize', isMobileView);
   projectInput.addEventListener('focus', toggleSideBarFocus);
   projectInput.addEventListener('blur', toggleSideBarFocus);
-  projectInput.addEventListener('touchleave', toggleSideBarFocus);
+  projectInput.addEventListener('touchend', toggleSideBarFocus);
   mobileMenu.addEventListener('click', toggleSideBarModal);
   titleInput.addEventListener('focus', toggleMobileFocus);
   titleInput.addEventListener('blur', toggleMobileFocus);
-  titleInput.addEventListener('touchleave', toggleMobileFocus);
+  titleInput.addEventListener('touchend', toggleMobileFocus);
   noteInput.addEventListener('focus', toggleMobileFocus);
   noteInput.addEventListener('blur', toggleMobileFocus);
-  noteInput.addEventListener('touchleave', toggleMobileFocus);
+  noteInput.addEventListener('touchend', toggleMobileFocus);
   themeIcon.addEventListener('click', toggleTheme);
   selectAll.addEventListener('click', showAll);
   selectStarred.addEventListener('click', showStarred);
