@@ -806,15 +806,10 @@ header {
     filter: blur(4px);
   }
   html,
-  body {
-    overflow-x: hidden;
-  }
-  body {
-    overflow-y: hidden;
-  }
+  body,
   .container {
-    min-height: -webkit-fill-available;
     overflow: hidden;
+    min-height: -webkit-fill-available;
   }
   header {
     height: 110px;

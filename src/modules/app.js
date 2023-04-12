@@ -369,10 +369,10 @@ export default function appController() {
     }
   }
   function updateSelectedProject() {
+    updateProjectsIndex();
     resetFilters();
     const projectsList = document.querySelectorAll('.project');
     let foundProject = false;
-
     projectsList.forEach((project, index) => {
       if (foundProject) return;
       const i = project.querySelector('i');
@@ -953,10 +953,10 @@ export default function appController() {
     }
   }
   function isMobileView() {
-    if (window.innerWidth >= 480) {
+    if (window.clientWidth >= 480) {
       sidebar.style.display = 'flex';
       content.style.display = 'block';
-    } else if (window.innerWidth < 480) {
+    } else if (window.clientWidth < 480) {
       sidebar.style.display = 'none';
       content.style.display = 'block';
       mobileMenu.classList.remove('active');
@@ -1077,3 +1077,5 @@ export default function appController() {
     renderTasksView(e);
   });
 }
+
+//select project and toggle theme, selected keeps old color
