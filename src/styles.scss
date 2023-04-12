@@ -912,14 +912,15 @@ header {
         }
       }
     }
-    .sidebar,
-    .content {
-      height: 70vh;
-    }
+    // .sidebar,
+    // .content {
+    //   height: 70vh;
+    // }
     .mobile-stretch {
       transition: 0s;
       margin-top: 5vh;
-      height: 90vh;
+      // height: 90vh;
+      min-height: -webkit-fill-available;
     }
     .sidebar {
       display: none;
