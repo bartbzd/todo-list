@@ -802,6 +802,8 @@ header {
   }
   body {
     position: relative;
+    min-height: -webkit-fill-available;
+    overflow-y: hidden;
   }
   header {
     height: 110px;
