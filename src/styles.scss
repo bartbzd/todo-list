@@ -119,6 +119,9 @@ body {
     font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200, 'opsz' 48;
   }
 }
+.container {
+  min-height: 100vh;
+}
 header {
   height: 130px;
   display: flex;
@@ -808,6 +811,10 @@ header {
   }
   body {
     overflow-y: hidden;
+  }
+  .container {
+    min-height: -webkit-fill-available;
+    overflow: hidden;
   }
   header {
     height: 110px;
