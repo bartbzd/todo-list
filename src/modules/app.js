@@ -1077,5 +1077,3 @@ export default function appController() {
     renderTasksView(e);
   });
 }
-
-//select project and toggle theme, selected keeps old color

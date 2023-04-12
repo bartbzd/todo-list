@@ -94,6 +94,9 @@ body {
   }
   input {
     height: 35px;
+    &:focus {
+      outline: none;
+    }
   }
   textarea {
     height: 120px;
