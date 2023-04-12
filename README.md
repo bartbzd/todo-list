@@ -2,6 +2,10 @@
 
 ![app-picture](https://github.com/bartbzd/todo-list/blob/main/src/img/mockup1.png)
 
+![app-picture](https://github.com/bartbzd/todo-list/blob/main/src/img/mockup2.png)
+
+![app-picture](https://github.com/bartbzd/todo-list/blob/main/src/img/mockup3.png)
+
 ## [Live Demo](https://bartbzd.github.io/todo-list/)
 
 ## Built with:
