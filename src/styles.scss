@@ -357,18 +357,20 @@ header {
       .tasks {
         overflow-x: hidden;
         height: 35vh;
+        padding: 2px;
       }
       .task {
         user-select: none;
         z-index: 0;
         border-radius: 10px;
         height: 35px;
+        width: 99.5%;
         margin-bottom: 8px;
         display: flex;
         min-width: 0;
         padding-right: 10px;
         background-color: $component;
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 8px 0px,
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 4px 0px,
           rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
         transition: $transition;
         .hide-check {
@@ -868,6 +870,9 @@ header {
         }
       }
       .t-wrapper {
+        .task {
+          width: 100px;
+        }
         .task p {
           font-size: 12px;
         }
