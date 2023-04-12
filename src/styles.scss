@@ -796,6 +796,9 @@ header {
   .blurred {
     filter: blur(4px);
   }
+  body {
+    height: 100vh;
+  }
   header {
     height: 110px;
   }
@@ -870,9 +873,12 @@ header {
         }
       }
       .t-wrapper {
-        .task p {
-          font-size: 12px;
+        .task {
+          .task-title {
+            font-size: 11px;
+          }
         }
+
         .no-tasks {
           font-size: 16px;
         }
