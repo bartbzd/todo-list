@@ -915,6 +915,7 @@ header {
     .sidebar,
     .content {
       height: 70vh;
+      min-height: -webkit-fill-available;
     }
     .mobile-stretch {
       transition: 0s;
