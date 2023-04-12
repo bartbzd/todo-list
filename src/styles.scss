@@ -47,6 +47,9 @@ $transition: 0.2s ease-out;
   font-family: 'Lexend Deca', sans-serif;
   font-weight: 400;
 }
+html {
+  height: -webkit-fill-available;
+}
 body {
   background-color: $bg-color;
   transition: $transition;
