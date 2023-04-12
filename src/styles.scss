@@ -625,7 +625,7 @@ header {
           font-size: 16px;
           white-space: pre-line;
           height: 27vh;
-          overflow: scroll;
+          overflow: auto;
           padding-top: 8px;
           &::-webkit-scrollbar-corner {
             color: transparent;
