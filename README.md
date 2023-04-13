@@ -1,5 +1,7 @@
 # To-Do List
 
+![video](https://user-images.githubusercontent.com/46884821/231622424-40e1fad8-0a7f-4ccd-986c-ee8246f0a4a6.mov)
+
 ![app-picture](https://github.com/bartbzd/todo-list/blob/main/src/img/mockup1.png)
 
 ![app-picture](https://github.com/bartbzd/todo-list/blob/main/src/img/mockup2.png)
