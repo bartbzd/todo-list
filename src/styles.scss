@@ -241,6 +241,7 @@ header {
     .projects-header {
       display: flex;
       justify-content: space-between;
+      overflow: hidden;
       i {
         height: 24px;
         line-height: 24px;
