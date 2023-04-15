@@ -973,13 +973,14 @@ export default function appController() {
     const temp = themeIcon.textContent;
     themeIcon.textContent = temp === 'toggle_on' ? 'toggle_off' : 'toggle_on';
 
+    updateColors();
     const date = document.querySelector('.open-date');
     if (date.textContent === 'Past Due') {
       date.style.color = '#E34A4A';
     } else {
       date.style.color = primaryColor;
     }
-    updateColors();
+
     updateSelectedProject();
     updateSelectedFilter();
   }
