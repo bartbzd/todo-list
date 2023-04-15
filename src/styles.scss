@@ -173,6 +173,15 @@ header {
       transform: scale(0.9);
     }
   }
+  .filter,
+  .project,
+  .task,
+  button,
+  .fa-plus,
+  .theme,
+  .add-star {
+    cursor: pointer;
+  }
   .sidebar,
   .content {
     background-color: $card;
